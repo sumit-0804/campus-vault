@@ -1,6 +1,6 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import Google from "next-auth/providers/google";
-
+import db from "./lib/db";
 const ALLOWED_DOMAIN = "dau.ac.in";
 
 export const authOptions: NextAuthOptions = {
@@ -8,20 +8,21 @@ export const authOptions: NextAuthOptions = {
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      authorization:{
-        params:{
-            hd:`${ALLOWED_DOMAIN}`,
-            prompt:"select_account"
+      authorization: {
+        params: {
+          hd: `${ALLOWED_DOMAIN}`,
+          prompt: "select_account"
         }
       },
-      profile(profile){
-        return{
-            id: profile.sub,
-            fullName : profile.name,
-            email: profile.email,
-            avatarUrl: profile.picture,
-            role: "USER",
-            karmaRank: "MUGGLE"
+      profile(profile) {
+        return {
+          id: profile.sub,
+          fullName: profile.name,
+          email: profile.email,
+          avatarUrl: profile.image,
+          role: "USER",
+          karmaRank: "MUGGLE",
+          karmaScore: 0,
         }
       }
     }),
@@ -30,27 +31,60 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({profile}){
-        const email = profile?.email;
-        if(!email)
-            return false;
-        if(!email?.endsWith(`@${ALLOWED_DOMAIN}`))
-            return false;
+    async signIn({ profile }) {
+      const email = profile?.email;
+      if (!email) return false;
+      if (!email?.endsWith(`@${ALLOWED_DOMAIN}`)) return false;
 
+      try {
+        const wizard = await db.wizard.findUnique({
+          where: { email },
+        });
+
+        if (wizard) return true;
+
+        await db.wizard.create({
+          data: {
+            id: profile.sub!,
+            email: email,
+            fullName: profile.name!,
+            avatarUrl: profile.image,
+            updatedAt: new Date(),
+          },
+        });
         return true;
-    },
-    async jwt({ token, account }) {
-      if (account) {
-        (token as any).accessToken = (account as any).access_token;
+      } catch (error) {
+        console.log("Error checking if user exists: ", error);
+        return false;
       }
+    },
+    async jwt({ token, account, profile }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+
+      // When signing in, profile is available. 
+      // But we should fetch fresh data from DB to ensure we have the latest role/karma
+      if (token.email) {
+        const dbUser = await db.wizard.findUnique({
+          where: { email: token.email }
+        })
+        if (dbUser) {
+          token.id = dbUser.id;
+          token.role = dbUser.role;
+          token.karmaRank = dbUser.karmaRank;
+          token.karmaScore = dbUser.karmaScore;
+        }
+      }
+
       return token;
     },
-    async session({ session, user } ) {
-      if(session.user){
-        session.user.id = user.id;
-        const wizard = user as any;
-        session.user.role = wizard.role;
-        session.user.karmaRank = wizard.karmaRank;
+    async session({ session, token }) {
+      if (session.user && token) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
+        session.user.karmaRank = token.karmaRank as string;
+        session.user.karmaScore = token.karmaScore as number;
       }
       return session;
     },
