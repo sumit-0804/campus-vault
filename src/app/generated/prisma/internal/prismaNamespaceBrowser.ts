@@ -51,7 +51,10 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Wizard: 'Wizard'
+  Wizard: 'Wizard',
+  CursedObject: 'CursedObject',
+  BloodPact: 'BloodPact',
+  LostRelic: 'LostRelic'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -85,6 +88,54 @@ export const WizardScalarFieldEnum = {
 } as const
 
 export type WizardScalarFieldEnum = (typeof WizardScalarFieldEnum)[keyof typeof WizardScalarFieldEnum]
+
+
+export const CursedObjectScalarFieldEnum = {
+  id: 'id',
+  sellerId: 'sellerId',
+  title: 'title',
+  description: 'description',
+  images: 'images',
+  price: 'price',
+  condition: 'condition',
+  status: 'status',
+  category: 'category',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CursedObjectScalarFieldEnum = (typeof CursedObjectScalarFieldEnum)[keyof typeof CursedObjectScalarFieldEnum]
+
+
+export const BloodPactScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  buyerId: 'buyerId',
+  offerAmount: 'offerAmount',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BloodPactScalarFieldEnum = (typeof BloodPactScalarFieldEnum)[keyof typeof BloodPactScalarFieldEnum]
+
+
+export const LostRelicScalarFieldEnum = {
+  id: 'id',
+  reporterId: 'reporterId',
+  title: 'title',
+  description: 'description',
+  images: 'images',
+  location: 'location',
+  type: 'type',
+  status: 'status',
+  secretRiddle: 'secretRiddle',
+  hiddenTruth: 'hiddenTruth',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LostRelicScalarFieldEnum = (typeof LostRelicScalarFieldEnum)[keyof typeof LostRelicScalarFieldEnum]
 
 
 export const SortOrder = {

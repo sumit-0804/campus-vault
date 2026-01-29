@@ -264,6 +264,9 @@ export type WizardWhereInput = {
   isBanished?: Prisma.BoolFilter<"Wizard"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
+  cursedObjects?: Prisma.CursedObjectListRelationFilter
+  bloodPacts?: Prisma.BloodPactListRelationFilter
+  lostRelics?: Prisma.LostRelicListRelationFilter
 }
 
 export type WizardOrderByWithRelationInput = {
@@ -278,6 +281,9 @@ export type WizardOrderByWithRelationInput = {
   isBanished?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  cursedObjects?: Prisma.CursedObjectOrderByRelationAggregateInput
+  bloodPacts?: Prisma.BloodPactOrderByRelationAggregateInput
+  lostRelics?: Prisma.LostRelicOrderByRelationAggregateInput
 }
 
 export type WizardWhereUniqueInput = Prisma.AtLeast<{
@@ -295,6 +301,9 @@ export type WizardWhereUniqueInput = Prisma.AtLeast<{
   isBanished?: Prisma.BoolFilter<"Wizard"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
+  cursedObjects?: Prisma.CursedObjectListRelationFilter
+  bloodPacts?: Prisma.BloodPactListRelationFilter
+  lostRelics?: Prisma.LostRelicListRelationFilter
 }, "id" | "email">
 
 export type WizardOrderByWithAggregationInput = {
@@ -345,6 +354,9 @@ export type WizardCreateInput = {
   isBanished?: boolean
   createdAt?: Date | string
   updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateInput = {
@@ -359,6 +371,9 @@ export type WizardUncheckedCreateInput = {
   isBanished?: boolean
   createdAt?: Date | string
   updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUpdateInput = {
@@ -373,6 +388,9 @@ export type WizardUpdateInput = {
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateInput = {
@@ -387,6 +405,9 @@ export type WizardUncheckedUpdateInput = {
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardCreateManyInput = {
@@ -481,6 +502,11 @@ export type WizardSumOrderByAggregateInput = {
   karmaScore?: Prisma.SortOrder
 }
 
+export type WizardScalarRelationFilter = {
+  is?: Prisma.WizardWhereInput
+  isNot?: Prisma.WizardWhereInput
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -513,6 +539,335 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type WizardCreateNestedOneWithoutCursedObjectsInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutCursedObjectsInput, Prisma.WizardUncheckedCreateWithoutCursedObjectsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutCursedObjectsInput
+  connect?: Prisma.WizardWhereUniqueInput
+}
+
+export type WizardUpdateOneRequiredWithoutCursedObjectsNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutCursedObjectsInput, Prisma.WizardUncheckedCreateWithoutCursedObjectsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutCursedObjectsInput
+  upsert?: Prisma.WizardUpsertWithoutCursedObjectsInput
+  connect?: Prisma.WizardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutCursedObjectsInput, Prisma.WizardUpdateWithoutCursedObjectsInput>, Prisma.WizardUncheckedUpdateWithoutCursedObjectsInput>
+}
+
+export type WizardCreateNestedOneWithoutBloodPactsInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutBloodPactsInput, Prisma.WizardUncheckedCreateWithoutBloodPactsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutBloodPactsInput
+  connect?: Prisma.WizardWhereUniqueInput
+}
+
+export type WizardUpdateOneRequiredWithoutBloodPactsNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutBloodPactsInput, Prisma.WizardUncheckedCreateWithoutBloodPactsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutBloodPactsInput
+  upsert?: Prisma.WizardUpsertWithoutBloodPactsInput
+  connect?: Prisma.WizardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutBloodPactsInput, Prisma.WizardUpdateWithoutBloodPactsInput>, Prisma.WizardUncheckedUpdateWithoutBloodPactsInput>
+}
+
+export type WizardCreateNestedOneWithoutLostRelicsInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutLostRelicsInput, Prisma.WizardUncheckedCreateWithoutLostRelicsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutLostRelicsInput
+  connect?: Prisma.WizardWhereUniqueInput
+}
+
+export type WizardUpdateOneRequiredWithoutLostRelicsNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutLostRelicsInput, Prisma.WizardUncheckedCreateWithoutLostRelicsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutLostRelicsInput
+  upsert?: Prisma.WizardUpsertWithoutLostRelicsInput
+  connect?: Prisma.WizardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutLostRelicsInput, Prisma.WizardUpdateWithoutLostRelicsInput>, Prisma.WizardUncheckedUpdateWithoutLostRelicsInput>
+}
+
+export type WizardCreateWithoutCursedObjectsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+}
+
+export type WizardUncheckedCreateWithoutCursedObjectsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+}
+
+export type WizardCreateOrConnectWithoutCursedObjectsInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutCursedObjectsInput, Prisma.WizardUncheckedCreateWithoutCursedObjectsInput>
+}
+
+export type WizardUpsertWithoutCursedObjectsInput = {
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutCursedObjectsInput, Prisma.WizardUncheckedUpdateWithoutCursedObjectsInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutCursedObjectsInput, Prisma.WizardUncheckedCreateWithoutCursedObjectsInput>
+  where?: Prisma.WizardWhereInput
+}
+
+export type WizardUpdateToOneWithWhereWithoutCursedObjectsInput = {
+  where?: Prisma.WizardWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutCursedObjectsInput, Prisma.WizardUncheckedUpdateWithoutCursedObjectsInput>
+}
+
+export type WizardUpdateWithoutCursedObjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutCursedObjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+}
+
+export type WizardCreateWithoutBloodPactsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+}
+
+export type WizardUncheckedCreateWithoutBloodPactsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+}
+
+export type WizardCreateOrConnectWithoutBloodPactsInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutBloodPactsInput, Prisma.WizardUncheckedCreateWithoutBloodPactsInput>
+}
+
+export type WizardUpsertWithoutBloodPactsInput = {
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutBloodPactsInput, Prisma.WizardUncheckedUpdateWithoutBloodPactsInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutBloodPactsInput, Prisma.WizardUncheckedCreateWithoutBloodPactsInput>
+  where?: Prisma.WizardWhereInput
+}
+
+export type WizardUpdateToOneWithWhereWithoutBloodPactsInput = {
+  where?: Prisma.WizardWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutBloodPactsInput, Prisma.WizardUncheckedUpdateWithoutBloodPactsInput>
+}
+
+export type WizardUpdateWithoutBloodPactsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutBloodPactsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+}
+
+export type WizardCreateWithoutLostRelicsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+}
+
+export type WizardUncheckedCreateWithoutLostRelicsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+}
+
+export type WizardCreateOrConnectWithoutLostRelicsInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutLostRelicsInput, Prisma.WizardUncheckedCreateWithoutLostRelicsInput>
+}
+
+export type WizardUpsertWithoutLostRelicsInput = {
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutLostRelicsInput, Prisma.WizardUncheckedUpdateWithoutLostRelicsInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutLostRelicsInput, Prisma.WizardUncheckedCreateWithoutLostRelicsInput>
+  where?: Prisma.WizardWhereInput
+}
+
+export type WizardUpdateToOneWithWhereWithoutLostRelicsInput = {
+  where?: Prisma.WizardWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutLostRelicsInput, Prisma.WizardUncheckedUpdateWithoutLostRelicsInput>
+}
+
+export type WizardUpdateWithoutLostRelicsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutLostRelicsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+}
+
+
+/**
+ * Count Type WizardCountOutputType
+ */
+
+export type WizardCountOutputType = {
+  cursedObjects: number
+  bloodPacts: number
+  lostRelics: number
+}
+
+export type WizardCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  cursedObjects?: boolean | WizardCountOutputTypeCountCursedObjectsArgs
+  bloodPacts?: boolean | WizardCountOutputTypeCountBloodPactsArgs
+  lostRelics?: boolean | WizardCountOutputTypeCountLostRelicsArgs
+}
+
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WizardCountOutputType
+   */
+  select?: Prisma.WizardCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountCursedObjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CursedObjectWhereInput
+}
+
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountBloodPactsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BloodPactWhereInput
+}
+
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountLostRelicsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LostRelicWhereInput
+}
 
 
 export type WizardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -527,6 +882,10 @@ export type WizardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   isBanished?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  cursedObjects?: boolean | Prisma.Wizard$cursedObjectsArgs<ExtArgs>
+  bloodPacts?: boolean | Prisma.Wizard$bloodPactsArgs<ExtArgs>
+  lostRelics?: boolean | Prisma.Wizard$lostRelicsArgs<ExtArgs>
+  _count?: boolean | Prisma.WizardCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["wizard"]>
 
 export type WizardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -572,10 +931,22 @@ export type WizardSelectScalar = {
 }
 
 export type WizardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "avatarUrl" | "phoneNumber" | "karmaScore" | "karmaRank" | "role" | "isBanished" | "createdAt" | "updatedAt", ExtArgs["result"]["wizard"]>
+export type WizardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  cursedObjects?: boolean | Prisma.Wizard$cursedObjectsArgs<ExtArgs>
+  bloodPacts?: boolean | Prisma.Wizard$bloodPactsArgs<ExtArgs>
+  lostRelics?: boolean | Prisma.Wizard$lostRelicsArgs<ExtArgs>
+  _count?: boolean | Prisma.WizardCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type WizardIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type WizardIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $WizardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Wizard"
-  objects: {}
+  objects: {
+    cursedObjects: Prisma.$CursedObjectPayload<ExtArgs>[]
+    bloodPacts: Prisma.$BloodPactPayload<ExtArgs>[]
+    lostRelics: Prisma.$LostRelicPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     fullName: string
@@ -982,6 +1353,9 @@ readonly fields: WizardFieldRefs;
  */
 export interface Prisma__WizardClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  cursedObjects<T extends Prisma.Wizard$cursedObjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$cursedObjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CursedObjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bloodPacts<T extends Prisma.Wizard$bloodPactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$bloodPactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BloodPactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  lostRelics<T extends Prisma.Wizard$lostRelicsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$lostRelicsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LostRelicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1039,6 +1413,10 @@ export type WizardFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
+  /**
    * Filter, which Wizard to fetch.
    */
   where: Prisma.WizardWhereUniqueInput
@@ -1057,6 +1435,10 @@ export type WizardFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
+  /**
    * Filter, which Wizard to fetch.
    */
   where: Prisma.WizardWhereUniqueInput
@@ -1074,6 +1456,10 @@ export type WizardFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the Wizard
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
   /**
    * Filter, which Wizard to fetch.
    */
@@ -1123,6 +1509,10 @@ export type WizardFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
+  /**
    * Filter, which Wizard to fetch.
    */
   where?: Prisma.WizardWhereInput
@@ -1171,6 +1561,10 @@ export type WizardFindManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
+  /**
    * Filter, which Wizards to fetch.
    */
   where?: Prisma.WizardWhereInput
@@ -1213,6 +1607,10 @@ export type WizardCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Wizard
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
   /**
    * The data needed to create a Wizard.
    */
@@ -1261,6 +1659,10 @@ export type WizardUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Wizard
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
   /**
    * The data needed to update a Wizard.
    */
@@ -1328,6 +1730,10 @@ export type WizardUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
+  /**
    * The filter to search for the Wizard to update in case it exists.
    */
   where: Prisma.WizardWhereUniqueInput
@@ -1354,6 +1760,10 @@ export type WizardDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
+  /**
    * Filter which Wizard to delete.
    */
   where: Prisma.WizardWhereUniqueInput
@@ -1374,6 +1784,78 @@ export type WizardDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * Wizard.cursedObjects
+ */
+export type Wizard$cursedObjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CursedObject
+   */
+  select?: Prisma.CursedObjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CursedObject
+   */
+  omit?: Prisma.CursedObjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CursedObjectInclude<ExtArgs> | null
+  where?: Prisma.CursedObjectWhereInput
+  orderBy?: Prisma.CursedObjectOrderByWithRelationInput | Prisma.CursedObjectOrderByWithRelationInput[]
+  cursor?: Prisma.CursedObjectWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CursedObjectScalarFieldEnum | Prisma.CursedObjectScalarFieldEnum[]
+}
+
+/**
+ * Wizard.bloodPacts
+ */
+export type Wizard$bloodPactsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BloodPact
+   */
+  select?: Prisma.BloodPactSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BloodPact
+   */
+  omit?: Prisma.BloodPactOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BloodPactInclude<ExtArgs> | null
+  where?: Prisma.BloodPactWhereInput
+  orderBy?: Prisma.BloodPactOrderByWithRelationInput | Prisma.BloodPactOrderByWithRelationInput[]
+  cursor?: Prisma.BloodPactWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BloodPactScalarFieldEnum | Prisma.BloodPactScalarFieldEnum[]
+}
+
+/**
+ * Wizard.lostRelics
+ */
+export type Wizard$lostRelicsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LostRelic
+   */
+  select?: Prisma.LostRelicSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LostRelic
+   */
+  omit?: Prisma.LostRelicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LostRelicInclude<ExtArgs> | null
+  where?: Prisma.LostRelicWhereInput
+  orderBy?: Prisma.LostRelicOrderByWithRelationInput | Prisma.LostRelicOrderByWithRelationInput[]
+  cursor?: Prisma.LostRelicWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LostRelicScalarFieldEnum | Prisma.LostRelicScalarFieldEnum[]
+}
+
+/**
  * Wizard without action
  */
 export type WizardDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1385,4 +1867,8 @@ export type WizardDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Wizard
    */
   omit?: Prisma.WizardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WizardInclude<ExtArgs> | null
 }

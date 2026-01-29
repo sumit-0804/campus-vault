@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "../src/app/generated/prisma"
 }
 
 datasource db {
@@ -8,17 +8,69 @@ datasource db {
 }
 
 model Wizard {
-  id          String    @id
-  fullName    String
-  email       String    @unique
-  avatarUrl   String?
-  phoneNumber String?
-  karmaScore  Int       @default(0)
-  karmaRank   KarmaRank @default(MUGGLE)
-  role        UserRole  @default(USER)
-  isBanished  Boolean   @default(false)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime
+  id            String         @id
+  fullName      String
+  email         String         @unique
+  avatarUrl     String?
+  phoneNumber   String?
+  karmaScore    Int            @default(0)
+  karmaRank     KarmaRank      @default(MUGGLE)
+  role          UserRole       @default(USER)
+  isBanished    Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime
+  cursedObjects CursedObject[]
+  bloodPacts    BloodPact[]
+  lostRelics    LostRelic[]
+}
+
+model CursedObject {
+  id          String     @id @default(cuid())
+  sellerId    String
+  seller      Wizard     @relation(fields: [sellerId], references: [id])
+  title       String
+  description String
+  images      String[]
+  price       Float
+  condition   String
+  status      ItemStatus @default(ACTIVE)
+  category    String
+
+  offers BloodPact[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BloodPact {
+  id          String       @id @default(cuid())
+  itemId      String
+  item        CursedObject @relation(fields: [itemId], references: [id])
+  buyerId     String
+  buyer       Wizard       @relation(fields: [buyerId], references: [id])
+  offerAmount Float
+  status      OfferStatus  @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LostRelic {
+  id         String @id @default(cuid())
+  reporterId String
+  reporter   Wizard @relation(fields: [reporterId], references: [id])
+
+  title        String
+  description  String
+  images       String[]
+  location     String?
+  type         RelicType
+  status       RelicStatus @default(OPEN)
+  secretRiddle String?
+  hiddenTruth  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum KarmaRank {
@@ -31,4 +83,30 @@ enum KarmaRank {
 enum UserRole {
   USER
   ADMIN
+}
+
+enum ItemStatus {
+  ACTIVE
+  RESERVED
+  SOLD
+}
+
+enum OfferStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+  CANCELLED
+  AWAITING_COMPLETION
+  COMPLETED
+}
+
+enum RelicType {
+  LOST
+  FOUND
+}
+
+enum RelicStatus {
+  OPEN
+  SOLVED
 }

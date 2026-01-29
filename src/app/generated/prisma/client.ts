@@ -44,3 +44,18 @@ export { Prisma }
  * 
  */
 export type Wizard = Prisma.WizardModel
+/**
+ * Model CursedObject
+ * 
+ */
+export type CursedObject = Prisma.CursedObjectModel
+/**
+ * Model BloodPact
+ * 
+ */
+export type BloodPact = Prisma.BloodPactModel
+/**
+ * Model LostRelic
+ * 
+ */
+export type LostRelic = Prisma.LostRelicModel

@@ -9,4 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Wizard'
+export type * from './models/CursedObject'
+export type * from './models/BloodPact'
+export type * from './models/LostRelic'
 export type * from './commonInputTypes'

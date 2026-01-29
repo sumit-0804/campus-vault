@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.3.0",
   "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Wizard {\n  id          String    @id\n  fullName    String\n  email       String    @unique\n  avatarUrl   String?\n  phoneNumber String?\n  karmaScore  Int       @default(0)\n  karmaRank   KarmaRank @default(MUGGLE)\n  role        UserRole  @default(USER)\n  isBanished  Boolean   @default(false)\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime\n}\n\nenum KarmaRank {\n  MUGGLE\n  WIZARD\n  AUROR\n  DARK_KNIGHT\n}\n\nenum UserRole {\n  USER\n  ADMIN\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Wizard {\n  id          String    @id\n  fullName    String\n  email       String    @unique\n  avatarUrl   String?\n  phoneNumber String?\n  karmaScore  Int       @default(0)\n  karmaRank   KarmaRank @default(MUGGLE)\n  role        UserRole  @default(USER)\n  isBanished  Boolean   @default(false)\n  createdAt   DateTime  @default(now())\n  updatedAt   DateTime\n\n  // Relations\n  cursedObjects CursedObject[]\n  bloodPacts    BloodPact[]\n  lostRelics    LostRelic[]\n}\n\nmodel CursedObject {\n  id          String     @id @default(cuid())\n  sellerId    String\n  seller      Wizard     @relation(fields: [sellerId], references: [id])\n  title       String // \"Legend\"\n  description String // \"Lore\"\n  images      String[]\n  price       Float\n  condition   String\n  status      ItemStatus @default(ACTIVE)\n  category    String // ELECTRONICS, BOOKS, etc.\n\n  offers BloodPact[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\n// Transaction/Offer\nmodel BloodPact {\n  id          String       @id @default(cuid())\n  itemId      String\n  item        CursedObject @relation(fields: [itemId], references: [id])\n  buyerId     String\n  buyer       Wizard       @relation(fields: [buyerId], references: [id])\n  offerAmount Float\n  status      OfferStatus  @default(PENDING)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\n// Lost & Found Item (Future Phase 3)\nmodel LostRelic {\n  id         String @id @default(cuid())\n  reporterId String\n  reporter   Wizard @relation(fields: [reporterId], references: [id])\n\n  title       String\n  description String\n  images      String[]\n  location    String?\n  type        RelicType // LOST, FOUND\n  status      RelicStatus @default(OPEN) // OPEN, SOLVED\n\n  // Security Verification (The Riddle)\n  // Only for FOUND items\n  secretRiddle String? // \"What is written on the bottom?\"\n  hiddenTruth  String? // Hashed answer or plain text (private)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nenum KarmaRank {\n  MUGGLE\n  WIZARD\n  AUROR\n  DARK_KNIGHT\n}\n\nenum UserRole {\n  USER\n  ADMIN\n}\n\nenum ItemStatus {\n  ACTIVE\n  RESERVED\n  SOLD\n}\n\nenum OfferStatus {\n  PENDING\n  ACCEPTED\n  REJECTED\n  EXPIRED\n  CANCELLED\n  AWAITING_COMPLETION\n  COMPLETED\n}\n\nenum RelicType {\n  LOST\n  FOUND\n}\n\nenum RelicStatus {\n  OPEN\n  SOLVED\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Wizard\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"karmaScore\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"karmaRank\",\"kind\":\"enum\",\"type\":\"KarmaRank\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"isBanished\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Wizard\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"karmaScore\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"karmaRank\",\"kind\":\"enum\",\"type\":\"KarmaRank\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"isBanished\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"cursedObjects\",\"kind\":\"object\",\"type\":\"CursedObject\",\"relationName\":\"CursedObjectToWizard\"},{\"name\":\"bloodPacts\",\"kind\":\"object\",\"type\":\"BloodPact\",\"relationName\":\"BloodPactToWizard\"},{\"name\":\"lostRelics\",\"kind\":\"object\",\"type\":\"LostRelic\",\"relationName\":\"LostRelicToWizard\"}],\"dbName\":null},\"CursedObject\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sellerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"seller\",\"kind\":\"object\",\"type\":\"Wizard\",\"relationName\":\"CursedObjectToWizard\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"images\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"price\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"condition\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ItemStatus\"},{\"name\":\"category\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"offers\",\"kind\":\"object\",\"type\":\"BloodPact\",\"relationName\":\"BloodPactToCursedObject\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"BloodPact\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"itemId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"item\",\"kind\":\"object\",\"type\":\"CursedObject\",\"relationName\":\"BloodPactToCursedObject\"},{\"name\":\"buyerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"buyer\",\"kind\":\"object\",\"type\":\"Wizard\",\"relationName\":\"BloodPactToWizard\"},{\"name\":\"offerAmount\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"OfferStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"LostRelic\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reporterId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reporter\",\"kind\":\"object\",\"type\":\"Wizard\",\"relationName\":\"LostRelicToWizard\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"images\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"RelicType\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"RelicStatus\"},{\"name\":\"secretRiddle\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hiddenTruth\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -185,6 +185,36 @@ export interface PrismaClient<
     * ```
     */
   get wizard(): Prisma.WizardDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.cursedObject`: Exposes CRUD operations for the **CursedObject** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CursedObjects
+    * const cursedObjects = await prisma.cursedObject.findMany()
+    * ```
+    */
+  get cursedObject(): Prisma.CursedObjectDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.bloodPact`: Exposes CRUD operations for the **BloodPact** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BloodPacts
+    * const bloodPacts = await prisma.bloodPact.findMany()
+    * ```
+    */
+  get bloodPact(): Prisma.BloodPactDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.lostRelic`: Exposes CRUD operations for the **LostRelic** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LostRelics
+    * const lostRelics = await prisma.lostRelic.findMany()
+    * ```
+    */
+  get lostRelic(): Prisma.LostRelicDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

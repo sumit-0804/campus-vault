@@ -384,7 +384,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  Wizard: 'Wizard'
+  Wizard: 'Wizard',
+  CursedObject: 'CursedObject',
+  BloodPact: 'BloodPact',
+  LostRelic: 'LostRelic'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -400,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "wizard"
+    modelProps: "wizard" | "cursedObject" | "bloodPact" | "lostRelic"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -478,6 +481,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CursedObject: {
+      payload: Prisma.$CursedObjectPayload<ExtArgs>
+      fields: Prisma.CursedObjectFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CursedObjectFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CursedObjectFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload>
+        }
+        findFirst: {
+          args: Prisma.CursedObjectFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CursedObjectFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload>
+        }
+        findMany: {
+          args: Prisma.CursedObjectFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload>[]
+        }
+        create: {
+          args: Prisma.CursedObjectCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload>
+        }
+        createMany: {
+          args: Prisma.CursedObjectCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CursedObjectCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload>[]
+        }
+        delete: {
+          args: Prisma.CursedObjectDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload>
+        }
+        update: {
+          args: Prisma.CursedObjectUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload>
+        }
+        deleteMany: {
+          args: Prisma.CursedObjectDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CursedObjectUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CursedObjectUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload>[]
+        }
+        upsert: {
+          args: Prisma.CursedObjectUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CursedObjectPayload>
+        }
+        aggregate: {
+          args: Prisma.CursedObjectAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCursedObject>
+        }
+        groupBy: {
+          args: Prisma.CursedObjectGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CursedObjectGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CursedObjectCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CursedObjectCountAggregateOutputType> | number
+        }
+      }
+    }
+    BloodPact: {
+      payload: Prisma.$BloodPactPayload<ExtArgs>
+      fields: Prisma.BloodPactFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BloodPactFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BloodPactFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload>
+        }
+        findFirst: {
+          args: Prisma.BloodPactFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BloodPactFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload>
+        }
+        findMany: {
+          args: Prisma.BloodPactFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload>[]
+        }
+        create: {
+          args: Prisma.BloodPactCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload>
+        }
+        createMany: {
+          args: Prisma.BloodPactCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BloodPactCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload>[]
+        }
+        delete: {
+          args: Prisma.BloodPactDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload>
+        }
+        update: {
+          args: Prisma.BloodPactUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload>
+        }
+        deleteMany: {
+          args: Prisma.BloodPactDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BloodPactUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BloodPactUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload>[]
+        }
+        upsert: {
+          args: Prisma.BloodPactUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BloodPactPayload>
+        }
+        aggregate: {
+          args: Prisma.BloodPactAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBloodPact>
+        }
+        groupBy: {
+          args: Prisma.BloodPactGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BloodPactGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BloodPactCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BloodPactCountAggregateOutputType> | number
+        }
+      }
+    }
+    LostRelic: {
+      payload: Prisma.$LostRelicPayload<ExtArgs>
+      fields: Prisma.LostRelicFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LostRelicFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LostRelicFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload>
+        }
+        findFirst: {
+          args: Prisma.LostRelicFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LostRelicFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload>
+        }
+        findMany: {
+          args: Prisma.LostRelicFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload>[]
+        }
+        create: {
+          args: Prisma.LostRelicCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload>
+        }
+        createMany: {
+          args: Prisma.LostRelicCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LostRelicCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload>[]
+        }
+        delete: {
+          args: Prisma.LostRelicDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload>
+        }
+        update: {
+          args: Prisma.LostRelicUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload>
+        }
+        deleteMany: {
+          args: Prisma.LostRelicDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LostRelicUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LostRelicUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload>[]
+        }
+        upsert: {
+          args: Prisma.LostRelicUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LostRelicPayload>
+        }
+        aggregate: {
+          args: Prisma.LostRelicAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLostRelic>
+        }
+        groupBy: {
+          args: Prisma.LostRelicGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LostRelicGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LostRelicCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LostRelicCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -532,6 +757,54 @@ export const WizardScalarFieldEnum = {
 } as const
 
 export type WizardScalarFieldEnum = (typeof WizardScalarFieldEnum)[keyof typeof WizardScalarFieldEnum]
+
+
+export const CursedObjectScalarFieldEnum = {
+  id: 'id',
+  sellerId: 'sellerId',
+  title: 'title',
+  description: 'description',
+  images: 'images',
+  price: 'price',
+  condition: 'condition',
+  status: 'status',
+  category: 'category',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CursedObjectScalarFieldEnum = (typeof CursedObjectScalarFieldEnum)[keyof typeof CursedObjectScalarFieldEnum]
+
+
+export const BloodPactScalarFieldEnum = {
+  id: 'id',
+  itemId: 'itemId',
+  buyerId: 'buyerId',
+  offerAmount: 'offerAmount',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BloodPactScalarFieldEnum = (typeof BloodPactScalarFieldEnum)[keyof typeof BloodPactScalarFieldEnum]
+
+
+export const LostRelicScalarFieldEnum = {
+  id: 'id',
+  reporterId: 'reporterId',
+  title: 'title',
+  description: 'description',
+  images: 'images',
+  location: 'location',
+  type: 'type',
+  status: 'status',
+  secretRiddle: 'secretRiddle',
+  hiddenTruth: 'hiddenTruth',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LostRelicScalarFieldEnum = (typeof LostRelicScalarFieldEnum)[keyof typeof LostRelicScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -654,6 +927,62 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
+
+/**
+ * Reference to a field of type 'ItemStatus'
+ */
+export type EnumItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ItemStatus[]'
+ */
+export type ListEnumItemStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ItemStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'OfferStatus'
+ */
+export type EnumOfferStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OfferStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'OfferStatus[]'
+ */
+export type ListEnumOfferStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OfferStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RelicType'
+ */
+export type EnumRelicTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelicType'>
+    
+
+
+/**
+ * Reference to a field of type 'RelicType[]'
+ */
+export type ListEnumRelicTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelicType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'RelicStatus'
+ */
+export type EnumRelicStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelicStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'RelicStatus[]'
+ */
+export type ListEnumRelicStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelicStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -750,6 +1079,9 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   wizard?: Prisma.WizardOmit
+  cursedObject?: Prisma.CursedObjectOmit
+  bloodPact?: Prisma.BloodPactOmit
+  lostRelic?: Prisma.LostRelicOmit
 }
 
 /* Types for Logging */

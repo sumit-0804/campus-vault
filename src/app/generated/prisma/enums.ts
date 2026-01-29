@@ -25,3 +25,41 @@ export const UserRole = {
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const ItemStatus = {
+  ACTIVE: 'ACTIVE',
+  RESERVED: 'RESERVED',
+  SOLD: 'SOLD'
+} as const
+
+export type ItemStatus = (typeof ItemStatus)[keyof typeof ItemStatus]
+
+
+export const OfferStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED',
+  CANCELLED: 'CANCELLED',
+  AWAITING_COMPLETION: 'AWAITING_COMPLETION',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type OfferStatus = (typeof OfferStatus)[keyof typeof OfferStatus]
+
+
+export const RelicType = {
+  LOST: 'LOST',
+  FOUND: 'FOUND'
+} as const
+
+export type RelicType = (typeof RelicType)[keyof typeof RelicType]
+
+
+export const RelicStatus = {
+  OPEN: 'OPEN',
+  SOLVED: 'SOLVED'
+} as const
+
+export type RelicStatus = (typeof RelicStatus)[keyof typeof RelicStatus]
