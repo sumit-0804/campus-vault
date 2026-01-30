@@ -2,7 +2,7 @@ import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export default async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
     const token = await getToken({ req });
     const isAuthenticated = !!token;
 
@@ -12,7 +12,7 @@ export default async function middleware(req: NextRequest) {
     }
 
     // 2. Define protected routes base paths
-    const protectedRoutes = ["/dashboard", "/marketplace/create"];
+    const protectedRoutes = ["/dashboard", "/marketplace/create", "/lost-found/report"];
 
     // Check if the current path starts with any of the protected routes
     const isProtectedRoute = protectedRoutes.some((path) =>

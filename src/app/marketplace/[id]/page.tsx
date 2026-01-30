@@ -8,12 +8,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowLeft, Share2, ShieldCheck, Skull } from "lucide-react";
 import { ItemStatus } from "@/app/generated/prisma/enums";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth";
+import { MakeOfferButton } from "@/components/marketplace/MakeOfferButton";
 
 // Force dynamic behavior because we are fetching specific data that might change
 export const dynamic = 'force-dynamic';
 
 export default async function ItemPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
+    const session = await getServerSession(authOptions);
+
     const item = await prisma.cursedObject.findUnique({
         where: { id: params.id },
         include: {
@@ -26,12 +31,13 @@ export default async function ItemPage(props: { params: Promise<{ id: string }> 
     }
 
     const isAvailable = item.status === ItemStatus.ACTIVE;
+    const isOwnItem = session?.user?.id === item.sellerId;
 
     return (
         <div className="p-6 md:p-10 max-w-7xl mx-auto min-h-screen">
             {/* Nav */}
             <div className="flex justify-between items-center mb-8">
-                <Link href="/dashboard/market" className="inline-flex items-center text-zinc-500 hover:text-white transition-colors">
+                <Link href="/marketplace" className="inline-flex items-center text-zinc-500 hover:text-white transition-colors">
                     <ArrowLeft className="w-4 h-4 mr-2" /> Back to Bazaar
                 </Link>
                 <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white">
@@ -126,13 +132,12 @@ export default async function ItemPage(props: { params: Promise<{ id: string }> 
 
                     {/* Actions */}
                     <div className="flex gap-4 pt-4">
-                        <Button
-                            size="lg"
-                            className="flex-1 bg-white text-black hover:bg-zinc-200 font-bold text-lg h-14"
-                            disabled={!isAvailable}
-                        >
-                            Make an Offer
-                        </Button>
+                        <MakeOfferButton
+                            sellerId={item.sellerId}
+                            relicId={item.id}
+                            isAvailable={isAvailable}
+                            isOwnItem={isOwnItem}
+                        />
                         {/* Wishlist Button (Future) */}
                     </div>
                 </div>

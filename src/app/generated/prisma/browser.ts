@@ -37,3 +37,23 @@ export type BloodPact = Prisma.BloodPactModel
  * 
  */
 export type LostRelic = Prisma.LostRelicModel
+/**
+ * Model ChatRoom
+ * 
+ */
+export type ChatRoom = Prisma.ChatRoomModel
+/**
+ * Model Message
+ * 
+ */
+export type Message = Prisma.MessageModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
+ * Model Transaction
+ * 
+ */
+export type Transaction = Prisma.TransactionModel

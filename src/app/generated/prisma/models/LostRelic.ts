@@ -34,6 +34,10 @@ export type LostRelicMinAggregateOutputType = {
   status: $Enums.RelicStatus | null
   secretRiddle: string | null
   hiddenTruth: string | null
+  claimerId: string | null
+  claimerVerifiedAt: Date | null
+  droppedOffAt: Date | null
+  deliveredAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,6 +52,10 @@ export type LostRelicMaxAggregateOutputType = {
   status: $Enums.RelicStatus | null
   secretRiddle: string | null
   hiddenTruth: string | null
+  claimerId: string | null
+  claimerVerifiedAt: Date | null
+  droppedOffAt: Date | null
+  deliveredAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -63,6 +71,10 @@ export type LostRelicCountAggregateOutputType = {
   status: number
   secretRiddle: number
   hiddenTruth: number
+  claimerId: number
+  claimerVerifiedAt: number
+  droppedOffAt: number
+  deliveredAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -79,6 +91,10 @@ export type LostRelicMinAggregateInputType = {
   status?: true
   secretRiddle?: true
   hiddenTruth?: true
+  claimerId?: true
+  claimerVerifiedAt?: true
+  droppedOffAt?: true
+  deliveredAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -93,6 +109,10 @@ export type LostRelicMaxAggregateInputType = {
   status?: true
   secretRiddle?: true
   hiddenTruth?: true
+  claimerId?: true
+  claimerVerifiedAt?: true
+  droppedOffAt?: true
+  deliveredAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -108,6 +128,10 @@ export type LostRelicCountAggregateInputType = {
   status?: true
   secretRiddle?: true
   hiddenTruth?: true
+  claimerId?: true
+  claimerVerifiedAt?: true
+  droppedOffAt?: true
+  deliveredAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -196,6 +220,10 @@ export type LostRelicGroupByOutputType = {
   status: $Enums.RelicStatus
   secretRiddle: string | null
   hiddenTruth: string | null
+  claimerId: string | null
+  claimerVerifiedAt: Date | null
+  droppedOffAt: Date | null
+  deliveredAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: LostRelicCountAggregateOutputType | null
@@ -232,9 +260,14 @@ export type LostRelicWhereInput = {
   status?: Prisma.EnumRelicStatusFilter<"LostRelic"> | $Enums.RelicStatus
   secretRiddle?: Prisma.StringNullableFilter<"LostRelic"> | string | null
   hiddenTruth?: Prisma.StringNullableFilter<"LostRelic"> | string | null
+  claimerId?: Prisma.StringNullableFilter<"LostRelic"> | string | null
+  claimerVerifiedAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
+  droppedOffAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
+  deliveredAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   reporter?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
+  chatRooms?: Prisma.ChatRoomListRelationFilter
 }
 
 export type LostRelicOrderByWithRelationInput = {
@@ -248,9 +281,14 @@ export type LostRelicOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   secretRiddle?: Prisma.SortOrderInput | Prisma.SortOrder
   hiddenTruth?: Prisma.SortOrderInput | Prisma.SortOrder
+  claimerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  claimerVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  droppedOffAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   reporter?: Prisma.WizardOrderByWithRelationInput
+  chatRooms?: Prisma.ChatRoomOrderByRelationAggregateInput
 }
 
 export type LostRelicWhereUniqueInput = Prisma.AtLeast<{
@@ -267,9 +305,14 @@ export type LostRelicWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumRelicStatusFilter<"LostRelic"> | $Enums.RelicStatus
   secretRiddle?: Prisma.StringNullableFilter<"LostRelic"> | string | null
   hiddenTruth?: Prisma.StringNullableFilter<"LostRelic"> | string | null
+  claimerId?: Prisma.StringNullableFilter<"LostRelic"> | string | null
+  claimerVerifiedAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
+  droppedOffAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
+  deliveredAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   reporter?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
+  chatRooms?: Prisma.ChatRoomListRelationFilter
 }, "id">
 
 export type LostRelicOrderByWithAggregationInput = {
@@ -283,6 +326,10 @@ export type LostRelicOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   secretRiddle?: Prisma.SortOrderInput | Prisma.SortOrder
   hiddenTruth?: Prisma.SortOrderInput | Prisma.SortOrder
+  claimerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  claimerVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  droppedOffAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.LostRelicCountOrderByAggregateInput
@@ -304,6 +351,10 @@ export type LostRelicScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumRelicStatusWithAggregatesFilter<"LostRelic"> | $Enums.RelicStatus
   secretRiddle?: Prisma.StringNullableWithAggregatesFilter<"LostRelic"> | string | null
   hiddenTruth?: Prisma.StringNullableWithAggregatesFilter<"LostRelic"> | string | null
+  claimerId?: Prisma.StringNullableWithAggregatesFilter<"LostRelic"> | string | null
+  claimerVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"LostRelic"> | Date | string | null
+  droppedOffAt?: Prisma.DateTimeNullableWithAggregatesFilter<"LostRelic"> | Date | string | null
+  deliveredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"LostRelic"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"LostRelic"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"LostRelic"> | Date | string
 }
@@ -318,9 +369,14 @@ export type LostRelicCreateInput = {
   status?: $Enums.RelicStatus
   secretRiddle?: string | null
   hiddenTruth?: string | null
+  claimerId?: string | null
+  claimerVerifiedAt?: Date | string | null
+  droppedOffAt?: Date | string | null
+  deliveredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   reporter: Prisma.WizardCreateNestedOneWithoutLostRelicsInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutLostRelicInput
 }
 
 export type LostRelicUncheckedCreateInput = {
@@ -334,8 +390,13 @@ export type LostRelicUncheckedCreateInput = {
   status?: $Enums.RelicStatus
   secretRiddle?: string | null
   hiddenTruth?: string | null
+  claimerId?: string | null
+  claimerVerifiedAt?: Date | string | null
+  droppedOffAt?: Date | string | null
+  deliveredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutLostRelicInput
 }
 
 export type LostRelicUpdateInput = {
@@ -348,9 +409,14 @@ export type LostRelicUpdateInput = {
   status?: Prisma.EnumRelicStatusFieldUpdateOperationsInput | $Enums.RelicStatus
   secretRiddle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hiddenTruth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reporter?: Prisma.WizardUpdateOneRequiredWithoutLostRelicsNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutLostRelicNestedInput
 }
 
 export type LostRelicUncheckedUpdateInput = {
@@ -364,8 +430,13 @@ export type LostRelicUncheckedUpdateInput = {
   status?: Prisma.EnumRelicStatusFieldUpdateOperationsInput | $Enums.RelicStatus
   secretRiddle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hiddenTruth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutLostRelicNestedInput
 }
 
 export type LostRelicCreateManyInput = {
@@ -379,6 +450,10 @@ export type LostRelicCreateManyInput = {
   status?: $Enums.RelicStatus
   secretRiddle?: string | null
   hiddenTruth?: string | null
+  claimerId?: string | null
+  claimerVerifiedAt?: Date | string | null
+  droppedOffAt?: Date | string | null
+  deliveredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -393,6 +468,10 @@ export type LostRelicUpdateManyMutationInput = {
   status?: Prisma.EnumRelicStatusFieldUpdateOperationsInput | $Enums.RelicStatus
   secretRiddle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hiddenTruth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -408,6 +487,10 @@ export type LostRelicUncheckedUpdateManyInput = {
   status?: Prisma.EnumRelicStatusFieldUpdateOperationsInput | $Enums.RelicStatus
   secretRiddle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hiddenTruth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -433,6 +516,10 @@ export type LostRelicCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   secretRiddle?: Prisma.SortOrder
   hiddenTruth?: Prisma.SortOrder
+  claimerId?: Prisma.SortOrder
+  claimerVerifiedAt?: Prisma.SortOrder
+  droppedOffAt?: Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -447,6 +534,10 @@ export type LostRelicMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   secretRiddle?: Prisma.SortOrder
   hiddenTruth?: Prisma.SortOrder
+  claimerId?: Prisma.SortOrder
+  claimerVerifiedAt?: Prisma.SortOrder
+  droppedOffAt?: Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -461,8 +552,17 @@ export type LostRelicMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   secretRiddle?: Prisma.SortOrder
   hiddenTruth?: Prisma.SortOrder
+  claimerId?: Prisma.SortOrder
+  claimerVerifiedAt?: Prisma.SortOrder
+  droppedOffAt?: Prisma.SortOrder
+  deliveredAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type LostRelicNullableScalarRelationFilter = {
+  is?: Prisma.LostRelicWhereInput | null
+  isNot?: Prisma.LostRelicWhereInput | null
 }
 
 export type LostRelicCreateNestedManyWithoutReporterInput = {
@@ -524,6 +624,26 @@ export type EnumRelicStatusFieldUpdateOperationsInput = {
   set?: $Enums.RelicStatus
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type LostRelicCreateNestedOneWithoutChatRoomsInput = {
+  create?: Prisma.XOR<Prisma.LostRelicCreateWithoutChatRoomsInput, Prisma.LostRelicUncheckedCreateWithoutChatRoomsInput>
+  connectOrCreate?: Prisma.LostRelicCreateOrConnectWithoutChatRoomsInput
+  connect?: Prisma.LostRelicWhereUniqueInput
+}
+
+export type LostRelicUpdateOneWithoutChatRoomsNestedInput = {
+  create?: Prisma.XOR<Prisma.LostRelicCreateWithoutChatRoomsInput, Prisma.LostRelicUncheckedCreateWithoutChatRoomsInput>
+  connectOrCreate?: Prisma.LostRelicCreateOrConnectWithoutChatRoomsInput
+  upsert?: Prisma.LostRelicUpsertWithoutChatRoomsInput
+  disconnect?: Prisma.LostRelicWhereInput | boolean
+  delete?: Prisma.LostRelicWhereInput | boolean
+  connect?: Prisma.LostRelicWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LostRelicUpdateToOneWithWhereWithoutChatRoomsInput, Prisma.LostRelicUpdateWithoutChatRoomsInput>, Prisma.LostRelicUncheckedUpdateWithoutChatRoomsInput>
+}
+
 export type LostRelicCreateWithoutReporterInput = {
   id?: string
   title: string
@@ -534,8 +654,13 @@ export type LostRelicCreateWithoutReporterInput = {
   status?: $Enums.RelicStatus
   secretRiddle?: string | null
   hiddenTruth?: string | null
+  claimerId?: string | null
+  claimerVerifiedAt?: Date | string | null
+  droppedOffAt?: Date | string | null
+  deliveredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutLostRelicInput
 }
 
 export type LostRelicUncheckedCreateWithoutReporterInput = {
@@ -548,8 +673,13 @@ export type LostRelicUncheckedCreateWithoutReporterInput = {
   status?: $Enums.RelicStatus
   secretRiddle?: string | null
   hiddenTruth?: string | null
+  claimerId?: string | null
+  claimerVerifiedAt?: Date | string | null
+  droppedOffAt?: Date | string | null
+  deliveredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutLostRelicInput
 }
 
 export type LostRelicCreateOrConnectWithoutReporterInput = {
@@ -592,8 +722,104 @@ export type LostRelicScalarWhereInput = {
   status?: Prisma.EnumRelicStatusFilter<"LostRelic"> | $Enums.RelicStatus
   secretRiddle?: Prisma.StringNullableFilter<"LostRelic"> | string | null
   hiddenTruth?: Prisma.StringNullableFilter<"LostRelic"> | string | null
+  claimerId?: Prisma.StringNullableFilter<"LostRelic"> | string | null
+  claimerVerifiedAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
+  droppedOffAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
+  deliveredAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
+}
+
+export type LostRelicCreateWithoutChatRoomsInput = {
+  id?: string
+  title: string
+  description: string
+  images?: Prisma.LostRelicCreateimagesInput | string[]
+  location?: string | null
+  type: $Enums.RelicType
+  status?: $Enums.RelicStatus
+  secretRiddle?: string | null
+  hiddenTruth?: string | null
+  claimerId?: string | null
+  claimerVerifiedAt?: Date | string | null
+  droppedOffAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  reporter: Prisma.WizardCreateNestedOneWithoutLostRelicsInput
+}
+
+export type LostRelicUncheckedCreateWithoutChatRoomsInput = {
+  id?: string
+  reporterId: string
+  title: string
+  description: string
+  images?: Prisma.LostRelicCreateimagesInput | string[]
+  location?: string | null
+  type: $Enums.RelicType
+  status?: $Enums.RelicStatus
+  secretRiddle?: string | null
+  hiddenTruth?: string | null
+  claimerId?: string | null
+  claimerVerifiedAt?: Date | string | null
+  droppedOffAt?: Date | string | null
+  deliveredAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type LostRelicCreateOrConnectWithoutChatRoomsInput = {
+  where: Prisma.LostRelicWhereUniqueInput
+  create: Prisma.XOR<Prisma.LostRelicCreateWithoutChatRoomsInput, Prisma.LostRelicUncheckedCreateWithoutChatRoomsInput>
+}
+
+export type LostRelicUpsertWithoutChatRoomsInput = {
+  update: Prisma.XOR<Prisma.LostRelicUpdateWithoutChatRoomsInput, Prisma.LostRelicUncheckedUpdateWithoutChatRoomsInput>
+  create: Prisma.XOR<Prisma.LostRelicCreateWithoutChatRoomsInput, Prisma.LostRelicUncheckedCreateWithoutChatRoomsInput>
+  where?: Prisma.LostRelicWhereInput
+}
+
+export type LostRelicUpdateToOneWithWhereWithoutChatRoomsInput = {
+  where?: Prisma.LostRelicWhereInput
+  data: Prisma.XOR<Prisma.LostRelicUpdateWithoutChatRoomsInput, Prisma.LostRelicUncheckedUpdateWithoutChatRoomsInput>
+}
+
+export type LostRelicUpdateWithoutChatRoomsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.LostRelicUpdateimagesInput | string[]
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRelicTypeFieldUpdateOperationsInput | $Enums.RelicType
+  status?: Prisma.EnumRelicStatusFieldUpdateOperationsInput | $Enums.RelicStatus
+  secretRiddle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hiddenTruth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reporter?: Prisma.WizardUpdateOneRequiredWithoutLostRelicsNestedInput
+}
+
+export type LostRelicUncheckedUpdateWithoutChatRoomsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  reporterId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.LostRelicUpdateimagesInput | string[]
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumRelicTypeFieldUpdateOperationsInput | $Enums.RelicType
+  status?: Prisma.EnumRelicStatusFieldUpdateOperationsInput | $Enums.RelicStatus
+  secretRiddle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  hiddenTruth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LostRelicCreateManyReporterInput = {
@@ -606,6 +832,10 @@ export type LostRelicCreateManyReporterInput = {
   status?: $Enums.RelicStatus
   secretRiddle?: string | null
   hiddenTruth?: string | null
+  claimerId?: string | null
+  claimerVerifiedAt?: Date | string | null
+  droppedOffAt?: Date | string | null
+  deliveredAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -620,8 +850,13 @@ export type LostRelicUpdateWithoutReporterInput = {
   status?: Prisma.EnumRelicStatusFieldUpdateOperationsInput | $Enums.RelicStatus
   secretRiddle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hiddenTruth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutLostRelicNestedInput
 }
 
 export type LostRelicUncheckedUpdateWithoutReporterInput = {
@@ -634,8 +869,13 @@ export type LostRelicUncheckedUpdateWithoutReporterInput = {
   status?: Prisma.EnumRelicStatusFieldUpdateOperationsInput | $Enums.RelicStatus
   secretRiddle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hiddenTruth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutLostRelicNestedInput
 }
 
 export type LostRelicUncheckedUpdateManyWithoutReporterInput = {
@@ -648,10 +888,43 @@ export type LostRelicUncheckedUpdateManyWithoutReporterInput = {
   status?: Prisma.EnumRelicStatusFieldUpdateOperationsInput | $Enums.RelicStatus
   secretRiddle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   hiddenTruth?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type LostRelicCountOutputType
+ */
+
+export type LostRelicCountOutputType = {
+  chatRooms: number
+}
+
+export type LostRelicCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  chatRooms?: boolean | LostRelicCountOutputTypeCountChatRoomsArgs
+}
+
+/**
+ * LostRelicCountOutputType without action
+ */
+export type LostRelicCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LostRelicCountOutputType
+   */
+  select?: Prisma.LostRelicCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * LostRelicCountOutputType without action
+ */
+export type LostRelicCountOutputTypeCountChatRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatRoomWhereInput
+}
 
 
 export type LostRelicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -665,9 +938,15 @@ export type LostRelicSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   status?: boolean
   secretRiddle?: boolean
   hiddenTruth?: boolean
+  claimerId?: boolean
+  claimerVerifiedAt?: boolean
+  droppedOffAt?: boolean
+  deliveredAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   reporter?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
+  chatRooms?: boolean | Prisma.LostRelic$chatRoomsArgs<ExtArgs>
+  _count?: boolean | Prisma.LostRelicCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lostRelic"]>
 
 export type LostRelicSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -681,6 +960,10 @@ export type LostRelicSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   status?: boolean
   secretRiddle?: boolean
   hiddenTruth?: boolean
+  claimerId?: boolean
+  claimerVerifiedAt?: boolean
+  droppedOffAt?: boolean
+  deliveredAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   reporter?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -697,6 +980,10 @@ export type LostRelicSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   status?: boolean
   secretRiddle?: boolean
   hiddenTruth?: boolean
+  claimerId?: boolean
+  claimerVerifiedAt?: boolean
+  droppedOffAt?: boolean
+  deliveredAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   reporter?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -713,13 +1000,19 @@ export type LostRelicSelectScalar = {
   status?: boolean
   secretRiddle?: boolean
   hiddenTruth?: boolean
+  claimerId?: boolean
+  claimerVerifiedAt?: boolean
+  droppedOffAt?: boolean
+  deliveredAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LostRelicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reporterId" | "title" | "description" | "images" | "location" | "type" | "status" | "secretRiddle" | "hiddenTruth" | "createdAt" | "updatedAt", ExtArgs["result"]["lostRelic"]>
+export type LostRelicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reporterId" | "title" | "description" | "images" | "location" | "type" | "status" | "secretRiddle" | "hiddenTruth" | "claimerId" | "claimerVerifiedAt" | "droppedOffAt" | "deliveredAt" | "createdAt" | "updatedAt", ExtArgs["result"]["lostRelic"]>
 export type LostRelicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reporter?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
+  chatRooms?: boolean | Prisma.LostRelic$chatRoomsArgs<ExtArgs>
+  _count?: boolean | Prisma.LostRelicCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LostRelicIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reporter?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -732,6 +1025,7 @@ export type $LostRelicPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "LostRelic"
   objects: {
     reporter: Prisma.$WizardPayload<ExtArgs>
+    chatRooms: Prisma.$ChatRoomPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -744,6 +1038,10 @@ export type $LostRelicPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     status: $Enums.RelicStatus
     secretRiddle: string | null
     hiddenTruth: string | null
+    claimerId: string | null
+    claimerVerifiedAt: Date | null
+    droppedOffAt: Date | null
+    deliveredAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["lostRelic"]>
@@ -1141,6 +1439,7 @@ readonly fields: LostRelicFieldRefs;
 export interface Prisma__LostRelicClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   reporter<T extends Prisma.WizardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WizardDefaultArgs<ExtArgs>>): Prisma.Prisma__WizardClient<runtime.Types.Result.GetResult<Prisma.$WizardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  chatRooms<T extends Prisma.LostRelic$chatRoomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LostRelic$chatRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1180,6 +1479,10 @@ export interface LostRelicFieldRefs {
   readonly status: Prisma.FieldRef<"LostRelic", 'RelicStatus'>
   readonly secretRiddle: Prisma.FieldRef<"LostRelic", 'String'>
   readonly hiddenTruth: Prisma.FieldRef<"LostRelic", 'String'>
+  readonly claimerId: Prisma.FieldRef<"LostRelic", 'String'>
+  readonly claimerVerifiedAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
+  readonly droppedOffAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
+  readonly deliveredAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
 }
@@ -1575,6 +1878,30 @@ export type LostRelicDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many LostRelics to delete.
    */
   limit?: number
+}
+
+/**
+ * LostRelic.chatRooms
+ */
+export type LostRelic$chatRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChatRoom
+   */
+  select?: Prisma.ChatRoomSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChatRoom
+   */
+  omit?: Prisma.ChatRoomOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatRoomInclude<ExtArgs> | null
+  where?: Prisma.ChatRoomWhereInput
+  orderBy?: Prisma.ChatRoomOrderByWithRelationInput | Prisma.ChatRoomOrderByWithRelationInput[]
+  cursor?: Prisma.ChatRoomWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChatRoomScalarFieldEnum | Prisma.ChatRoomScalarFieldEnum[]
 }
 
 /**

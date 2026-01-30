@@ -58,7 +58,7 @@ export default function BrowsePage() {
                         </Link>
 
                         {/* Lost & Found Card */}
-                        <Link href="/dashboard/lost-found" className="group">
+                        <Link href="/lost-found" className="group">
                             <motion.div
                                 initial={{ opacity: 0, x: 50 }}
                                 animate={{ opacity: 1, x: 0 }}

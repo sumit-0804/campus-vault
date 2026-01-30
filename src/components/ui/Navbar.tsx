@@ -1,9 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Shield, Lock, ChevronRight } from "lucide-react";
+import { Shield, Lock, ChevronRight, LogOut } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Navbar() {
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === "authenticated";
+
   return (
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
@@ -32,23 +36,42 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* THE ONLY ACTION: The Ritual Redirect */}
-        <Link
-          href="/sign-in"
-          className="group relative flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 bg-white hover:bg-red-600 transition-all duration-700 rounded-none shadow-[0_0_30px_rgba(255,255,255,0.05)]"
-        >
-          {/* Batman-style expansion effect */}
-          <div className="absolute inset-0 border border-white group-hover:scale-125 group-hover:opacity-0 transition-all duration-700" />
+        {/* THE ACTION: Sign In or Sign Out */}
+        {isAuthenticated ? (
+          <button
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="group relative flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 bg-white hover:bg-red-600 transition-all duration-700 rounded-none shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+          >
+            {/* Batman-style expansion effect */}
+            <div className="absolute inset-0 border border-white group-hover:scale-125 group-hover:opacity-0 transition-all duration-700" />
 
-          <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-black group-hover:text-white transition-colors" />
+            <LogOut className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-black group-hover:text-white transition-colors" />
 
-          <span className="text-[9px] sm:text-[10px] md:text-[11px] font-black tracking-[0.2em] sm:tracking-[0.25em] md:tracking-[0.3em] text-black group-hover:text-white transition-colors uppercase">
-            <span className="hidden sm:inline">Initialize Access</span>
-            <span className="sm:hidden">Access</span>
-          </span>
+            <span className="text-[9px] sm:text-[10px] md:text-[11px] font-black tracking-[0.2em] sm:tracking-[0.25em] md:tracking-[0.3em] text-black group-hover:text-white transition-colors uppercase">
+              <span className="hidden sm:inline">Terminate Access</span>
+              <span className="sm:hidden">Exit</span>
+            </span>
 
-          <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-black/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
-        </Link>
+            <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-black/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
+          </button>
+        ) : (
+          <Link
+            href="/sign-in"
+            className="group relative flex items-center gap-2 sm:gap-3 md:gap-4 px-3 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 bg-white hover:bg-red-600 transition-all duration-700 rounded-none shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+          >
+            {/* Batman-style expansion effect */}
+            <div className="absolute inset-0 border border-white group-hover:scale-125 group-hover:opacity-0 transition-all duration-700" />
+
+            <Lock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-black group-hover:text-white transition-colors" />
+
+            <span className="text-[9px] sm:text-[10px] md:text-[11px] font-black tracking-[0.2em] sm:tracking-[0.25em] md:tracking-[0.3em] text-black group-hover:text-white transition-colors uppercase">
+              <span className="hidden sm:inline">Initialize Access</span>
+              <span className="sm:hidden">Access</span>
+            </span>
+
+            <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-black/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
+          </Link>
+        )}
       </div>
     </motion.nav>
   );

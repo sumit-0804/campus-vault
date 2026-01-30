@@ -262,6 +262,8 @@ export type CursedObjectWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"CursedObject"> | Date | string
   seller?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
   offers?: Prisma.BloodPactListRelationFilter
+  chatRooms?: Prisma.ChatRoomListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
 }
 
 export type CursedObjectOrderByWithRelationInput = {
@@ -278,6 +280,8 @@ export type CursedObjectOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   seller?: Prisma.WizardOrderByWithRelationInput
   offers?: Prisma.BloodPactOrderByRelationAggregateInput
+  chatRooms?: Prisma.ChatRoomOrderByRelationAggregateInput
+  transactions?: Prisma.TransactionOrderByRelationAggregateInput
 }
 
 export type CursedObjectWhereUniqueInput = Prisma.AtLeast<{
@@ -297,6 +301,8 @@ export type CursedObjectWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"CursedObject"> | Date | string
   seller?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
   offers?: Prisma.BloodPactListRelationFilter
+  chatRooms?: Prisma.ChatRoomListRelationFilter
+  transactions?: Prisma.TransactionListRelationFilter
 }, "id">
 
 export type CursedObjectOrderByWithAggregationInput = {
@@ -348,6 +354,8 @@ export type CursedObjectCreateInput = {
   updatedAt?: Date | string
   seller: Prisma.WizardCreateNestedOneWithoutCursedObjectsInput
   offers?: Prisma.BloodPactCreateNestedManyWithoutItemInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutRelicInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRelicInput
 }
 
 export type CursedObjectUncheckedCreateInput = {
@@ -363,6 +371,8 @@ export type CursedObjectUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   offers?: Prisma.BloodPactUncheckedCreateNestedManyWithoutItemInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutRelicInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRelicInput
 }
 
 export type CursedObjectUpdateInput = {
@@ -378,6 +388,8 @@ export type CursedObjectUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.WizardUpdateOneRequiredWithoutCursedObjectsNestedInput
   offers?: Prisma.BloodPactUpdateManyWithoutItemNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutRelicNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRelicNestedInput
 }
 
 export type CursedObjectUncheckedUpdateInput = {
@@ -393,6 +405,8 @@ export type CursedObjectUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   offers?: Prisma.BloodPactUncheckedUpdateManyWithoutItemNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutRelicNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRelicNestedInput
 }
 
 export type CursedObjectCreateManyInput = {
@@ -507,6 +521,11 @@ export type CursedObjectScalarRelationFilter = {
   isNot?: Prisma.CursedObjectWhereInput
 }
 
+export type CursedObjectNullableScalarRelationFilter = {
+  is?: Prisma.CursedObjectWhereInput | null
+  isNot?: Prisma.CursedObjectWhereInput | null
+}
+
 export type CursedObjectCreateNestedManyWithoutSellerInput = {
   create?: Prisma.XOR<Prisma.CursedObjectCreateWithoutSellerInput, Prisma.CursedObjectUncheckedCreateWithoutSellerInput> | Prisma.CursedObjectCreateWithoutSellerInput[] | Prisma.CursedObjectUncheckedCreateWithoutSellerInput[]
   connectOrCreate?: Prisma.CursedObjectCreateOrConnectWithoutSellerInput | Prisma.CursedObjectCreateOrConnectWithoutSellerInput[]
@@ -584,6 +603,36 @@ export type CursedObjectUpdateOneRequiredWithoutOffersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CursedObjectUpdateToOneWithWhereWithoutOffersInput, Prisma.CursedObjectUpdateWithoutOffersInput>, Prisma.CursedObjectUncheckedUpdateWithoutOffersInput>
 }
 
+export type CursedObjectCreateNestedOneWithoutChatRoomsInput = {
+  create?: Prisma.XOR<Prisma.CursedObjectCreateWithoutChatRoomsInput, Prisma.CursedObjectUncheckedCreateWithoutChatRoomsInput>
+  connectOrCreate?: Prisma.CursedObjectCreateOrConnectWithoutChatRoomsInput
+  connect?: Prisma.CursedObjectWhereUniqueInput
+}
+
+export type CursedObjectUpdateOneWithoutChatRoomsNestedInput = {
+  create?: Prisma.XOR<Prisma.CursedObjectCreateWithoutChatRoomsInput, Prisma.CursedObjectUncheckedCreateWithoutChatRoomsInput>
+  connectOrCreate?: Prisma.CursedObjectCreateOrConnectWithoutChatRoomsInput
+  upsert?: Prisma.CursedObjectUpsertWithoutChatRoomsInput
+  disconnect?: Prisma.CursedObjectWhereInput | boolean
+  delete?: Prisma.CursedObjectWhereInput | boolean
+  connect?: Prisma.CursedObjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CursedObjectUpdateToOneWithWhereWithoutChatRoomsInput, Prisma.CursedObjectUpdateWithoutChatRoomsInput>, Prisma.CursedObjectUncheckedUpdateWithoutChatRoomsInput>
+}
+
+export type CursedObjectCreateNestedOneWithoutTransactionsInput = {
+  create?: Prisma.XOR<Prisma.CursedObjectCreateWithoutTransactionsInput, Prisma.CursedObjectUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.CursedObjectCreateOrConnectWithoutTransactionsInput
+  connect?: Prisma.CursedObjectWhereUniqueInput
+}
+
+export type CursedObjectUpdateOneRequiredWithoutTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.CursedObjectCreateWithoutTransactionsInput, Prisma.CursedObjectUncheckedCreateWithoutTransactionsInput>
+  connectOrCreate?: Prisma.CursedObjectCreateOrConnectWithoutTransactionsInput
+  upsert?: Prisma.CursedObjectUpsertWithoutTransactionsInput
+  connect?: Prisma.CursedObjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CursedObjectUpdateToOneWithWhereWithoutTransactionsInput, Prisma.CursedObjectUpdateWithoutTransactionsInput>, Prisma.CursedObjectUncheckedUpdateWithoutTransactionsInput>
+}
+
 export type CursedObjectCreateWithoutSellerInput = {
   id?: string
   title: string
@@ -596,6 +645,8 @@ export type CursedObjectCreateWithoutSellerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   offers?: Prisma.BloodPactCreateNestedManyWithoutItemInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutRelicInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRelicInput
 }
 
 export type CursedObjectUncheckedCreateWithoutSellerInput = {
@@ -610,6 +661,8 @@ export type CursedObjectUncheckedCreateWithoutSellerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   offers?: Prisma.BloodPactUncheckedCreateNestedManyWithoutItemInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutRelicInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRelicInput
 }
 
 export type CursedObjectCreateOrConnectWithoutSellerInput = {
@@ -667,6 +720,8 @@ export type CursedObjectCreateWithoutOffersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   seller: Prisma.WizardCreateNestedOneWithoutCursedObjectsInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutRelicInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRelicInput
 }
 
 export type CursedObjectUncheckedCreateWithoutOffersInput = {
@@ -681,6 +736,8 @@ export type CursedObjectUncheckedCreateWithoutOffersInput = {
   category: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutRelicInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRelicInput
 }
 
 export type CursedObjectCreateOrConnectWithoutOffersInput = {
@@ -711,6 +768,8 @@ export type CursedObjectUpdateWithoutOffersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.WizardUpdateOneRequiredWithoutCursedObjectsNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutRelicNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRelicNestedInput
 }
 
 export type CursedObjectUncheckedUpdateWithoutOffersInput = {
@@ -725,6 +784,168 @@ export type CursedObjectUncheckedUpdateWithoutOffersInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutRelicNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRelicNestedInput
+}
+
+export type CursedObjectCreateWithoutChatRoomsInput = {
+  id?: string
+  title: string
+  description: string
+  images?: Prisma.CursedObjectCreateimagesInput | string[]
+  price: number
+  condition: string
+  status?: $Enums.ItemStatus
+  category: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  seller: Prisma.WizardCreateNestedOneWithoutCursedObjectsInput
+  offers?: Prisma.BloodPactCreateNestedManyWithoutItemInput
+  transactions?: Prisma.TransactionCreateNestedManyWithoutRelicInput
+}
+
+export type CursedObjectUncheckedCreateWithoutChatRoomsInput = {
+  id?: string
+  sellerId: string
+  title: string
+  description: string
+  images?: Prisma.CursedObjectCreateimagesInput | string[]
+  price: number
+  condition: string
+  status?: $Enums.ItemStatus
+  category: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  offers?: Prisma.BloodPactUncheckedCreateNestedManyWithoutItemInput
+  transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutRelicInput
+}
+
+export type CursedObjectCreateOrConnectWithoutChatRoomsInput = {
+  where: Prisma.CursedObjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.CursedObjectCreateWithoutChatRoomsInput, Prisma.CursedObjectUncheckedCreateWithoutChatRoomsInput>
+}
+
+export type CursedObjectUpsertWithoutChatRoomsInput = {
+  update: Prisma.XOR<Prisma.CursedObjectUpdateWithoutChatRoomsInput, Prisma.CursedObjectUncheckedUpdateWithoutChatRoomsInput>
+  create: Prisma.XOR<Prisma.CursedObjectCreateWithoutChatRoomsInput, Prisma.CursedObjectUncheckedCreateWithoutChatRoomsInput>
+  where?: Prisma.CursedObjectWhereInput
+}
+
+export type CursedObjectUpdateToOneWithWhereWithoutChatRoomsInput = {
+  where?: Prisma.CursedObjectWhereInput
+  data: Prisma.XOR<Prisma.CursedObjectUpdateWithoutChatRoomsInput, Prisma.CursedObjectUncheckedUpdateWithoutChatRoomsInput>
+}
+
+export type CursedObjectUpdateWithoutChatRoomsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.CursedObjectUpdateimagesInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  condition?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  seller?: Prisma.WizardUpdateOneRequiredWithoutCursedObjectsNestedInput
+  offers?: Prisma.BloodPactUpdateManyWithoutItemNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRelicNestedInput
+}
+
+export type CursedObjectUncheckedUpdateWithoutChatRoomsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.CursedObjectUpdateimagesInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  condition?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  offers?: Prisma.BloodPactUncheckedUpdateManyWithoutItemNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRelicNestedInput
+}
+
+export type CursedObjectCreateWithoutTransactionsInput = {
+  id?: string
+  title: string
+  description: string
+  images?: Prisma.CursedObjectCreateimagesInput | string[]
+  price: number
+  condition: string
+  status?: $Enums.ItemStatus
+  category: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  seller: Prisma.WizardCreateNestedOneWithoutCursedObjectsInput
+  offers?: Prisma.BloodPactCreateNestedManyWithoutItemInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutRelicInput
+}
+
+export type CursedObjectUncheckedCreateWithoutTransactionsInput = {
+  id?: string
+  sellerId: string
+  title: string
+  description: string
+  images?: Prisma.CursedObjectCreateimagesInput | string[]
+  price: number
+  condition: string
+  status?: $Enums.ItemStatus
+  category: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  offers?: Prisma.BloodPactUncheckedCreateNestedManyWithoutItemInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutRelicInput
+}
+
+export type CursedObjectCreateOrConnectWithoutTransactionsInput = {
+  where: Prisma.CursedObjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.CursedObjectCreateWithoutTransactionsInput, Prisma.CursedObjectUncheckedCreateWithoutTransactionsInput>
+}
+
+export type CursedObjectUpsertWithoutTransactionsInput = {
+  update: Prisma.XOR<Prisma.CursedObjectUpdateWithoutTransactionsInput, Prisma.CursedObjectUncheckedUpdateWithoutTransactionsInput>
+  create: Prisma.XOR<Prisma.CursedObjectCreateWithoutTransactionsInput, Prisma.CursedObjectUncheckedCreateWithoutTransactionsInput>
+  where?: Prisma.CursedObjectWhereInput
+}
+
+export type CursedObjectUpdateToOneWithWhereWithoutTransactionsInput = {
+  where?: Prisma.CursedObjectWhereInput
+  data: Prisma.XOR<Prisma.CursedObjectUpdateWithoutTransactionsInput, Prisma.CursedObjectUncheckedUpdateWithoutTransactionsInput>
+}
+
+export type CursedObjectUpdateWithoutTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.CursedObjectUpdateimagesInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  condition?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  seller?: Prisma.WizardUpdateOneRequiredWithoutCursedObjectsNestedInput
+  offers?: Prisma.BloodPactUpdateManyWithoutItemNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutRelicNestedInput
+}
+
+export type CursedObjectUncheckedUpdateWithoutTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.CursedObjectUpdateimagesInput | string[]
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  condition?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  offers?: Prisma.BloodPactUncheckedUpdateManyWithoutItemNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutRelicNestedInput
 }
 
 export type CursedObjectCreateManySellerInput = {
@@ -752,6 +973,8 @@ export type CursedObjectUpdateWithoutSellerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   offers?: Prisma.BloodPactUpdateManyWithoutItemNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutRelicNestedInput
+  transactions?: Prisma.TransactionUpdateManyWithoutRelicNestedInput
 }
 
 export type CursedObjectUncheckedUpdateWithoutSellerInput = {
@@ -766,6 +989,8 @@ export type CursedObjectUncheckedUpdateWithoutSellerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   offers?: Prisma.BloodPactUncheckedUpdateManyWithoutItemNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutRelicNestedInput
+  transactions?: Prisma.TransactionUncheckedUpdateManyWithoutRelicNestedInput
 }
 
 export type CursedObjectUncheckedUpdateManyWithoutSellerInput = {
@@ -788,10 +1013,14 @@ export type CursedObjectUncheckedUpdateManyWithoutSellerInput = {
 
 export type CursedObjectCountOutputType = {
   offers: number
+  chatRooms: number
+  transactions: number
 }
 
 export type CursedObjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   offers?: boolean | CursedObjectCountOutputTypeCountOffersArgs
+  chatRooms?: boolean | CursedObjectCountOutputTypeCountChatRoomsArgs
+  transactions?: boolean | CursedObjectCountOutputTypeCountTransactionsArgs
 }
 
 /**
@@ -811,6 +1040,20 @@ export type CursedObjectCountOutputTypeCountOffersArgs<ExtArgs extends runtime.T
   where?: Prisma.BloodPactWhereInput
 }
 
+/**
+ * CursedObjectCountOutputType without action
+ */
+export type CursedObjectCountOutputTypeCountChatRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatRoomWhereInput
+}
+
+/**
+ * CursedObjectCountOutputType without action
+ */
+export type CursedObjectCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionWhereInput
+}
+
 
 export type CursedObjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -826,6 +1069,8 @@ export type CursedObjectSelect<ExtArgs extends runtime.Types.Extensions.Internal
   updatedAt?: boolean
   seller?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
   offers?: boolean | Prisma.CursedObject$offersArgs<ExtArgs>
+  chatRooms?: boolean | Prisma.CursedObject$chatRoomsArgs<ExtArgs>
+  transactions?: boolean | Prisma.CursedObject$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.CursedObjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cursedObject"]>
 
@@ -877,6 +1122,8 @@ export type CursedObjectOmit<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type CursedObjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   seller?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
   offers?: boolean | Prisma.CursedObject$offersArgs<ExtArgs>
+  chatRooms?: boolean | Prisma.CursedObject$chatRoomsArgs<ExtArgs>
+  transactions?: boolean | Prisma.CursedObject$transactionsArgs<ExtArgs>
   _count?: boolean | Prisma.CursedObjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CursedObjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -891,6 +1138,8 @@ export type $CursedObjectPayload<ExtArgs extends runtime.Types.Extensions.Intern
   objects: {
     seller: Prisma.$WizardPayload<ExtArgs>
     offers: Prisma.$BloodPactPayload<ExtArgs>[]
+    chatRooms: Prisma.$ChatRoomPayload<ExtArgs>[]
+    transactions: Prisma.$TransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1300,6 +1549,8 @@ export interface Prisma__CursedObjectClient<T, Null = never, ExtArgs extends run
   readonly [Symbol.toStringTag]: "PrismaPromise"
   seller<T extends Prisma.WizardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WizardDefaultArgs<ExtArgs>>): Prisma.Prisma__WizardClient<runtime.Types.Result.GetResult<Prisma.$WizardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   offers<T extends Prisma.CursedObject$offersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CursedObject$offersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BloodPactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chatRooms<T extends Prisma.CursedObject$chatRoomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CursedObject$chatRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transactions<T extends Prisma.CursedObject$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CursedObject$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1757,6 +2008,54 @@ export type CursedObject$offersArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.BloodPactScalarFieldEnum | Prisma.BloodPactScalarFieldEnum[]
+}
+
+/**
+ * CursedObject.chatRooms
+ */
+export type CursedObject$chatRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChatRoom
+   */
+  select?: Prisma.ChatRoomSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChatRoom
+   */
+  omit?: Prisma.ChatRoomOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatRoomInclude<ExtArgs> | null
+  where?: Prisma.ChatRoomWhereInput
+  orderBy?: Prisma.ChatRoomOrderByWithRelationInput | Prisma.ChatRoomOrderByWithRelationInput[]
+  cursor?: Prisma.ChatRoomWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChatRoomScalarFieldEnum | Prisma.ChatRoomScalarFieldEnum[]
+}
+
+/**
+ * CursedObject.transactions
+ */
+export type CursedObject$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transaction
+   */
+  select?: Prisma.TransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transaction
+   */
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransactionInclude<ExtArgs> | null
+  where?: Prisma.TransactionWhereInput
+  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
 }
 
 /**

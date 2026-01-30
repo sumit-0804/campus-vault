@@ -54,7 +54,11 @@ export const ModelName = {
   Wizard: 'Wizard',
   CursedObject: 'CursedObject',
   BloodPact: 'BloodPact',
-  LostRelic: 'LostRelic'
+  LostRelic: 'LostRelic',
+  ChatRoom: 'ChatRoom',
+  Message: 'Message',
+  Notification: 'Notification',
+  Transaction: 'Transaction'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -79,6 +83,8 @@ export const WizardScalarFieldEnum = {
   email: 'email',
   avatarUrl: 'avatarUrl',
   phoneNumber: 'phoneNumber',
+  linkedinUrl: 'linkedinUrl',
+  instagramUrl: 'instagramUrl',
   karmaScore: 'karmaScore',
   karmaRank: 'karmaRank',
   role: 'role',
@@ -131,11 +137,64 @@ export const LostRelicScalarFieldEnum = {
   status: 'status',
   secretRiddle: 'secretRiddle',
   hiddenTruth: 'hiddenTruth',
+  claimerId: 'claimerId',
+  claimerVerifiedAt: 'claimerVerifiedAt',
+  droppedOffAt: 'droppedOffAt',
+  deliveredAt: 'deliveredAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type LostRelicScalarFieldEnum = (typeof LostRelicScalarFieldEnum)[keyof typeof LostRelicScalarFieldEnum]
+
+
+export const ChatRoomScalarFieldEnum = {
+  id: 'id',
+  relicId: 'relicId',
+  lostRelicId: 'lostRelicId',
+  lastMessageAt: 'lastMessageAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChatRoomScalarFieldEnum = (typeof ChatRoomScalarFieldEnum)[keyof typeof ChatRoomScalarFieldEnum]
+
+
+export const MessageScalarFieldEnum = {
+  id: 'id',
+  chatRoomId: 'chatRoomId',
+  senderId: 'senderId',
+  content: 'content',
+  type: 'type',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
+} as const
+
+export type MessageScalarFieldEnum = (typeof MessageScalarFieldEnum)[keyof typeof MessageScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  referenceId: 'referenceId',
+  isSeen: 'isSeen',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const TransactionScalarFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  sellerId: 'sellerId',
+  relicId: 'relicId',
+  finalPrice: 'finalPrice',
+  completedAt: 'completedAt'
+} as const
+
+export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
 
 
 export const SortOrder = {

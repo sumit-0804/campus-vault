@@ -9,7 +9,7 @@ import { z } from "zod";
 const formSchema = z.object({
     title: z.string().min(3),
     description: z.string().min(10),
-    imageUrl: z.string().url(),
+    imageUrl: z.url(),
     price: z.coerce.number().min(0),
     condition: z.string().min(1),
     category: z.string().min(1),
@@ -30,6 +30,19 @@ export async function createCursedObject(data: z.infer<typeof formSchema>) {
     const { title, description, imageUrl, price, condition, category } = parse.data;
 
     try {
+        // Verify the user exists in the database
+        const userExists = await prisma.wizard.findUnique({
+            where: { id: session.user.id },
+        });
+
+        if (!userExists) {
+            console.error("User not found in database:", session.user.id);
+            return {
+                success: false,
+                error: "Your wizard profile is missing. Please sign out and sign in again."
+            };
+        }
+
         await prisma.cursedObject.create({
             data: {
                 title,
@@ -49,7 +62,7 @@ export async function createCursedObject(data: z.infer<typeof formSchema>) {
         // Usually selling means sold. Let's stick to listing for now or maybe wait till sale.
         // I'll leave karma for now as per plan.
 
-        revalidatePath("/dashboard/market");
+        revalidatePath("/marketplace");
         return { success: true };
     } catch (error) {
         console.error("Failed to summon item:", error);

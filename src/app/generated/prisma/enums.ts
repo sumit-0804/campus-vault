@@ -9,6 +9,25 @@
 * 🟢 You can import this file directly.
 */
 
+export const MessageType = {
+  TEXT: 'TEXT',
+  OFFER: 'OFFER',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type MessageType = (typeof MessageType)[keyof typeof MessageType]
+
+
+export const NotificationType = {
+  OFFER_RECEIVED: 'OFFER_RECEIVED',
+  OFFER_ACCEPTED: 'OFFER_ACCEPTED',
+  MESSAGE_RECEIVED: 'MESSAGE_RECEIVED',
+  KARMA_EARNED: 'KARMA_EARNED'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
 export const KarmaRank = {
   MUGGLE: 'MUGGLE',
   WIZARD: 'WIZARD',
@@ -59,6 +78,10 @@ export type RelicType = (typeof RelicType)[keyof typeof RelicType]
 
 export const RelicStatus = {
   OPEN: 'OPEN',
+  VERIFIED: 'VERIFIED',
+  PENDING_PICKUP: 'PENDING_PICKUP',
+  DROPPED_OFF: 'DROPPED_OFF',
+  DELIVERED: 'DELIVERED',
   SOLVED: 'SOLVED'
 } as const
 

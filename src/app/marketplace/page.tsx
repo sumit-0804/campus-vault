@@ -12,7 +12,9 @@ async function getItems() {
     try {
         const items = await prisma.cursedObject.findMany({
             where: {
-                status: 'ACTIVE'
+                status: {
+                    in: ['ACTIVE', 'RESERVED', 'SOLD']
+                }
             },
             orderBy: {
                 createdAt: 'desc'

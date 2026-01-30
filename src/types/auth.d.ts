@@ -8,6 +8,9 @@ declare module "next-auth" {
             role: string;
             karmaRank: string;
             karmaScore: number;
+            phoneNumber?: string | null;
+            linkedinUrl?: string | null;
+            instagramUrl?: string | null;
         } & DefaultSession["user"];
     }
 
@@ -28,5 +31,8 @@ declare module "next-auth/jwt" {
         role?: string;
         karmaRank?: string;
         karmaScore?: number;
+        phoneNumber?: string | null;
+        linkedinUrl?: string | null;
+        instagramUrl?: string | null;
     }
 }

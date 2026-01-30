@@ -1,7 +1,7 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import Google from "next-auth/providers/google";
 import db from "./lib/db";
-const ALLOWED_DOMAIN = "dau.ac.in";
+// const ALLOWED_DOMAIN = "dau.ac.in";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -10,7 +10,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
-          hd: `${ALLOWED_DOMAIN}`,
           prompt: "select_account"
         }
       },
@@ -34,7 +33,7 @@ export const authOptions: NextAuthOptions = {
     async signIn({ profile }) {
       const email = profile?.email;
       if (!email) return false;
-      if (!email?.endsWith(`@${ALLOWED_DOMAIN}`)) return false;
+      // if (!email?.endsWith(`@${ALLOWED_DOMAIN}`)) return false;
 
       try {
         const wizard = await db.wizard.findUnique({
@@ -71,9 +70,14 @@ export const authOptions: NextAuthOptions = {
         })
         if (dbUser) {
           token.id = dbUser.id;
+          token.name = dbUser.fullName;
+          token.picture = dbUser.avatarUrl;
           token.role = dbUser.role;
           token.karmaRank = dbUser.karmaRank;
           token.karmaScore = dbUser.karmaScore;
+          token.phoneNumber = dbUser.phoneNumber;
+          token.linkedinUrl = dbUser.linkedinUrl;
+          token.instagramUrl = dbUser.instagramUrl;
         }
       }
 
@@ -85,6 +89,9 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as string;
         session.user.karmaRank = token.karmaRank as string;
         session.user.karmaScore = token.karmaScore as number;
+        session.user.phoneNumber = token.phoneNumber as string | null;
+        session.user.linkedinUrl = token.linkedinUrl as string | null;
+        session.user.instagramUrl = token.instagramUrl as string | null;
       }
       return session;
     },

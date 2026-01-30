@@ -40,6 +40,8 @@ export type WizardMinAggregateOutputType = {
   email: string | null
   avatarUrl: string | null
   phoneNumber: string | null
+  linkedinUrl: string | null
+  instagramUrl: string | null
   karmaScore: number | null
   karmaRank: $Enums.KarmaRank | null
   role: $Enums.UserRole | null
@@ -54,6 +56,8 @@ export type WizardMaxAggregateOutputType = {
   email: string | null
   avatarUrl: string | null
   phoneNumber: string | null
+  linkedinUrl: string | null
+  instagramUrl: string | null
   karmaScore: number | null
   karmaRank: $Enums.KarmaRank | null
   role: $Enums.UserRole | null
@@ -68,6 +72,8 @@ export type WizardCountAggregateOutputType = {
   email: number
   avatarUrl: number
   phoneNumber: number
+  linkedinUrl: number
+  instagramUrl: number
   karmaScore: number
   karmaRank: number
   role: number
@@ -92,6 +98,8 @@ export type WizardMinAggregateInputType = {
   email?: true
   avatarUrl?: true
   phoneNumber?: true
+  linkedinUrl?: true
+  instagramUrl?: true
   karmaScore?: true
   karmaRank?: true
   role?: true
@@ -106,6 +114,8 @@ export type WizardMaxAggregateInputType = {
   email?: true
   avatarUrl?: true
   phoneNumber?: true
+  linkedinUrl?: true
+  instagramUrl?: true
   karmaScore?: true
   karmaRank?: true
   role?: true
@@ -120,6 +130,8 @@ export type WizardCountAggregateInputType = {
   email?: true
   avatarUrl?: true
   phoneNumber?: true
+  linkedinUrl?: true
+  instagramUrl?: true
   karmaScore?: true
   karmaRank?: true
   role?: true
@@ -221,6 +233,8 @@ export type WizardGroupByOutputType = {
   email: string
   avatarUrl: string | null
   phoneNumber: string | null
+  linkedinUrl: string | null
+  instagramUrl: string | null
   karmaScore: number
   karmaRank: $Enums.KarmaRank
   role: $Enums.UserRole
@@ -258,6 +272,8 @@ export type WizardWhereInput = {
   email?: Prisma.StringFilter<"Wizard"> | string
   avatarUrl?: Prisma.StringNullableFilter<"Wizard"> | string | null
   phoneNumber?: Prisma.StringNullableFilter<"Wizard"> | string | null
+  linkedinUrl?: Prisma.StringNullableFilter<"Wizard"> | string | null
+  instagramUrl?: Prisma.StringNullableFilter<"Wizard"> | string | null
   karmaScore?: Prisma.IntFilter<"Wizard"> | number
   karmaRank?: Prisma.EnumKarmaRankFilter<"Wizard"> | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFilter<"Wizard"> | $Enums.UserRole
@@ -267,6 +283,11 @@ export type WizardWhereInput = {
   cursedObjects?: Prisma.CursedObjectListRelationFilter
   bloodPacts?: Prisma.BloodPactListRelationFilter
   lostRelics?: Prisma.LostRelicListRelationFilter
+  chatRooms?: Prisma.ChatRoomListRelationFilter
+  messages?: Prisma.MessageListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  purchases?: Prisma.TransactionListRelationFilter
+  sales?: Prisma.TransactionListRelationFilter
 }
 
 export type WizardOrderByWithRelationInput = {
@@ -275,6 +296,8 @@ export type WizardOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   karmaScore?: Prisma.SortOrder
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -284,6 +307,11 @@ export type WizardOrderByWithRelationInput = {
   cursedObjects?: Prisma.CursedObjectOrderByRelationAggregateInput
   bloodPacts?: Prisma.BloodPactOrderByRelationAggregateInput
   lostRelics?: Prisma.LostRelicOrderByRelationAggregateInput
+  chatRooms?: Prisma.ChatRoomOrderByRelationAggregateInput
+  messages?: Prisma.MessageOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  purchases?: Prisma.TransactionOrderByRelationAggregateInput
+  sales?: Prisma.TransactionOrderByRelationAggregateInput
 }
 
 export type WizardWhereUniqueInput = Prisma.AtLeast<{
@@ -295,6 +323,8 @@ export type WizardWhereUniqueInput = Prisma.AtLeast<{
   fullName?: Prisma.StringFilter<"Wizard"> | string
   avatarUrl?: Prisma.StringNullableFilter<"Wizard"> | string | null
   phoneNumber?: Prisma.StringNullableFilter<"Wizard"> | string | null
+  linkedinUrl?: Prisma.StringNullableFilter<"Wizard"> | string | null
+  instagramUrl?: Prisma.StringNullableFilter<"Wizard"> | string | null
   karmaScore?: Prisma.IntFilter<"Wizard"> | number
   karmaRank?: Prisma.EnumKarmaRankFilter<"Wizard"> | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFilter<"Wizard"> | $Enums.UserRole
@@ -304,6 +334,11 @@ export type WizardWhereUniqueInput = Prisma.AtLeast<{
   cursedObjects?: Prisma.CursedObjectListRelationFilter
   bloodPacts?: Prisma.BloodPactListRelationFilter
   lostRelics?: Prisma.LostRelicListRelationFilter
+  chatRooms?: Prisma.ChatRoomListRelationFilter
+  messages?: Prisma.MessageListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  purchases?: Prisma.TransactionListRelationFilter
+  sales?: Prisma.TransactionListRelationFilter
 }, "id" | "email">
 
 export type WizardOrderByWithAggregationInput = {
@@ -312,6 +347,8 @@ export type WizardOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   phoneNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   karmaScore?: Prisma.SortOrder
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -334,6 +371,8 @@ export type WizardScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"Wizard"> | string
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"Wizard"> | string | null
   phoneNumber?: Prisma.StringNullableWithAggregatesFilter<"Wizard"> | string | null
+  linkedinUrl?: Prisma.StringNullableWithAggregatesFilter<"Wizard"> | string | null
+  instagramUrl?: Prisma.StringNullableWithAggregatesFilter<"Wizard"> | string | null
   karmaScore?: Prisma.IntWithAggregatesFilter<"Wizard"> | number
   karmaRank?: Prisma.EnumKarmaRankWithAggregatesFilter<"Wizard"> | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"Wizard"> | $Enums.UserRole
@@ -348,6 +387,8 @@ export type WizardCreateInput = {
   email: string
   avatarUrl?: string | null
   phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
   karmaScore?: number
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
@@ -357,6 +398,11 @@ export type WizardCreateInput = {
   cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
   bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
   lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
 }
 
 export type WizardUncheckedCreateInput = {
@@ -365,6 +411,8 @@ export type WizardUncheckedCreateInput = {
   email: string
   avatarUrl?: string | null
   phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
   karmaScore?: number
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
@@ -374,6 +422,11 @@ export type WizardUncheckedCreateInput = {
   cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
   bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
   lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type WizardUpdateInput = {
@@ -382,6 +435,8 @@ export type WizardUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -391,6 +446,11 @@ export type WizardUpdateInput = {
   cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
   bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
   lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
 }
 
 export type WizardUncheckedUpdateInput = {
@@ -399,6 +459,8 @@ export type WizardUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -408,6 +470,11 @@ export type WizardUncheckedUpdateInput = {
   cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
   bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
   lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
 }
 
 export type WizardCreateManyInput = {
@@ -416,6 +483,8 @@ export type WizardCreateManyInput = {
   email: string
   avatarUrl?: string | null
   phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
   karmaScore?: number
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
@@ -430,6 +499,8 @@ export type WizardUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -444,6 +515,8 @@ export type WizardUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -458,6 +531,8 @@ export type WizardCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrder
   karmaScore?: Prisma.SortOrder
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -476,6 +551,8 @@ export type WizardMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrder
   karmaScore?: Prisma.SortOrder
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -490,6 +567,8 @@ export type WizardMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   phoneNumber?: Prisma.SortOrder
+  linkedinUrl?: Prisma.SortOrder
+  instagramUrl?: Prisma.SortOrder
   karmaScore?: Prisma.SortOrder
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
@@ -505,6 +584,16 @@ export type WizardSumOrderByAggregateInput = {
 export type WizardScalarRelationFilter = {
   is?: Prisma.WizardWhereInput
   isNot?: Prisma.WizardWhereInput
+}
+
+export type WizardListRelationFilter = {
+  every?: Prisma.WizardWhereInput
+  some?: Prisma.WizardWhereInput
+  none?: Prisma.WizardWhereInput
+}
+
+export type WizardOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -581,12 +670,108 @@ export type WizardUpdateOneRequiredWithoutLostRelicsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutLostRelicsInput, Prisma.WizardUpdateWithoutLostRelicsInput>, Prisma.WizardUncheckedUpdateWithoutLostRelicsInput>
 }
 
+export type WizardCreateNestedManyWithoutChatRoomsInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutChatRoomsInput, Prisma.WizardUncheckedCreateWithoutChatRoomsInput> | Prisma.WizardCreateWithoutChatRoomsInput[] | Prisma.WizardUncheckedCreateWithoutChatRoomsInput[]
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutChatRoomsInput | Prisma.WizardCreateOrConnectWithoutChatRoomsInput[]
+  connect?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+}
+
+export type WizardUncheckedCreateNestedManyWithoutChatRoomsInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutChatRoomsInput, Prisma.WizardUncheckedCreateWithoutChatRoomsInput> | Prisma.WizardCreateWithoutChatRoomsInput[] | Prisma.WizardUncheckedCreateWithoutChatRoomsInput[]
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutChatRoomsInput | Prisma.WizardCreateOrConnectWithoutChatRoomsInput[]
+  connect?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+}
+
+export type WizardUpdateManyWithoutChatRoomsNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutChatRoomsInput, Prisma.WizardUncheckedCreateWithoutChatRoomsInput> | Prisma.WizardCreateWithoutChatRoomsInput[] | Prisma.WizardUncheckedCreateWithoutChatRoomsInput[]
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutChatRoomsInput | Prisma.WizardCreateOrConnectWithoutChatRoomsInput[]
+  upsert?: Prisma.WizardUpsertWithWhereUniqueWithoutChatRoomsInput | Prisma.WizardUpsertWithWhereUniqueWithoutChatRoomsInput[]
+  set?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+  disconnect?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+  delete?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+  connect?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+  update?: Prisma.WizardUpdateWithWhereUniqueWithoutChatRoomsInput | Prisma.WizardUpdateWithWhereUniqueWithoutChatRoomsInput[]
+  updateMany?: Prisma.WizardUpdateManyWithWhereWithoutChatRoomsInput | Prisma.WizardUpdateManyWithWhereWithoutChatRoomsInput[]
+  deleteMany?: Prisma.WizardScalarWhereInput | Prisma.WizardScalarWhereInput[]
+}
+
+export type WizardUncheckedUpdateManyWithoutChatRoomsNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutChatRoomsInput, Prisma.WizardUncheckedCreateWithoutChatRoomsInput> | Prisma.WizardCreateWithoutChatRoomsInput[] | Prisma.WizardUncheckedCreateWithoutChatRoomsInput[]
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutChatRoomsInput | Prisma.WizardCreateOrConnectWithoutChatRoomsInput[]
+  upsert?: Prisma.WizardUpsertWithWhereUniqueWithoutChatRoomsInput | Prisma.WizardUpsertWithWhereUniqueWithoutChatRoomsInput[]
+  set?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+  disconnect?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+  delete?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+  connect?: Prisma.WizardWhereUniqueInput | Prisma.WizardWhereUniqueInput[]
+  update?: Prisma.WizardUpdateWithWhereUniqueWithoutChatRoomsInput | Prisma.WizardUpdateWithWhereUniqueWithoutChatRoomsInput[]
+  updateMany?: Prisma.WizardUpdateManyWithWhereWithoutChatRoomsInput | Prisma.WizardUpdateManyWithWhereWithoutChatRoomsInput[]
+  deleteMany?: Prisma.WizardScalarWhereInput | Prisma.WizardScalarWhereInput[]
+}
+
+export type WizardCreateNestedOneWithoutMessagesInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutMessagesInput, Prisma.WizardUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutMessagesInput
+  connect?: Prisma.WizardWhereUniqueInput
+}
+
+export type WizardUpdateOneRequiredWithoutMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutMessagesInput, Prisma.WizardUncheckedCreateWithoutMessagesInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutMessagesInput
+  upsert?: Prisma.WizardUpsertWithoutMessagesInput
+  connect?: Prisma.WizardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutMessagesInput, Prisma.WizardUpdateWithoutMessagesInput>, Prisma.WizardUncheckedUpdateWithoutMessagesInput>
+}
+
+export type WizardCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutNotificationsInput, Prisma.WizardUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.WizardWhereUniqueInput
+}
+
+export type WizardUpdateOneRequiredWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutNotificationsInput, Prisma.WizardUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.WizardUpsertWithoutNotificationsInput
+  connect?: Prisma.WizardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutNotificationsInput, Prisma.WizardUpdateWithoutNotificationsInput>, Prisma.WizardUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type WizardCreateNestedOneWithoutPurchasesInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutPurchasesInput, Prisma.WizardUncheckedCreateWithoutPurchasesInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutPurchasesInput
+  connect?: Prisma.WizardWhereUniqueInput
+}
+
+export type WizardCreateNestedOneWithoutSalesInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutSalesInput, Prisma.WizardUncheckedCreateWithoutSalesInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutSalesInput
+  connect?: Prisma.WizardWhereUniqueInput
+}
+
+export type WizardUpdateOneRequiredWithoutPurchasesNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutPurchasesInput, Prisma.WizardUncheckedCreateWithoutPurchasesInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutPurchasesInput
+  upsert?: Prisma.WizardUpsertWithoutPurchasesInput
+  connect?: Prisma.WizardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutPurchasesInput, Prisma.WizardUpdateWithoutPurchasesInput>, Prisma.WizardUncheckedUpdateWithoutPurchasesInput>
+}
+
+export type WizardUpdateOneRequiredWithoutSalesNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutSalesInput, Prisma.WizardUncheckedCreateWithoutSalesInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutSalesInput
+  upsert?: Prisma.WizardUpsertWithoutSalesInput
+  connect?: Prisma.WizardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutSalesInput, Prisma.WizardUpdateWithoutSalesInput>, Prisma.WizardUncheckedUpdateWithoutSalesInput>
+}
+
 export type WizardCreateWithoutCursedObjectsInput = {
   id: string
   fullName: string
   email: string
   avatarUrl?: string | null
   phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
   karmaScore?: number
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
@@ -595,6 +780,11 @@ export type WizardCreateWithoutCursedObjectsInput = {
   updatedAt: Date | string
   bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
   lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
 }
 
 export type WizardUncheckedCreateWithoutCursedObjectsInput = {
@@ -603,6 +793,8 @@ export type WizardUncheckedCreateWithoutCursedObjectsInput = {
   email: string
   avatarUrl?: string | null
   phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
   karmaScore?: number
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
@@ -611,6 +803,11 @@ export type WizardUncheckedCreateWithoutCursedObjectsInput = {
   updatedAt: Date | string
   bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
   lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type WizardCreateOrConnectWithoutCursedObjectsInput = {
@@ -635,6 +832,8 @@ export type WizardUpdateWithoutCursedObjectsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -643,6 +842,11 @@ export type WizardUpdateWithoutCursedObjectsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
   lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutCursedObjectsInput = {
@@ -651,6 +855,8 @@ export type WizardUncheckedUpdateWithoutCursedObjectsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -659,6 +865,11 @@ export type WizardUncheckedUpdateWithoutCursedObjectsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
   lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
 }
 
 export type WizardCreateWithoutBloodPactsInput = {
@@ -667,6 +878,8 @@ export type WizardCreateWithoutBloodPactsInput = {
   email: string
   avatarUrl?: string | null
   phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
   karmaScore?: number
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
@@ -675,6 +888,11 @@ export type WizardCreateWithoutBloodPactsInput = {
   updatedAt: Date | string
   cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
   lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
 }
 
 export type WizardUncheckedCreateWithoutBloodPactsInput = {
@@ -683,6 +901,8 @@ export type WizardUncheckedCreateWithoutBloodPactsInput = {
   email: string
   avatarUrl?: string | null
   phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
   karmaScore?: number
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
@@ -691,6 +911,11 @@ export type WizardUncheckedCreateWithoutBloodPactsInput = {
   updatedAt: Date | string
   cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
   lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type WizardCreateOrConnectWithoutBloodPactsInput = {
@@ -715,6 +940,8 @@ export type WizardUpdateWithoutBloodPactsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -723,6 +950,11 @@ export type WizardUpdateWithoutBloodPactsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
   lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutBloodPactsInput = {
@@ -731,6 +963,8 @@ export type WizardUncheckedUpdateWithoutBloodPactsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -739,6 +973,11 @@ export type WizardUncheckedUpdateWithoutBloodPactsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
   lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
 }
 
 export type WizardCreateWithoutLostRelicsInput = {
@@ -747,6 +986,8 @@ export type WizardCreateWithoutLostRelicsInput = {
   email: string
   avatarUrl?: string | null
   phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
   karmaScore?: number
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
@@ -755,6 +996,11 @@ export type WizardCreateWithoutLostRelicsInput = {
   updatedAt: Date | string
   cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
   bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
 }
 
 export type WizardUncheckedCreateWithoutLostRelicsInput = {
@@ -763,6 +1009,8 @@ export type WizardUncheckedCreateWithoutLostRelicsInput = {
   email: string
   avatarUrl?: string | null
   phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
   karmaScore?: number
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
@@ -771,6 +1019,11 @@ export type WizardUncheckedCreateWithoutLostRelicsInput = {
   updatedAt: Date | string
   cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
   bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
 }
 
 export type WizardCreateOrConnectWithoutLostRelicsInput = {
@@ -795,6 +1048,8 @@ export type WizardUpdateWithoutLostRelicsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -803,6 +1058,11 @@ export type WizardUpdateWithoutLostRelicsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
   bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutLostRelicsInput = {
@@ -811,6 +1071,8 @@ export type WizardUncheckedUpdateWithoutLostRelicsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -819,6 +1081,591 @@ export type WizardUncheckedUpdateWithoutLostRelicsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
   bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
+}
+
+export type WizardCreateWithoutChatRoomsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
+}
+
+export type WizardUncheckedCreateWithoutChatRoomsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
+}
+
+export type WizardCreateOrConnectWithoutChatRoomsInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutChatRoomsInput, Prisma.WizardUncheckedCreateWithoutChatRoomsInput>
+}
+
+export type WizardUpsertWithWhereUniqueWithoutChatRoomsInput = {
+  where: Prisma.WizardWhereUniqueInput
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutChatRoomsInput, Prisma.WizardUncheckedUpdateWithoutChatRoomsInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutChatRoomsInput, Prisma.WizardUncheckedCreateWithoutChatRoomsInput>
+}
+
+export type WizardUpdateWithWhereUniqueWithoutChatRoomsInput = {
+  where: Prisma.WizardWhereUniqueInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutChatRoomsInput, Prisma.WizardUncheckedUpdateWithoutChatRoomsInput>
+}
+
+export type WizardUpdateManyWithWhereWithoutChatRoomsInput = {
+  where: Prisma.WizardScalarWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateManyMutationInput, Prisma.WizardUncheckedUpdateManyWithoutChatRoomsInput>
+}
+
+export type WizardScalarWhereInput = {
+  AND?: Prisma.WizardScalarWhereInput | Prisma.WizardScalarWhereInput[]
+  OR?: Prisma.WizardScalarWhereInput[]
+  NOT?: Prisma.WizardScalarWhereInput | Prisma.WizardScalarWhereInput[]
+  id?: Prisma.StringFilter<"Wizard"> | string
+  fullName?: Prisma.StringFilter<"Wizard"> | string
+  email?: Prisma.StringFilter<"Wizard"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"Wizard"> | string | null
+  phoneNumber?: Prisma.StringNullableFilter<"Wizard"> | string | null
+  linkedinUrl?: Prisma.StringNullableFilter<"Wizard"> | string | null
+  instagramUrl?: Prisma.StringNullableFilter<"Wizard"> | string | null
+  karmaScore?: Prisma.IntFilter<"Wizard"> | number
+  karmaRank?: Prisma.EnumKarmaRankFilter<"Wizard"> | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFilter<"Wizard"> | $Enums.UserRole
+  isBanished?: Prisma.BoolFilter<"Wizard"> | boolean
+  createdAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
+}
+
+export type WizardCreateWithoutMessagesInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
+}
+
+export type WizardUncheckedCreateWithoutMessagesInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
+}
+
+export type WizardCreateOrConnectWithoutMessagesInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutMessagesInput, Prisma.WizardUncheckedCreateWithoutMessagesInput>
+}
+
+export type WizardUpsertWithoutMessagesInput = {
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutMessagesInput, Prisma.WizardUncheckedUpdateWithoutMessagesInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutMessagesInput, Prisma.WizardUncheckedCreateWithoutMessagesInput>
+  where?: Prisma.WizardWhereInput
+}
+
+export type WizardUpdateToOneWithWhereWithoutMessagesInput = {
+  where?: Prisma.WizardWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutMessagesInput, Prisma.WizardUncheckedUpdateWithoutMessagesInput>
+}
+
+export type WizardUpdateWithoutMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
+}
+
+export type WizardCreateWithoutNotificationsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
+}
+
+export type WizardUncheckedCreateWithoutNotificationsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
+}
+
+export type WizardCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutNotificationsInput, Prisma.WizardUncheckedCreateWithoutNotificationsInput>
+}
+
+export type WizardUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutNotificationsInput, Prisma.WizardUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutNotificationsInput, Prisma.WizardUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.WizardWhereInput
+}
+
+export type WizardUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.WizardWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutNotificationsInput, Prisma.WizardUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type WizardUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
+}
+
+export type WizardCreateWithoutPurchasesInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
+}
+
+export type WizardUncheckedCreateWithoutPurchasesInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
+}
+
+export type WizardCreateOrConnectWithoutPurchasesInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutPurchasesInput, Prisma.WizardUncheckedCreateWithoutPurchasesInput>
+}
+
+export type WizardCreateWithoutSalesInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+}
+
+export type WizardUncheckedCreateWithoutSalesInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+}
+
+export type WizardCreateOrConnectWithoutSalesInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutSalesInput, Prisma.WizardUncheckedCreateWithoutSalesInput>
+}
+
+export type WizardUpsertWithoutPurchasesInput = {
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutPurchasesInput, Prisma.WizardUncheckedUpdateWithoutPurchasesInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutPurchasesInput, Prisma.WizardUncheckedCreateWithoutPurchasesInput>
+  where?: Prisma.WizardWhereInput
+}
+
+export type WizardUpdateToOneWithWhereWithoutPurchasesInput = {
+  where?: Prisma.WizardWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutPurchasesInput, Prisma.WizardUncheckedUpdateWithoutPurchasesInput>
+}
+
+export type WizardUpdateWithoutPurchasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutPurchasesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
+}
+
+export type WizardUpsertWithoutSalesInput = {
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutSalesInput, Prisma.WizardUncheckedUpdateWithoutSalesInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutSalesInput, Prisma.WizardUncheckedCreateWithoutSalesInput>
+  where?: Prisma.WizardWhereInput
+}
+
+export type WizardUpdateToOneWithWhereWithoutSalesInput = {
+  where?: Prisma.WizardWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutSalesInput, Prisma.WizardUncheckedUpdateWithoutSalesInput>
+}
+
+export type WizardUpdateWithoutSalesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutSalesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+}
+
+export type WizardUpdateWithoutChatRoomsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutChatRoomsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
+}
+
+export type WizardUncheckedUpdateManyWithoutChatRoomsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -830,12 +1677,22 @@ export type WizardCountOutputType = {
   cursedObjects: number
   bloodPacts: number
   lostRelics: number
+  chatRooms: number
+  messages: number
+  notifications: number
+  purchases: number
+  sales: number
 }
 
 export type WizardCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cursedObjects?: boolean | WizardCountOutputTypeCountCursedObjectsArgs
   bloodPacts?: boolean | WizardCountOutputTypeCountBloodPactsArgs
   lostRelics?: boolean | WizardCountOutputTypeCountLostRelicsArgs
+  chatRooms?: boolean | WizardCountOutputTypeCountChatRoomsArgs
+  messages?: boolean | WizardCountOutputTypeCountMessagesArgs
+  notifications?: boolean | WizardCountOutputTypeCountNotificationsArgs
+  purchases?: boolean | WizardCountOutputTypeCountPurchasesArgs
+  sales?: boolean | WizardCountOutputTypeCountSalesArgs
 }
 
 /**
@@ -869,6 +1726,41 @@ export type WizardCountOutputTypeCountLostRelicsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.LostRelicWhereInput
 }
 
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountChatRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatRoomWhereInput
+}
+
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MessageWhereInput
+}
+
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountPurchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionWhereInput
+}
+
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountSalesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransactionWhereInput
+}
+
 
 export type WizardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -876,6 +1768,8 @@ export type WizardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   email?: boolean
   avatarUrl?: boolean
   phoneNumber?: boolean
+  linkedinUrl?: boolean
+  instagramUrl?: boolean
   karmaScore?: boolean
   karmaRank?: boolean
   role?: boolean
@@ -885,6 +1779,11 @@ export type WizardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   cursedObjects?: boolean | Prisma.Wizard$cursedObjectsArgs<ExtArgs>
   bloodPacts?: boolean | Prisma.Wizard$bloodPactsArgs<ExtArgs>
   lostRelics?: boolean | Prisma.Wizard$lostRelicsArgs<ExtArgs>
+  chatRooms?: boolean | Prisma.Wizard$chatRoomsArgs<ExtArgs>
+  messages?: boolean | Prisma.Wizard$messagesArgs<ExtArgs>
+  notifications?: boolean | Prisma.Wizard$notificationsArgs<ExtArgs>
+  purchases?: boolean | Prisma.Wizard$purchasesArgs<ExtArgs>
+  sales?: boolean | Prisma.Wizard$salesArgs<ExtArgs>
   _count?: boolean | Prisma.WizardCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["wizard"]>
 
@@ -894,6 +1793,8 @@ export type WizardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   email?: boolean
   avatarUrl?: boolean
   phoneNumber?: boolean
+  linkedinUrl?: boolean
+  instagramUrl?: boolean
   karmaScore?: boolean
   karmaRank?: boolean
   role?: boolean
@@ -908,6 +1809,8 @@ export type WizardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   email?: boolean
   avatarUrl?: boolean
   phoneNumber?: boolean
+  linkedinUrl?: boolean
+  instagramUrl?: boolean
   karmaScore?: boolean
   karmaRank?: boolean
   role?: boolean
@@ -922,6 +1825,8 @@ export type WizardSelectScalar = {
   email?: boolean
   avatarUrl?: boolean
   phoneNumber?: boolean
+  linkedinUrl?: boolean
+  instagramUrl?: boolean
   karmaScore?: boolean
   karmaRank?: boolean
   role?: boolean
@@ -930,11 +1835,16 @@ export type WizardSelectScalar = {
   updatedAt?: boolean
 }
 
-export type WizardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "avatarUrl" | "phoneNumber" | "karmaScore" | "karmaRank" | "role" | "isBanished" | "createdAt" | "updatedAt", ExtArgs["result"]["wizard"]>
+export type WizardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "avatarUrl" | "phoneNumber" | "linkedinUrl" | "instagramUrl" | "karmaScore" | "karmaRank" | "role" | "isBanished" | "createdAt" | "updatedAt", ExtArgs["result"]["wizard"]>
 export type WizardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cursedObjects?: boolean | Prisma.Wizard$cursedObjectsArgs<ExtArgs>
   bloodPacts?: boolean | Prisma.Wizard$bloodPactsArgs<ExtArgs>
   lostRelics?: boolean | Prisma.Wizard$lostRelicsArgs<ExtArgs>
+  chatRooms?: boolean | Prisma.Wizard$chatRoomsArgs<ExtArgs>
+  messages?: boolean | Prisma.Wizard$messagesArgs<ExtArgs>
+  notifications?: boolean | Prisma.Wizard$notificationsArgs<ExtArgs>
+  purchases?: boolean | Prisma.Wizard$purchasesArgs<ExtArgs>
+  sales?: boolean | Prisma.Wizard$salesArgs<ExtArgs>
   _count?: boolean | Prisma.WizardCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type WizardIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -946,6 +1856,11 @@ export type $WizardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     cursedObjects: Prisma.$CursedObjectPayload<ExtArgs>[]
     bloodPacts: Prisma.$BloodPactPayload<ExtArgs>[]
     lostRelics: Prisma.$LostRelicPayload<ExtArgs>[]
+    chatRooms: Prisma.$ChatRoomPayload<ExtArgs>[]
+    messages: Prisma.$MessagePayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    purchases: Prisma.$TransactionPayload<ExtArgs>[]
+    sales: Prisma.$TransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -953,6 +1868,8 @@ export type $WizardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     email: string
     avatarUrl: string | null
     phoneNumber: string | null
+    linkedinUrl: string | null
+    instagramUrl: string | null
     karmaScore: number
     karmaRank: $Enums.KarmaRank
     role: $Enums.UserRole
@@ -1356,6 +2273,11 @@ export interface Prisma__WizardClient<T, Null = never, ExtArgs extends runtime.T
   cursedObjects<T extends Prisma.Wizard$cursedObjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$cursedObjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CursedObjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bloodPacts<T extends Prisma.Wizard$bloodPactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$bloodPactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BloodPactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   lostRelics<T extends Prisma.Wizard$lostRelicsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$lostRelicsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LostRelicPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chatRooms<T extends Prisma.Wizard$chatRoomsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$chatRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  messages<T extends Prisma.Wizard$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.Wizard$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  purchases<T extends Prisma.Wizard$purchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sales<T extends Prisma.Wizard$salesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$salesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1390,6 +2312,8 @@ export interface WizardFieldRefs {
   readonly email: Prisma.FieldRef<"Wizard", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"Wizard", 'String'>
   readonly phoneNumber: Prisma.FieldRef<"Wizard", 'String'>
+  readonly linkedinUrl: Prisma.FieldRef<"Wizard", 'String'>
+  readonly instagramUrl: Prisma.FieldRef<"Wizard", 'String'>
   readonly karmaScore: Prisma.FieldRef<"Wizard", 'Int'>
   readonly karmaRank: Prisma.FieldRef<"Wizard", 'KarmaRank'>
   readonly role: Prisma.FieldRef<"Wizard", 'UserRole'>
@@ -1853,6 +2777,126 @@ export type Wizard$lostRelicsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.LostRelicScalarFieldEnum | Prisma.LostRelicScalarFieldEnum[]
+}
+
+/**
+ * Wizard.chatRooms
+ */
+export type Wizard$chatRoomsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ChatRoom
+   */
+  select?: Prisma.ChatRoomSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ChatRoom
+   */
+  omit?: Prisma.ChatRoomOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ChatRoomInclude<ExtArgs> | null
+  where?: Prisma.ChatRoomWhereInput
+  orderBy?: Prisma.ChatRoomOrderByWithRelationInput | Prisma.ChatRoomOrderByWithRelationInput[]
+  cursor?: Prisma.ChatRoomWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ChatRoomScalarFieldEnum | Prisma.ChatRoomScalarFieldEnum[]
+}
+
+/**
+ * Wizard.messages
+ */
+export type Wizard$messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Message
+   */
+  select?: Prisma.MessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Message
+   */
+  omit?: Prisma.MessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageInclude<ExtArgs> | null
+  where?: Prisma.MessageWhereInput
+  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
+  cursor?: Prisma.MessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
+}
+
+/**
+ * Wizard.notifications
+ */
+export type Wizard$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * Wizard.purchases
+ */
+export type Wizard$purchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transaction
+   */
+  select?: Prisma.TransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transaction
+   */
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransactionInclude<ExtArgs> | null
+  where?: Prisma.TransactionWhereInput
+  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
+}
+
+/**
+ * Wizard.sales
+ */
+export type Wizard$salesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Transaction
+   */
+  select?: Prisma.TransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Transaction
+   */
+  omit?: Prisma.TransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransactionInclude<ExtArgs> | null
+  where?: Prisma.TransactionWhereInput
+  orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[]
+  cursor?: Prisma.TransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[]
 }
 
 /**

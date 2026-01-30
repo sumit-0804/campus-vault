@@ -44,7 +44,7 @@ const items = {
     ],
     account: [
         { title: "Transactions", url: "/dashboard/transactions", icon: Receipt },
-        { title: "Inbox", url: "/dashboard/inbox", icon: MessageSquare },
+        { title: "Inbox", url: "/dashboard/messages", icon: MessageSquare },
         { title: "Notifications", url: "/dashboard/notifications", icon: Bell },
         { title: "Profile", url: "/dashboard/profile", icon: User },
         { title: "Karma", url: "/dashboard/karma", icon: Sparkles },

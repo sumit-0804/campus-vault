@@ -26,10 +26,19 @@ export default function ItemCard({ item }: ItemCardProps) {
                     {/* Status Overlay */}
                     {(isReserved || isSold) && (
                         <div className="absolute inset-0 z-20 bg-black/60 flex items-center justify-center backdrop-blur-sm">
-                            <span className={`text-2xl font-black uppercase tracking-widest -rotate-12 border-4 px-4 py-2 rounded-lg 
-                        ${isSold ? 'border-red-600 text-red-500' : 'border-amber-500 text-amber-500'}`}>
-                                {isSold ? 'Sold' : 'Reserved'}
-                            </span>
+                            {isSold ? (
+                                <span className="text-3xl font-black uppercase tracking-widest -rotate-12 border-8 border-red-600 text-red-600 p-4 rounded-xl">
+                                    Sold
+                                </span>
+                            ) : (
+                                <motion.div
+                                    initial={{ scale: 0.5, opacity: 0, rotate: -20 }}
+                                    animate={{ scale: 1, opacity: 1, rotate: -6 }}
+                                    className="bg-lime-400 text-black text-xl font-black uppercase tracking-wider px-6 py-2 shadow-lg shadow-lime-900/20 transform -rotate-6"
+                                >
+                                    Reserved
+                                </motion.div>
+                            )}
                         </div>
                     )}
 

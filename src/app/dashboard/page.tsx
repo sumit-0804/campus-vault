@@ -1,24 +1,91 @@
-"use client";
+export const dynamic = 'force-dynamic';
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { Plus, ShoppingBag, ScrollText, Search, Zap } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth";
+import db from "@/lib/db";
+import { redirect } from "next/navigation";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user) {
+        redirect("/");
+    }
+
+    const [activeListings, pendingOffers, foundItems, freshUser] = await Promise.all([
+        db.cursedObject.count({
+            where: {
+                sellerId: session.user.id,
+                status: "ACTIVE",
+            },
+        }),
+        db.bloodPact.count({
+            where: {
+                item: {
+                    sellerId: session.user.id,
+                },
+                status: "PENDING",
+            },
+        }),
+        db.lostRelic.count({
+            where: {
+                reporterId: session.user.id,
+                type: "FOUND", // Assuming 'FOUND' is the type for found items
+            },
+        }),
+        db.wizard.findUnique({
+            where: { email: session.user.email! },
+            select: { karmaScore: true, karmaRank: true },
+        }),
+    ]);
+
+    const karmaScore = freshUser?.karmaScore ?? 0;
+    const karmaRank = freshUser?.karmaRank ?? "MUGGLE";
+
+    // Progress Logic
+    const KARMA_THRESHOLDS = {
+        MUGGLE: 0,
+        WIZARD: 100,
+        AUROR: 500,
+        DARK_KNIGHT: 1000
+    };
+
+    let nextThreshold = KARMA_THRESHOLDS.WIZARD;
+    let prevThreshold = KARMA_THRESHOLDS.MUGGLE;
+
+    if (karmaScore >= KARMA_THRESHOLDS.DARK_KNIGHT) {
+        nextThreshold = KARMA_THRESHOLDS.DARK_KNIGHT * 2; // Arbitrary next goal for max rank
+        prevThreshold = KARMA_THRESHOLDS.DARK_KNIGHT;
+    } else if (karmaScore >= KARMA_THRESHOLDS.AUROR) {
+        nextThreshold = KARMA_THRESHOLDS.DARK_KNIGHT;
+        prevThreshold = KARMA_THRESHOLDS.AUROR;
+    } else if (karmaScore >= KARMA_THRESHOLDS.WIZARD) {
+        nextThreshold = KARMA_THRESHOLDS.AUROR;
+        prevThreshold = KARMA_THRESHOLDS.WIZARD;
+    }
+
+    const progressPercent = Math.min(100, Math.max(0, ((karmaScore - prevThreshold) / (nextThreshold - prevThreshold)) * 100));
+
     return (
         <div className="flex flex-col gap-8 p-4 pt-6 max-w-7xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header Section */}
             <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                        Welcome back, Sumit Goyal 👋
+                        Welcome back, {session.user.name?.split(" ")[0]} 👋
                     </h1>
                     <p className="text-zinc-400 mt-1">
                         Here's what's happening in your campus vault.
                     </p>
                 </div>
-                <Button className="bg-purple-600 hover:bg-purple-700 text-white shadow-[0_0_20px_rgba(147,51,234,0.3)] border-none">
-                    <Plus className="w-4 h-4 mr-2" /> Post New Item
-                </Button>
+                <Link href="/marketplace/create">
+                    <Button className="bg-purple-600 hover:bg-purple-700 text-white shadow-[0_0_20px_rgba(147,51,234,0.3)] border-none">
+                        <Plus className="w-4 h-4 mr-2" /> Post New Item
+                    </Button>
+                </Link>
             </section>
 
             {/* Karma Card */}
@@ -28,11 +95,11 @@ export default function Dashboard() {
                         <div className="flex items-center gap-3">
                             <span className="text-purple-200 font-medium">Karma Score</span>
                             <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold uppercase tracking-wider text-white">
-                                Newcomer
+                                {karmaRank}
                             </span>
                         </div>
                         <div className="text-6xl sm:text-7xl font-black text-white tracking-tighter">
-                            106
+                            {karmaScore}
                         </div>
                         <p className="text-purple-200 max-w-md text-sm sm:text-base leading-relaxed">
                             Earn more karma by verifying your student ID, returning found items, and completing fair trades.
@@ -44,10 +111,13 @@ export default function Dashboard() {
                             <span className="text-purple-200">Progress to Next Badge</span>
                         </div>
                         <div className="h-2 w-full bg-black/40 rounded-full overflow-hidden">
-                            <div className="h-full bg-white w-[35%] rounded-full shadow-[0_0_10px_white]" />
+                            <div
+                                className="h-full bg-white rounded-full shadow-[0_0_10px_white] transition-all duration-1000 ease-out"
+                                style={{ width: `${progressPercent}%` }}
+                            />
                         </div>
                         <div className="text-right text-xs text-purple-300 mt-2">
-                            300 pts goal
+                            {nextThreshold} pts goal
                         </div>
                     </div>
                 </div>
@@ -59,10 +129,10 @@ export default function Dashboard() {
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[
-                    { label: "Active Listings", value: "0", icon: ShoppingBag, color: "text-purple-400", bg: "bg-purple-500/10" },
-                    { label: "Pending Offers", value: "0", icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10" },
-                    { label: "Found Items", value: "0", icon: Search, color: "text-emerald-400", bg: "bg-emerald-500/10" },
-                    { label: "Total Karma", value: "106", icon: Zap, color: "text-red-400", bg: "bg-red-500/10" }
+                    { label: "Active Listings", value: activeListings, icon: ShoppingBag, color: "text-purple-400", bg: "bg-purple-500/10" },
+                    { label: "Pending Offers", value: pendingOffers, icon: ScrollText, color: "text-amber-400", bg: "bg-amber-500/10" },
+                    { label: "Found Items", value: foundItems, icon: Search, color: "text-emerald-400", bg: "bg-emerald-500/10" },
+                    { label: "Total Karma", value: karmaScore, icon: Zap, color: "text-red-400", bg: "bg-red-500/10" }
                 ].map((stat) => (
                     <div key={stat.label} className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5 hover:bg-zinc-900 transition-all hover:border-white/10 flex items-center justify-between group cursor-pointer">
                         <div className="space-y-1">
@@ -92,18 +162,18 @@ export default function Dashboard() {
                 <div className="space-y-4">
                     <h3 className="text-lg font-bold">Quick Actions</h3>
                     <div className="grid grid-cols-2 gap-3">
-                        <button className="p-4 rounded-xl bg-purple-900/10 border border-purple-500/20 hover:bg-purple-900/20 transition-colors flex flex-col items-center justify-center gap-3 text-purple-200 group">
+                        <Link href="/marketplace/create" className="p-4 rounded-xl bg-purple-900/10 border border-purple-500/20 hover:bg-purple-900/20 transition-colors flex flex-col items-center justify-center gap-3 text-purple-200 group">
                             <div className="p-3 rounded-full bg-purple-500/10 border border-purple-500/20 group-hover:scale-110 transition-transform">
                                 <ShoppingBag className="w-5 h-5" />
                             </div>
                             <span className="text-sm font-medium">Sell Item</span>
-                        </button>
-                        <button className="p-4 rounded-xl bg-red-900/10 border border-red-500/20 hover:bg-red-900/20 transition-colors flex flex-col items-center justify-center gap-3 text-red-200 group">
+                        </Link>
+                        <Link href="/dashboard/lost-found" className="p-4 rounded-xl bg-red-900/10 border border-red-500/20 hover:bg-red-900/20 transition-colors flex flex-col items-center justify-center gap-3 text-red-200 group">
                             <div className="p-3 rounded-full bg-red-500/10 border border-red-500/20 group-hover:scale-110 transition-transform">
                                 <Zap className="w-5 h-5" />
                             </div>
                             <span className="text-sm font-medium">Report</span>
-                        </button>
+                        </Link>
                     </div>
 
                     <div className="p-4 rounded-xl bg-amber-900/10 border border-amber-500/20 flex items-center gap-3">

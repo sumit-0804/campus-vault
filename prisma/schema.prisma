@@ -13,6 +13,8 @@ model Wizard {
   email         String         @unique
   avatarUrl     String?
   phoneNumber   String?
+  linkedinUrl   String?
+  instagramUrl  String?
   karmaScore    Int            @default(0)
   karmaRank     KarmaRank      @default(MUGGLE)
   role          UserRole       @default(USER)
@@ -22,6 +24,11 @@ model Wizard {
   cursedObjects CursedObject[]
   bloodPacts    BloodPact[]
   lostRelics    LostRelic[]
+  chatRooms     ChatRoom[]
+  messages      Message[]
+  notifications Notification[]
+  purchases     Transaction[]  @relation("BuyerTransactions")
+  sales         Transaction[]  @relation("SellerTransactions")
 }
 
 model CursedObject {
@@ -36,7 +43,9 @@ model CursedObject {
   status      ItemStatus @default(ACTIVE)
   category    String
 
-  offers BloodPact[]
+  offers       BloodPact[]
+  chatRooms    ChatRoom[]
+  transactions Transaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -60,17 +69,83 @@ model LostRelic {
   reporterId String
   reporter   Wizard @relation(fields: [reporterId], references: [id])
 
-  title        String
-  description  String
-  images       String[]
-  location     String?
-  type         RelicType
-  status       RelicStatus @default(OPEN)
-  secretRiddle String?
-  hiddenTruth  String?
+  title             String
+  description       String
+  images            String[]
+  location          String?
+  type              RelicType
+  status            RelicStatus @default(OPEN)
+  secretRiddle      String?
+  hiddenTruth       String?
+  claimerId         String?
+  claimerVerifiedAt DateTime?
+  droppedOffAt      DateTime?
+  deliveredAt       DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  chatRooms ChatRoom[]
+}
+
+model ChatRoom {
+  id            String        @id @default(cuid())
+  relicId       String?
+  relic         CursedObject? @relation(fields: [relicId], references: [id])
+  lostRelicId   String?
+  lostRelic     LostRelic?    @relation(fields: [lostRelicId], references: [id])
+  participants  Wizard[]
+  messages      Message[]
+  lastMessageAt DateTime      @default(now())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Message {
+  id         String      @id @default(cuid())
+  chatRoomId String
+  chatRoom   ChatRoom    @relation(fields: [chatRoomId], references: [id])
+  senderId   String
+  sender     Wizard      @relation(fields: [senderId], references: [id])
+  content    String
+  type       MessageType @default(TEXT)
+  isRead     Boolean     @default(false)
+  createdAt  DateTime    @default(now())
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String
+  user        Wizard           @relation(fields: [userId], references: [id])
+  type        NotificationType
+  referenceId String
+  isSeen      Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+}
+
+model Transaction {
+  id          String       @id @default(cuid())
+  buyerId     String
+  buyer       Wizard       @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  sellerId    String
+  seller      Wizard       @relation("SellerTransactions", fields: [sellerId], references: [id])
+  relicId     String
+  relic       CursedObject @relation(fields: [relicId], references: [id])
+  finalPrice  Float
+  completedAt DateTime     @default(now())
+}
+
+enum MessageType {
+  TEXT
+  OFFER
+  SYSTEM
+}
+
+enum NotificationType {
+  OFFER_RECEIVED
+  OFFER_ACCEPTED
+  MESSAGE_RECEIVED
+  KARMA_EARNED
 }
 
 enum KarmaRank {
@@ -108,5 +183,9 @@ enum RelicType {
 
 enum RelicStatus {
   OPEN
+  VERIFIED
+  PENDING_PICKUP
+  DROPPED_OFF
+  DELIVERED
   SOLVED
 }

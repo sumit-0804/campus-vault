@@ -13,13 +13,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChevronRight, ChevronLeft, Upload, Ghost } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { createCursedObject } from "@/app/actions/marketplace";
-import { CldUploadWidget, CldImage } from "next-cloudinary";
+import { createCursedObject } from "@/actions/marketplace";
+import { CldImage } from "next-cloudinary";
+import SummonImage from "@/components/ui/SummonImage";
 
 const formSchema = z.object({
     title: z.string().min(3, "The legend must be at least 3 characters."),
     description: z.string().min(10, "The lore must be descriptive (min 10 chars)."),
-    imageUrl: z.string().url("Must be a valid URL (for now)."),
+    imageUrl: z.url("Must be a valid URL (for now)."),
     price: z.coerce.number().min(0, "Price cannot be negative."),
     condition: z.string().min(1, "Condition is required."),
     category: z.string().min(1, "Category is required."),
@@ -166,27 +167,10 @@ export default function CreateItemWizard() {
                                                     <FormLabel className="text-zinc-300">Object Visual</FormLabel>
                                                     <FormControl>
                                                         <div className="space-y-4">
-                                                            <CldUploadWidget
-                                                                uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
-                                                                onSuccess={(result: any) => {
-                                                                    field.onChange(result.info.secure_url);
-                                                                }}
-                                                            >
-                                                                {({ open }) => {
-                                                                    return (
-                                                                        <div
-                                                                            onClick={() => open()}
-                                                                            className="border-2 border-dashed border-zinc-700 rounded-lg p-8 text-center hover:border-purple-500 hover:bg-zinc-900/50 transition-all cursor-pointer group"
-                                                                        >
-                                                                            <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-500/20 group-hover:text-purple-400 transition-colors">
-                                                                                <Upload className="w-6 h-6 text-zinc-400 group-hover:text-purple-500" />
-                                                                            </div>
-                                                                            <p className="text-zinc-300 font-medium mb-1">Upload Evidence</p>
-                                                                            <p className="text-zinc-500 text-sm">Click to upload image</p>
-                                                                        </div>
-                                                                    );
-                                                                }}
-                                                            </CldUploadWidget>
+                                                            <SummonImage
+                                                                label="Upload Evidence"
+                                                                onUploadComplete={(url) => field.onChange(url)}
+                                                            />
                                                             <Input type="hidden" {...field} />
                                                         </div>
                                                     </FormControl>
