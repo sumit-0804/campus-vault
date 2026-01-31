@@ -59,7 +59,8 @@ export const ModelName = {
   ChatRoom: 'ChatRoom',
   Message: 'Message',
   Notification: 'Notification',
-  Transaction: 'Transaction'
+  Transaction: 'Transaction',
+  Rating: 'Rating'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -90,6 +91,7 @@ export const WizardScalarFieldEnum = {
   karmaRank: 'karmaRank',
   role: 'role',
   isBanished: 'isBanished',
+  lastLoginDate: 'lastLoginDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -210,6 +212,19 @@ export const TransactionScalarFieldEnum = {
 } as const
 
 export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+export const RatingScalarFieldEnum = {
+  id: 'id',
+  transactionId: 'transactionId',
+  raterId: 'raterId',
+  sellerId: 'sellerId',
+  stars: 'stars',
+  comment: 'comment',
+  createdAt: 'createdAt'
+} as const
+
+export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
 
 
 export const SortOrder = {

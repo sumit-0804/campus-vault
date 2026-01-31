@@ -64,7 +64,7 @@ export async function createLostRelic(prevState: any, formData: FormData) {
     const { type, title, description, location, images, secretRiddle, hiddenTruth } = validatedFields.data;
 
     try {
-        await db.lostRelic.create({
+        const relic = await db.lostRelic.create({
             data: {
                 reporterId: session.user.id,
                 title,
@@ -77,6 +77,39 @@ export async function createLostRelic(prevState: any, formData: FormData) {
                 status: "OPEN",
             },
         });
+
+        // --- RELIC MATCHING LOGIC ---
+        // Find potential matches based on title fuzzy matching
+        const oppositeType = type === "LOST" ? "FOUND" : "LOST";
+        const potentialMatches = await db.lostRelic.findMany({
+            where: {
+                type: oppositeType,
+                status: "OPEN",
+                OR: [
+                    { title: { contains: title, mode: 'insensitive' } },
+                    { description: { contains: title, mode: 'insensitive' } },
+                    // Reverse check: new title contains old title? Harder to do in Prisma without raw query or iterating.
+                    // Simple "contains" is a good start.
+                ]
+            },
+            select: { reporterId: true }
+        });
+
+        if (potentialMatches.length > 0) {
+            const { createNotification } = await import("@/actions/notifications");
+            // Notify reporters of potential matches
+            // Use a Set to avoid duplicate notifications if multiple items match same reporter
+            const uniqueReporters = new Set(potentialMatches.map(m => m.reporterId));
+
+            await Promise.all(Array.from(uniqueReporters).map(reporterId =>
+                createNotification(
+                    reporterId,
+                    "RELIC_MATCH",
+                    relic.id // Link to the NEW item so they can check it out
+                )
+            ));
+        }
+        // -----------------------------
 
         revalidatePath("/dashboard/lost-found");
         return { success: true };
@@ -403,13 +436,23 @@ export async function markAsDelivered(relicId: string) {
             },
         });
 
+        // Award Karma to the Finder
+        // If type is LOST, Finder is the claimer.
+        // If type is FOUND, Finder is the reporter.
+        const finderId = relic.type === "LOST" ? relic.claimerId : relic.reporterId;
+
+        if (finderId) {
+            const { awardReturnKarma } = await import("@/actions/karma");
+            await awardReturnKarma(finderId);
+        }
+
         await pusherServer.trigger(`relic-${relicId}`, 'status-updated', { status: 'SOLVED' });
 
         revalidatePath("/dashboard/lost-found");
         revalidatePath(`/dashboard/lost-found/${relicId}`);
         revalidatePath(`/lost-found/${relicId}`);
 
-        return { success: true, message: "Delivery confirmed! Item marked as solved" };
+        return { success: true, message: "Delivery confirmed! Item marked as solved and Karma awarded to the finder." };
     } catch (error) {
         console.error("Error confirming delivery:", error);
         return { error: "Failed to update status" };

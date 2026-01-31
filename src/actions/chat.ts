@@ -47,6 +47,14 @@ export async function sendMessage(chatId: string, content: string) {
         // Trigger Pusher event
         await pusherServer.trigger(`private-chat-${chatId}`, 'new-message', message)
 
+        // Trigger Notification for other participants
+        const { createNotification } = await import("./notifications")
+        const otherParticipants = chat.participants.filter(p => p.id !== session.user.id)
+
+        await Promise.all(otherParticipants.map(participant =>
+            createNotification(participant.id, "MESSAGE_RECEIVED", chatId)
+        ))
+
         revalidatePath(`/dashboard/messages/${chatId}`)
         return { success: true, message }
     } catch (error) {

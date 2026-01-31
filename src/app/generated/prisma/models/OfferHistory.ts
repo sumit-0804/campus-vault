@@ -225,6 +225,7 @@ export type OfferHistoryWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"OfferHistory"> | Date | string
   actorId?: Prisma.StringFilter<"OfferHistory"> | string
   offer?: Prisma.XOR<Prisma.BloodPactScalarRelationFilter, Prisma.BloodPactWhereInput>
+  actor?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
 }
 
 export type OfferHistoryOrderByWithRelationInput = {
@@ -235,6 +236,7 @@ export type OfferHistoryOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   actorId?: Prisma.SortOrder
   offer?: Prisma.BloodPactOrderByWithRelationInput
+  actor?: Prisma.WizardOrderByWithRelationInput
 }
 
 export type OfferHistoryWhereUniqueInput = Prisma.AtLeast<{
@@ -248,6 +250,7 @@ export type OfferHistoryWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"OfferHistory"> | Date | string
   actorId?: Prisma.StringFilter<"OfferHistory"> | string
   offer?: Prisma.XOR<Prisma.BloodPactScalarRelationFilter, Prisma.BloodPactWhereInput>
+  actor?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
 }, "id">
 
 export type OfferHistoryOrderByWithAggregationInput = {
@@ -281,8 +284,8 @@ export type OfferHistoryCreateInput = {
   action: $Enums.OfferAction
   amount?: number | null
   createdAt?: Date | string
-  actorId: string
   offer: Prisma.BloodPactCreateNestedOneWithoutHistoryInput
+  actor: Prisma.WizardCreateNestedOneWithoutOfferActionsInput
 }
 
 export type OfferHistoryUncheckedCreateInput = {
@@ -299,8 +302,8 @@ export type OfferHistoryUpdateInput = {
   action?: Prisma.EnumOfferActionFieldUpdateOperationsInput | $Enums.OfferAction
   amount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  actorId?: Prisma.StringFieldUpdateOperationsInput | string
   offer?: Prisma.BloodPactUpdateOneRequiredWithoutHistoryNestedInput
+  actor?: Prisma.WizardUpdateOneRequiredWithoutOfferActionsNestedInput
 }
 
 export type OfferHistoryUncheckedUpdateInput = {
@@ -326,7 +329,6 @@ export type OfferHistoryUpdateManyMutationInput = {
   action?: Prisma.EnumOfferActionFieldUpdateOperationsInput | $Enums.OfferAction
   amount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  actorId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type OfferHistoryUncheckedUpdateManyInput = {
@@ -383,6 +385,48 @@ export type OfferHistorySumOrderByAggregateInput = {
   amount?: Prisma.SortOrder
 }
 
+export type OfferHistoryCreateNestedManyWithoutActorInput = {
+  create?: Prisma.XOR<Prisma.OfferHistoryCreateWithoutActorInput, Prisma.OfferHistoryUncheckedCreateWithoutActorInput> | Prisma.OfferHistoryCreateWithoutActorInput[] | Prisma.OfferHistoryUncheckedCreateWithoutActorInput[]
+  connectOrCreate?: Prisma.OfferHistoryCreateOrConnectWithoutActorInput | Prisma.OfferHistoryCreateOrConnectWithoutActorInput[]
+  createMany?: Prisma.OfferHistoryCreateManyActorInputEnvelope
+  connect?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+}
+
+export type OfferHistoryUncheckedCreateNestedManyWithoutActorInput = {
+  create?: Prisma.XOR<Prisma.OfferHistoryCreateWithoutActorInput, Prisma.OfferHistoryUncheckedCreateWithoutActorInput> | Prisma.OfferHistoryCreateWithoutActorInput[] | Prisma.OfferHistoryUncheckedCreateWithoutActorInput[]
+  connectOrCreate?: Prisma.OfferHistoryCreateOrConnectWithoutActorInput | Prisma.OfferHistoryCreateOrConnectWithoutActorInput[]
+  createMany?: Prisma.OfferHistoryCreateManyActorInputEnvelope
+  connect?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+}
+
+export type OfferHistoryUpdateManyWithoutActorNestedInput = {
+  create?: Prisma.XOR<Prisma.OfferHistoryCreateWithoutActorInput, Prisma.OfferHistoryUncheckedCreateWithoutActorInput> | Prisma.OfferHistoryCreateWithoutActorInput[] | Prisma.OfferHistoryUncheckedCreateWithoutActorInput[]
+  connectOrCreate?: Prisma.OfferHistoryCreateOrConnectWithoutActorInput | Prisma.OfferHistoryCreateOrConnectWithoutActorInput[]
+  upsert?: Prisma.OfferHistoryUpsertWithWhereUniqueWithoutActorInput | Prisma.OfferHistoryUpsertWithWhereUniqueWithoutActorInput[]
+  createMany?: Prisma.OfferHistoryCreateManyActorInputEnvelope
+  set?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+  disconnect?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+  delete?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+  connect?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+  update?: Prisma.OfferHistoryUpdateWithWhereUniqueWithoutActorInput | Prisma.OfferHistoryUpdateWithWhereUniqueWithoutActorInput[]
+  updateMany?: Prisma.OfferHistoryUpdateManyWithWhereWithoutActorInput | Prisma.OfferHistoryUpdateManyWithWhereWithoutActorInput[]
+  deleteMany?: Prisma.OfferHistoryScalarWhereInput | Prisma.OfferHistoryScalarWhereInput[]
+}
+
+export type OfferHistoryUncheckedUpdateManyWithoutActorNestedInput = {
+  create?: Prisma.XOR<Prisma.OfferHistoryCreateWithoutActorInput, Prisma.OfferHistoryUncheckedCreateWithoutActorInput> | Prisma.OfferHistoryCreateWithoutActorInput[] | Prisma.OfferHistoryUncheckedCreateWithoutActorInput[]
+  connectOrCreate?: Prisma.OfferHistoryCreateOrConnectWithoutActorInput | Prisma.OfferHistoryCreateOrConnectWithoutActorInput[]
+  upsert?: Prisma.OfferHistoryUpsertWithWhereUniqueWithoutActorInput | Prisma.OfferHistoryUpsertWithWhereUniqueWithoutActorInput[]
+  createMany?: Prisma.OfferHistoryCreateManyActorInputEnvelope
+  set?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+  disconnect?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+  delete?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+  connect?: Prisma.OfferHistoryWhereUniqueInput | Prisma.OfferHistoryWhereUniqueInput[]
+  update?: Prisma.OfferHistoryUpdateWithWhereUniqueWithoutActorInput | Prisma.OfferHistoryUpdateWithWhereUniqueWithoutActorInput[]
+  updateMany?: Prisma.OfferHistoryUpdateManyWithWhereWithoutActorInput | Prisma.OfferHistoryUpdateManyWithWhereWithoutActorInput[]
+  deleteMany?: Prisma.OfferHistoryScalarWhereInput | Prisma.OfferHistoryScalarWhereInput[]
+}
+
 export type OfferHistoryCreateNestedManyWithoutOfferInput = {
   create?: Prisma.XOR<Prisma.OfferHistoryCreateWithoutOfferInput, Prisma.OfferHistoryUncheckedCreateWithoutOfferInput> | Prisma.OfferHistoryCreateWithoutOfferInput[] | Prisma.OfferHistoryUncheckedCreateWithoutOfferInput[]
   connectOrCreate?: Prisma.OfferHistoryCreateOrConnectWithoutOfferInput | Prisma.OfferHistoryCreateOrConnectWithoutOfferInput[]
@@ -429,12 +473,66 @@ export type EnumOfferActionFieldUpdateOperationsInput = {
   set?: $Enums.OfferAction
 }
 
+export type OfferHistoryCreateWithoutActorInput = {
+  id?: string
+  action: $Enums.OfferAction
+  amount?: number | null
+  createdAt?: Date | string
+  offer: Prisma.BloodPactCreateNestedOneWithoutHistoryInput
+}
+
+export type OfferHistoryUncheckedCreateWithoutActorInput = {
+  id?: string
+  offerId: string
+  action: $Enums.OfferAction
+  amount?: number | null
+  createdAt?: Date | string
+}
+
+export type OfferHistoryCreateOrConnectWithoutActorInput = {
+  where: Prisma.OfferHistoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.OfferHistoryCreateWithoutActorInput, Prisma.OfferHistoryUncheckedCreateWithoutActorInput>
+}
+
+export type OfferHistoryCreateManyActorInputEnvelope = {
+  data: Prisma.OfferHistoryCreateManyActorInput | Prisma.OfferHistoryCreateManyActorInput[]
+  skipDuplicates?: boolean
+}
+
+export type OfferHistoryUpsertWithWhereUniqueWithoutActorInput = {
+  where: Prisma.OfferHistoryWhereUniqueInput
+  update: Prisma.XOR<Prisma.OfferHistoryUpdateWithoutActorInput, Prisma.OfferHistoryUncheckedUpdateWithoutActorInput>
+  create: Prisma.XOR<Prisma.OfferHistoryCreateWithoutActorInput, Prisma.OfferHistoryUncheckedCreateWithoutActorInput>
+}
+
+export type OfferHistoryUpdateWithWhereUniqueWithoutActorInput = {
+  where: Prisma.OfferHistoryWhereUniqueInput
+  data: Prisma.XOR<Prisma.OfferHistoryUpdateWithoutActorInput, Prisma.OfferHistoryUncheckedUpdateWithoutActorInput>
+}
+
+export type OfferHistoryUpdateManyWithWhereWithoutActorInput = {
+  where: Prisma.OfferHistoryScalarWhereInput
+  data: Prisma.XOR<Prisma.OfferHistoryUpdateManyMutationInput, Prisma.OfferHistoryUncheckedUpdateManyWithoutActorInput>
+}
+
+export type OfferHistoryScalarWhereInput = {
+  AND?: Prisma.OfferHistoryScalarWhereInput | Prisma.OfferHistoryScalarWhereInput[]
+  OR?: Prisma.OfferHistoryScalarWhereInput[]
+  NOT?: Prisma.OfferHistoryScalarWhereInput | Prisma.OfferHistoryScalarWhereInput[]
+  id?: Prisma.StringFilter<"OfferHistory"> | string
+  offerId?: Prisma.StringFilter<"OfferHistory"> | string
+  action?: Prisma.EnumOfferActionFilter<"OfferHistory"> | $Enums.OfferAction
+  amount?: Prisma.FloatNullableFilter<"OfferHistory"> | number | null
+  createdAt?: Prisma.DateTimeFilter<"OfferHistory"> | Date | string
+  actorId?: Prisma.StringFilter<"OfferHistory"> | string
+}
+
 export type OfferHistoryCreateWithoutOfferInput = {
   id?: string
   action: $Enums.OfferAction
   amount?: number | null
   createdAt?: Date | string
-  actorId: string
+  actor: Prisma.WizardCreateNestedOneWithoutOfferActionsInput
 }
 
 export type OfferHistoryUncheckedCreateWithoutOfferInput = {
@@ -471,16 +569,36 @@ export type OfferHistoryUpdateManyWithWhereWithoutOfferInput = {
   data: Prisma.XOR<Prisma.OfferHistoryUpdateManyMutationInput, Prisma.OfferHistoryUncheckedUpdateManyWithoutOfferInput>
 }
 
-export type OfferHistoryScalarWhereInput = {
-  AND?: Prisma.OfferHistoryScalarWhereInput | Prisma.OfferHistoryScalarWhereInput[]
-  OR?: Prisma.OfferHistoryScalarWhereInput[]
-  NOT?: Prisma.OfferHistoryScalarWhereInput | Prisma.OfferHistoryScalarWhereInput[]
-  id?: Prisma.StringFilter<"OfferHistory"> | string
-  offerId?: Prisma.StringFilter<"OfferHistory"> | string
-  action?: Prisma.EnumOfferActionFilter<"OfferHistory"> | $Enums.OfferAction
-  amount?: Prisma.FloatNullableFilter<"OfferHistory"> | number | null
-  createdAt?: Prisma.DateTimeFilter<"OfferHistory"> | Date | string
-  actorId?: Prisma.StringFilter<"OfferHistory"> | string
+export type OfferHistoryCreateManyActorInput = {
+  id?: string
+  offerId: string
+  action: $Enums.OfferAction
+  amount?: number | null
+  createdAt?: Date | string
+}
+
+export type OfferHistoryUpdateWithoutActorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  action?: Prisma.EnumOfferActionFieldUpdateOperationsInput | $Enums.OfferAction
+  amount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  offer?: Prisma.BloodPactUpdateOneRequiredWithoutHistoryNestedInput
+}
+
+export type OfferHistoryUncheckedUpdateWithoutActorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  offerId?: Prisma.StringFieldUpdateOperationsInput | string
+  action?: Prisma.EnumOfferActionFieldUpdateOperationsInput | $Enums.OfferAction
+  amount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type OfferHistoryUncheckedUpdateManyWithoutActorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  offerId?: Prisma.StringFieldUpdateOperationsInput | string
+  action?: Prisma.EnumOfferActionFieldUpdateOperationsInput | $Enums.OfferAction
+  amount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OfferHistoryCreateManyOfferInput = {
@@ -496,7 +614,7 @@ export type OfferHistoryUpdateWithoutOfferInput = {
   action?: Prisma.EnumOfferActionFieldUpdateOperationsInput | $Enums.OfferAction
   amount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  actorId?: Prisma.StringFieldUpdateOperationsInput | string
+  actor?: Prisma.WizardUpdateOneRequiredWithoutOfferActionsNestedInput
 }
 
 export type OfferHistoryUncheckedUpdateWithoutOfferInput = {
@@ -525,6 +643,7 @@ export type OfferHistorySelect<ExtArgs extends runtime.Types.Extensions.Internal
   createdAt?: boolean
   actorId?: boolean
   offer?: boolean | Prisma.BloodPactDefaultArgs<ExtArgs>
+  actor?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["offerHistory"]>
 
 export type OfferHistorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -535,6 +654,7 @@ export type OfferHistorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   createdAt?: boolean
   actorId?: boolean
   offer?: boolean | Prisma.BloodPactDefaultArgs<ExtArgs>
+  actor?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["offerHistory"]>
 
 export type OfferHistorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -545,6 +665,7 @@ export type OfferHistorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   createdAt?: boolean
   actorId?: boolean
   offer?: boolean | Prisma.BloodPactDefaultArgs<ExtArgs>
+  actor?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["offerHistory"]>
 
 export type OfferHistorySelectScalar = {
@@ -559,18 +680,22 @@ export type OfferHistorySelectScalar = {
 export type OfferHistoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "offerId" | "action" | "amount" | "createdAt" | "actorId", ExtArgs["result"]["offerHistory"]>
 export type OfferHistoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   offer?: boolean | Prisma.BloodPactDefaultArgs<ExtArgs>
+  actor?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
 }
 export type OfferHistoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   offer?: boolean | Prisma.BloodPactDefaultArgs<ExtArgs>
+  actor?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
 }
 export type OfferHistoryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   offer?: boolean | Prisma.BloodPactDefaultArgs<ExtArgs>
+  actor?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
 }
 
 export type $OfferHistoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "OfferHistory"
   objects: {
     offer: Prisma.$BloodPactPayload<ExtArgs>
+    actor: Prisma.$WizardPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -974,6 +1099,7 @@ readonly fields: OfferHistoryFieldRefs;
 export interface Prisma__OfferHistoryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   offer<T extends Prisma.BloodPactDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BloodPactDefaultArgs<ExtArgs>>): Prisma.Prisma__BloodPactClient<runtime.Types.Result.GetResult<Prisma.$BloodPactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  actor<T extends Prisma.WizardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WizardDefaultArgs<ExtArgs>>): Prisma.Prisma__WizardClient<runtime.Types.Result.GetResult<Prisma.$WizardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

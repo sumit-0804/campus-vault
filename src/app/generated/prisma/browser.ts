@@ -62,3 +62,8 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type Transaction = Prisma.TransactionModel
+/**
+ * Model Rating
+ * 
+ */
+export type Rating = Prisma.RatingModel

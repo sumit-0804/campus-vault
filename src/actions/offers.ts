@@ -100,6 +100,12 @@ export async function createOffer(chatId: string, amount: number, expiresInMinut
             session.user.id
         )
 
+        // Trigger Notification
+        if (chat.relic) {
+            const { createNotification } = await import("./notifications")
+            await createNotification(chat.relic.sellerId, "OFFER_RECEIVED", bloodPact.id)
+        }
+
         revalidatePath(`/dashboard/messages/${chatId}`)
         revalidatePath('/marketplace')
         return { success: true, offerId: bloodPact.id }
@@ -199,6 +205,11 @@ export async function createCounterOffer(offerId: string, amount: number, expire
                 session.user.id
             )
             revalidatePath(`/dashboard/messages/${chat.id}`)
+
+            // Trigger Notification
+            const { createNotification } = await import("./notifications")
+            const recipientId = isSeller ? offer.buyerId : offer.item.sellerId
+            await createNotification(recipientId, "OFFER_COUNTERED", offerId)
         }
 
         revalidatePath('/marketplace')
@@ -314,6 +325,10 @@ export async function respondToOffer(offerId: string, action: 'ACCEPT' | 'REJECT
                     session.user.id
                 )
                 revalidatePath(`/dashboard/messages/${chat.id}`)
+
+                // Trigger Notification
+                const { createNotification } = await import("./notifications")
+                await createNotification(offer.buyerId, "OFFER_ACCEPTED", offerId)
             }
         } else {
             // REJECT
@@ -363,6 +378,10 @@ export async function respondToOffer(offerId: string, action: 'ACCEPT' | 'REJECT
                     session.user.id
                 )
                 revalidatePath(`/dashboard/messages/${chat.id}`)
+
+                // Trigger Notification
+                const { createNotification } = await import("./notifications")
+                await createNotification(offer.buyerId, "OFFER_REJECTED", offerId)
             }
         }
 
@@ -462,6 +481,7 @@ export async function cancelOffer(offerId: string) {
 /**
  * Buyer confirms receipt of item
  * Item becomes SOLD, transaction is created
+ * Awards karma: Seller +10, Buyer +5
  */
 export async function confirmReceipt(offerId: string) {
     const session = await getServerSession(authOptions)
@@ -516,7 +536,18 @@ export async function confirmReceipt(offerId: string) {
             }
         })
 
-        // Notify
+        // Award karma to seller (+10) and buyer (+5)
+        const { awardSellKarma, awardBuyKarma } = await import("./karma")
+        await Promise.all([
+            awardSellKarma(offer.item.sellerId),
+            awardBuyKarma(offer.buyerId),
+        ])
+
+        // Create notification for seller about item sold
+        const { createNotification } = await import("./notifications")
+        await createNotification(offer.item.sellerId, "ITEM_SOLD", offer.itemId)
+
+        // Notify in chat
         const chat = await prisma.chatRoom.findFirst({
             where: {
                 relicId: offer.itemId,
@@ -536,6 +567,7 @@ export async function confirmReceipt(offerId: string) {
         revalidatePath('/marketplace')
         revalidatePath(`/marketplace/${offer.itemId}`)
         revalidatePath('/dashboard')
+        revalidatePath('/dashboard/transactions')
         return { success: true }
     } catch (error) {
         console.error("Error confirming receipt:", error)

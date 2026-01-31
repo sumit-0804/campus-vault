@@ -35,8 +35,13 @@ export type MessageType = (typeof MessageType)[keyof typeof MessageType]
 export const NotificationType = {
   OFFER_RECEIVED: 'OFFER_RECEIVED',
   OFFER_ACCEPTED: 'OFFER_ACCEPTED',
+  OFFER_REJECTED: 'OFFER_REJECTED',
+  OFFER_COUNTERED: 'OFFER_COUNTERED',
   MESSAGE_RECEIVED: 'MESSAGE_RECEIVED',
-  KARMA_EARNED: 'KARMA_EARNED'
+  ITEM_SOLD: 'ITEM_SOLD',
+  RATING_RECEIVED: 'RATING_RECEIVED',
+  KARMA_EARNED: 'KARMA_EARNED',
+  RELIC_MATCH: 'RELIC_MATCH'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

@@ -227,6 +227,7 @@ export type TransactionWhereInput = {
   buyer?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
   seller?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
   relic?: Prisma.XOR<Prisma.CursedObjectScalarRelationFilter, Prisma.CursedObjectWhereInput>
+  rating?: Prisma.XOR<Prisma.RatingNullableScalarRelationFilter, Prisma.RatingWhereInput> | null
 }
 
 export type TransactionOrderByWithRelationInput = {
@@ -239,6 +240,7 @@ export type TransactionOrderByWithRelationInput = {
   buyer?: Prisma.WizardOrderByWithRelationInput
   seller?: Prisma.WizardOrderByWithRelationInput
   relic?: Prisma.CursedObjectOrderByWithRelationInput
+  rating?: Prisma.RatingOrderByWithRelationInput
 }
 
 export type TransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -254,6 +256,7 @@ export type TransactionWhereUniqueInput = Prisma.AtLeast<{
   buyer?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
   seller?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
   relic?: Prisma.XOR<Prisma.CursedObjectScalarRelationFilter, Prisma.CursedObjectWhereInput>
+  rating?: Prisma.XOR<Prisma.RatingNullableScalarRelationFilter, Prisma.RatingWhereInput> | null
 }, "id">
 
 export type TransactionOrderByWithAggregationInput = {
@@ -289,6 +292,7 @@ export type TransactionCreateInput = {
   buyer: Prisma.WizardCreateNestedOneWithoutPurchasesInput
   seller: Prisma.WizardCreateNestedOneWithoutSalesInput
   relic: Prisma.CursedObjectCreateNestedOneWithoutTransactionsInput
+  rating?: Prisma.RatingCreateNestedOneWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateInput = {
@@ -298,6 +302,7 @@ export type TransactionUncheckedCreateInput = {
   relicId: string
   finalPrice: number
   completedAt?: Date | string
+  rating?: Prisma.RatingUncheckedCreateNestedOneWithoutTransactionInput
 }
 
 export type TransactionUpdateInput = {
@@ -307,6 +312,7 @@ export type TransactionUpdateInput = {
   buyer?: Prisma.WizardUpdateOneRequiredWithoutPurchasesNestedInput
   seller?: Prisma.WizardUpdateOneRequiredWithoutSalesNestedInput
   relic?: Prisma.CursedObjectUpdateOneRequiredWithoutTransactionsNestedInput
+  rating?: Prisma.RatingUpdateOneWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateInput = {
@@ -316,6 +322,7 @@ export type TransactionUncheckedUpdateInput = {
   relicId?: Prisma.StringFieldUpdateOperationsInput | string
   finalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rating?: Prisma.RatingUncheckedUpdateOneWithoutTransactionNestedInput
 }
 
 export type TransactionCreateManyInput = {
@@ -385,6 +392,11 @@ export type TransactionMinOrderByAggregateInput = {
 
 export type TransactionSumOrderByAggregateInput = {
   finalPrice?: Prisma.SortOrder
+}
+
+export type TransactionScalarRelationFilter = {
+  is?: Prisma.TransactionWhereInput
+  isNot?: Prisma.TransactionWhereInput
 }
 
 export type TransactionCreateNestedManyWithoutBuyerInput = {
@@ -513,12 +525,27 @@ export type TransactionUncheckedUpdateManyWithoutRelicNestedInput = {
   deleteMany?: Prisma.TransactionScalarWhereInput | Prisma.TransactionScalarWhereInput[]
 }
 
+export type TransactionCreateNestedOneWithoutRatingInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutRatingInput, Prisma.TransactionUncheckedCreateWithoutRatingInput>
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutRatingInput
+  connect?: Prisma.TransactionWhereUniqueInput
+}
+
+export type TransactionUpdateOneRequiredWithoutRatingNestedInput = {
+  create?: Prisma.XOR<Prisma.TransactionCreateWithoutRatingInput, Prisma.TransactionUncheckedCreateWithoutRatingInput>
+  connectOrCreate?: Prisma.TransactionCreateOrConnectWithoutRatingInput
+  upsert?: Prisma.TransactionUpsertWithoutRatingInput
+  connect?: Prisma.TransactionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TransactionUpdateToOneWithWhereWithoutRatingInput, Prisma.TransactionUpdateWithoutRatingInput>, Prisma.TransactionUncheckedUpdateWithoutRatingInput>
+}
+
 export type TransactionCreateWithoutBuyerInput = {
   id?: string
   finalPrice: number
   completedAt?: Date | string
   seller: Prisma.WizardCreateNestedOneWithoutSalesInput
   relic: Prisma.CursedObjectCreateNestedOneWithoutTransactionsInput
+  rating?: Prisma.RatingCreateNestedOneWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutBuyerInput = {
@@ -527,6 +554,7 @@ export type TransactionUncheckedCreateWithoutBuyerInput = {
   relicId: string
   finalPrice: number
   completedAt?: Date | string
+  rating?: Prisma.RatingUncheckedCreateNestedOneWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutBuyerInput = {
@@ -545,6 +573,7 @@ export type TransactionCreateWithoutSellerInput = {
   completedAt?: Date | string
   buyer: Prisma.WizardCreateNestedOneWithoutPurchasesInput
   relic: Prisma.CursedObjectCreateNestedOneWithoutTransactionsInput
+  rating?: Prisma.RatingCreateNestedOneWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutSellerInput = {
@@ -553,6 +582,7 @@ export type TransactionUncheckedCreateWithoutSellerInput = {
   relicId: string
   finalPrice: number
   completedAt?: Date | string
+  rating?: Prisma.RatingUncheckedCreateNestedOneWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutSellerInput = {
@@ -615,6 +645,7 @@ export type TransactionCreateWithoutRelicInput = {
   completedAt?: Date | string
   buyer: Prisma.WizardCreateNestedOneWithoutPurchasesInput
   seller: Prisma.WizardCreateNestedOneWithoutSalesInput
+  rating?: Prisma.RatingCreateNestedOneWithoutTransactionInput
 }
 
 export type TransactionUncheckedCreateWithoutRelicInput = {
@@ -623,6 +654,7 @@ export type TransactionUncheckedCreateWithoutRelicInput = {
   sellerId: string
   finalPrice: number
   completedAt?: Date | string
+  rating?: Prisma.RatingUncheckedCreateNestedOneWithoutTransactionInput
 }
 
 export type TransactionCreateOrConnectWithoutRelicInput = {
@@ -651,6 +683,58 @@ export type TransactionUpdateManyWithWhereWithoutRelicInput = {
   data: Prisma.XOR<Prisma.TransactionUpdateManyMutationInput, Prisma.TransactionUncheckedUpdateManyWithoutRelicInput>
 }
 
+export type TransactionCreateWithoutRatingInput = {
+  id?: string
+  finalPrice: number
+  completedAt?: Date | string
+  buyer: Prisma.WizardCreateNestedOneWithoutPurchasesInput
+  seller: Prisma.WizardCreateNestedOneWithoutSalesInput
+  relic: Prisma.CursedObjectCreateNestedOneWithoutTransactionsInput
+}
+
+export type TransactionUncheckedCreateWithoutRatingInput = {
+  id?: string
+  buyerId: string
+  sellerId: string
+  relicId: string
+  finalPrice: number
+  completedAt?: Date | string
+}
+
+export type TransactionCreateOrConnectWithoutRatingInput = {
+  where: Prisma.TransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutRatingInput, Prisma.TransactionUncheckedCreateWithoutRatingInput>
+}
+
+export type TransactionUpsertWithoutRatingInput = {
+  update: Prisma.XOR<Prisma.TransactionUpdateWithoutRatingInput, Prisma.TransactionUncheckedUpdateWithoutRatingInput>
+  create: Prisma.XOR<Prisma.TransactionCreateWithoutRatingInput, Prisma.TransactionUncheckedCreateWithoutRatingInput>
+  where?: Prisma.TransactionWhereInput
+}
+
+export type TransactionUpdateToOneWithWhereWithoutRatingInput = {
+  where?: Prisma.TransactionWhereInput
+  data: Prisma.XOR<Prisma.TransactionUpdateWithoutRatingInput, Prisma.TransactionUncheckedUpdateWithoutRatingInput>
+}
+
+export type TransactionUpdateWithoutRatingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  finalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  buyer?: Prisma.WizardUpdateOneRequiredWithoutPurchasesNestedInput
+  seller?: Prisma.WizardUpdateOneRequiredWithoutSalesNestedInput
+  relic?: Prisma.CursedObjectUpdateOneRequiredWithoutTransactionsNestedInput
+}
+
+export type TransactionUncheckedUpdateWithoutRatingInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerId?: Prisma.StringFieldUpdateOperationsInput | string
+  sellerId?: Prisma.StringFieldUpdateOperationsInput | string
+  relicId?: Prisma.StringFieldUpdateOperationsInput | string
+  finalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
+  completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type TransactionCreateManyBuyerInput = {
   id?: string
   sellerId: string
@@ -673,6 +757,7 @@ export type TransactionUpdateWithoutBuyerInput = {
   completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.WizardUpdateOneRequiredWithoutSalesNestedInput
   relic?: Prisma.CursedObjectUpdateOneRequiredWithoutTransactionsNestedInput
+  rating?: Prisma.RatingUpdateOneWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutBuyerInput = {
@@ -681,6 +766,7 @@ export type TransactionUncheckedUpdateWithoutBuyerInput = {
   relicId?: Prisma.StringFieldUpdateOperationsInput | string
   finalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rating?: Prisma.RatingUncheckedUpdateOneWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutBuyerInput = {
@@ -697,6 +783,7 @@ export type TransactionUpdateWithoutSellerInput = {
   completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buyer?: Prisma.WizardUpdateOneRequiredWithoutPurchasesNestedInput
   relic?: Prisma.CursedObjectUpdateOneRequiredWithoutTransactionsNestedInput
+  rating?: Prisma.RatingUpdateOneWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutSellerInput = {
@@ -705,6 +792,7 @@ export type TransactionUncheckedUpdateWithoutSellerInput = {
   relicId?: Prisma.StringFieldUpdateOperationsInput | string
   finalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rating?: Prisma.RatingUncheckedUpdateOneWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutSellerInput = {
@@ -729,6 +817,7 @@ export type TransactionUpdateWithoutRelicInput = {
   completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buyer?: Prisma.WizardUpdateOneRequiredWithoutPurchasesNestedInput
   seller?: Prisma.WizardUpdateOneRequiredWithoutSalesNestedInput
+  rating?: Prisma.RatingUpdateOneWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateWithoutRelicInput = {
@@ -737,6 +826,7 @@ export type TransactionUncheckedUpdateWithoutRelicInput = {
   sellerId?: Prisma.StringFieldUpdateOperationsInput | string
   finalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   completedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rating?: Prisma.RatingUncheckedUpdateOneWithoutTransactionNestedInput
 }
 
 export type TransactionUncheckedUpdateManyWithoutRelicInput = {
@@ -759,6 +849,7 @@ export type TransactionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   buyer?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
   relic?: boolean | Prisma.CursedObjectDefaultArgs<ExtArgs>
+  rating?: boolean | Prisma.Transaction$ratingArgs<ExtArgs>
 }, ExtArgs["result"]["transaction"]>
 
 export type TransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -799,6 +890,7 @@ export type TransactionInclude<ExtArgs extends runtime.Types.Extensions.Internal
   buyer?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
   seller?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
   relic?: boolean | Prisma.CursedObjectDefaultArgs<ExtArgs>
+  rating?: boolean | Prisma.Transaction$ratingArgs<ExtArgs>
 }
 export type TransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   buyer?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -817,6 +909,7 @@ export type $TransactionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     buyer: Prisma.$WizardPayload<ExtArgs>
     seller: Prisma.$WizardPayload<ExtArgs>
     relic: Prisma.$CursedObjectPayload<ExtArgs>
+    rating: Prisma.$RatingPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1222,6 +1315,7 @@ export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends runt
   buyer<T extends Prisma.WizardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WizardDefaultArgs<ExtArgs>>): Prisma.Prisma__WizardClient<runtime.Types.Result.GetResult<Prisma.$WizardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   seller<T extends Prisma.WizardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WizardDefaultArgs<ExtArgs>>): Prisma.Prisma__WizardClient<runtime.Types.Result.GetResult<Prisma.$WizardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   relic<T extends Prisma.CursedObjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CursedObjectDefaultArgs<ExtArgs>>): Prisma.Prisma__CursedObjectClient<runtime.Types.Result.GetResult<Prisma.$CursedObjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  rating<T extends Prisma.Transaction$ratingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Transaction$ratingArgs<ExtArgs>>): Prisma.Prisma__RatingClient<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1650,6 +1744,25 @@ export type TransactionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many Transactions to delete.
    */
   limit?: number
+}
+
+/**
+ * Transaction.rating
+ */
+export type Transaction$ratingArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Rating
+   */
+  select?: Prisma.RatingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Rating
+   */
+  omit?: Prisma.RatingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RatingInclude<ExtArgs> | null
+  where?: Prisma.RatingWhereInput
 }
 
 /**

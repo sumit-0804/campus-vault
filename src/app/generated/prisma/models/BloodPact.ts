@@ -565,10 +565,6 @@ export type EnumOfferStatusFieldUpdateOperationsInput = {
   set?: $Enums.OfferStatus
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type BloodPactCreateNestedOneWithoutHistoryInput = {
   create?: Prisma.XOR<Prisma.BloodPactCreateWithoutHistoryInput, Prisma.BloodPactUncheckedCreateWithoutHistoryInput>
   connectOrCreate?: Prisma.BloodPactCreateOrConnectWithoutHistoryInput

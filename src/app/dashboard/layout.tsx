@@ -4,6 +4,8 @@ import { DashboardHeader } from "@/components/layout/DashboardHeader"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav"
+import { DailyLoginManager } from "@/components/features/karma/DailyLoginManager"
+import { NotificationListener } from "@/components/features/notifications/NotificationListener"
 
 import { useSession } from "next-auth/react"
 import { usePathname, useRouter } from "next/navigation"
@@ -33,6 +35,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
             <SidebarInset>
                 <DashboardHeader />
+                <DailyLoginManager />
+                <NotificationListener />
                 <div className="flex flex-1 flex-col gap-4 p-4 pt-0 mb-16 md:mb-0">
                     {children}
                 </div>

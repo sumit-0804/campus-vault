@@ -8,27 +8,32 @@ datasource db {
 }
 
 model Wizard {
-  id            String         @id
-  fullName      String
-  email         String         @unique
-  avatarUrl     String?
-  phoneNumber   String?
-  linkedinUrl   String?
-  instagramUrl  String?
-  karmaScore    Int            @default(0)
-  karmaRank     KarmaRank      @default(MUGGLE)
-  role          UserRole       @default(USER)
-  isBanished    Boolean        @default(false)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime
-  cursedObjects CursedObject[]
-  bloodPacts    BloodPact[]
-  lostRelics    LostRelic[]
-  chatRooms     ChatRoom[]
-  messages      Message[]
-  notifications Notification[]
-  purchases     Transaction[]  @relation("BuyerTransactions")
-  sales         Transaction[]  @relation("SellerTransactions")
+  id              String         @id
+  fullName        String
+  email           String         @unique
+  avatarUrl       String?
+  phoneNumber     String?
+  linkedinUrl     String?
+  instagramUrl    String?
+  karmaScore      Int            @default(0)
+  karmaRank       KarmaRank      @default(MUGGLE)
+  role            UserRole       @default(USER)
+  isBanished      Boolean        @default(false)
+  lastLoginDate   DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime
+  cursedObjects   CursedObject[]
+  bloodPacts      BloodPact[]
+  lostRelics      LostRelic[]
+  claimedRelics   LostRelic[]    @relation("ClaimedRelics")
+  chatRooms       ChatRoom[]
+  messages        Message[]
+  notifications   Notification[]
+  purchases       Transaction[]  @relation("BuyerTransactions")
+  sales           Transaction[]  @relation("SellerTransactions")
+  ratingsGiven    Rating[]       @relation("RatingsGiven")
+  ratingsReceived Rating[]       @relation("RatingsReceived")
+  offerActions    OfferHistory[]
 }
 
 model CursedObject {
@@ -74,9 +79,10 @@ model OfferHistory {
   offer   BloodPact @relation(fields: [offerId], references: [id], onDelete: Cascade)
 
   action    OfferAction
-  amount    Float? // Amount at the time of action (for OFFER/COUNTER/REVIVE)
+  amount    Float?
   createdAt DateTime    @default(now())
   actorId   String
+  actor     Wizard      @relation(fields: [actorId], references: [id])
 }
 
 enum OfferAction {
@@ -103,6 +109,7 @@ model LostRelic {
   secretRiddle      String?
   hiddenTruth       String?
   claimerId         String?
+  claimer           Wizard?     @relation("ClaimedRelics", fields: [claimerId], references: [id])
   claimerVerifiedAt DateTime?
   droppedOffAt      DateTime?
   deliveredAt       DateTime?
@@ -158,6 +165,20 @@ model Transaction {
   relic       CursedObject @relation(fields: [relicId], references: [id])
   finalPrice  Float
   completedAt DateTime     @default(now())
+  rating      Rating?
+}
+
+model Rating {
+  id            String      @id @default(cuid())
+  transactionId String      @unique
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  raterId       String
+  rater         Wizard      @relation("RatingsGiven", fields: [raterId], references: [id])
+  sellerId      String
+  seller        Wizard      @relation("RatingsReceived", fields: [sellerId], references: [id])
+  stars         Int
+  comment       String?
+  createdAt     DateTime    @default(now())
 }
 
 enum MessageType {
@@ -170,8 +191,13 @@ enum MessageType {
 enum NotificationType {
   OFFER_RECEIVED
   OFFER_ACCEPTED
+  OFFER_REJECTED
+  OFFER_COUNTERED
   MESSAGE_RECEIVED
+  ITEM_SOLD
+  RATING_RECEIVED
   KARMA_EARNED
+  RELIC_MATCH
 }
 
 enum KarmaRank {
