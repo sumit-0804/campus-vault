@@ -1,6 +1,6 @@
 "use client"
 
-import Navbar from "@/components/ui/Navbar"
+import { LostFoundNavbar } from "@/components/lost-found/LostFoundNavbar"
 import { useSession } from "next-auth/react"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -20,9 +20,9 @@ export default function LostFoundLayout({ children }: { children: React.ReactNod
     }, [session, status, pathname, router])
 
     return (
-        <div className="min-h-screen bg-black text-white">
-            <Navbar />
-            <main className="relative z-10 pt-20 pb-20 md:pb-0 px-4">
+        <div className="min-h-screen flex flex-col bg-black text-white">
+            <LostFoundNavbar session={session || null} />
+            <main className="flex-1 px-4">
                 {children}
             </main>
         </div>

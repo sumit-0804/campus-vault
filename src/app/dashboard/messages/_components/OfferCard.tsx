@@ -4,104 +4,133 @@ import { Button } from "@/components/ui/button"
 import { formatDistanceToNow } from "date-fns"
 import { Check, X, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-type OfferStatus = "PENDING" | "COUNTER_OFFER_PENDING" | "ACCEPTED" | "REJECTED" | "EXPIRED" | "CANCELLED" | "AWAITING_COMPLETION" | "COMPLETED"
+import { BloodPact, Wizard } from "@/app/generated/prisma/client"
+import { respondToOffer, cancelOffer, confirmReceipt } from "@/actions/offers"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import CounterOfferModal from "./CounterOfferModal"
 
 type OfferCardProps = {
-    amount: number
-    counterAmount?: number | null
-    status: OfferStatus
-    expiresAt?: Date
-    isSender: boolean
+    offer: BloodPact & { buyer?: Wizard }
     isSeller: boolean
-    createdAt: Date
-    onAccept?: () => void
-    onReject?: () => void
-    onCancel?: () => void
-    onCounter?: () => void
-    isProcessing?: boolean
+    chatId: string
 }
 
-export default function OfferCard({
-    amount,
-    counterAmount,
-    status,
-    expiresAt,
-    isSender,
-    isSeller,
-    createdAt,
-    onAccept,
-    onReject,
-    onCancel,
-    onCounter,
-    isProcessing = false
-}: OfferCardProps) {
-    const isPending = status === "PENDING"
-    const isCounterPending = status === "COUNTER_OFFER_PENDING"
-    const isCancelled = status === "CANCELLED"
+export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
+    const [isProcessing, setIsProcessing] = useState(false)
+    const router = useRouter()
 
-    // Determine effective amount to show
-    const displayAmount = (isCounterPending || status === "ACCEPTED" || status === "COMPLETED") && counterAmount ? counterAmount : amount;
-    const hasCounterOffer = !!counterAmount;
+    const isPending = offer.status === "PENDING"
+    const isCounterPending = offer.status === "COUNTER_OFFER_PENDING"
+    const isAwaitingCompletion = offer.status === "AWAITING_COMPLETION"
+    const isCompleted = offer.status === "COMPLETED"
 
-    // Calculate time left if pending
-    const showExpiry = (isPending || isCounterPending) && expiresAt;
-    const isExpired = expiresAt && new Date() > expiresAt;
+    // Determine display amount
+    const displayAmount = (isCounterPending && offer.counterOfferAmount)
+        ? offer.counterOfferAmount
+        : offer.offerAmount
 
-    // Fallback if status isn't updated but time has passed
-    const effectiveStatus = isExpired && (isPending || isCounterPending) ? 'EXPIRED' : status;
+    const hasCounter = !!offer.counterOfferAmount
+
+    // Check if expired
+    const isExpired = offer.expiresAt && new Date() > offer.expiresAt
+    const showExpiry = (isPending || isCounterPending) && offer.expiresAt && !isExpired
+
+    const handleAccept = async () => {
+        setIsProcessing(true)
+        try {
+            await respondToOffer(offer.id, 'ACCEPT')
+            router.refresh()
+        } catch (error) {
+            console.error("Failed to accept offer", error)
+        } finally {
+            setIsProcessing(false)
+        }
+    }
+
+    const handleReject = async () => {
+        setIsProcessing(true)
+        try {
+            await respondToOffer(offer.id, 'REJECT')
+            router.refresh()
+        } catch (error) {
+            console.error("Failed to reject offer", error)
+        } finally {
+            setIsProcessing(false)
+        }
+    }
+
+    const handleCancel = async () => {
+        setIsProcessing(true)
+        try {
+            await cancelOffer(offer.id)
+            router.refresh()
+        } catch (error) {
+            console.error("Failed to cancel offer", error)
+        } finally {
+            setIsProcessing(false)
+        }
+    }
+
+    const handleConfirmReceipt = async () => {
+        setIsProcessing(true)
+        try {
+            await confirmReceipt(offer.id)
+            router.refresh()
+        } catch (error) {
+            console.error("Failed to confirm receipt", error)
+        } finally {
+            setIsProcessing(false)
+        }
+    }
 
     return (
-        <div className={cn(
-            "rounded-lg p-4 w-72 border", // Widened slightly
-            isSender ? "bg-red-900/20 border-red-500/50" : "bg-zinc-800/50 border-zinc-700",
-            effectiveStatus === "CANCELLED" && "opacity-60 grayscale border-zinc-700 bg-zinc-900/40",
-            effectiveStatus === "EXPIRED" && "opacity-60 grayscale border-zinc-700 bg-zinc-900/40"
-        )}>
-            <div className="flex justify-between items-start mb-2 gap-4">
-                <div>
+        <div className="border border-purple-500/30 rounded-xl p-4 bg-gradient-to-br from-purple-950/30 to-zinc-900/50 backdrop-blur-sm space-y-3 shadow-lg shadow-purple-900/10">
+            {/* Header */}
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <span className="text-2xl font-black text-purple-400">₹{displayAmount}</span>
+                    {hasCounter && (
+                        <span className="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30">
+                            Counter
+                        </span>
+                    )}
+                </div>
+                {/* Show buyer name for sellers */}
+                {isSeller && offer.buyer && (
+                    <span className="text-xs text-zinc-400">
+                        from <span className="text-purple-400 font-semibold">{offer.buyer.fullName}</span>
+                    </span>
+                )}
+            </div>
+
+            {/* Status */}
+            <div className="flex justify-between items-start gap-4">
+                <div className="flex-1">
                     <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider block mb-1">
                         {isCounterPending ? "Counter Offer" : "Offer"}
                     </span>
 
-                    {isCounterPending && counterAmount ? (
-                        <div className="flex items-baseline gap-2">
-                            <span className="text-sm line-through text-zinc-500">₹{amount.toLocaleString()}</span>
-                            <span className="text-2xl font-black text-white">₹{counterAmount.toLocaleString()}</span>
-                        </div>
-                    ) : (
-                        <div className="text-2xl font-black text-white">₹{amount.toLocaleString()}</div>
-                    )}
-
-                    {effectiveStatus !== "PENDING" && effectiveStatus !== "COUNTER_OFFER_PENDING" && (
-                        <div className="text-xs font-medium mt-1">
-                            <span className="bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded text-[10px] uppercase">
-                                Status: {effectiveStatus.replace('_', ' ')}
-                            </span>
-                        </div>
-                    )}
-
-                    {showExpiry && !isExpired && (
+                    {showExpiry && (
                         <div className="text-xs text-red-400 mt-1 font-medium flex items-center gap-1">
                             <Clock className="w-3 h-3" />
-                            Expires in {formatDistanceToNow(expiresAt)}
+                            Expires in {formatDistanceToNow(offer.expiresAt!)}
                         </div>
                     )}
                 </div>
-                <StatusBadge status={effectiveStatus} />
             </div>
 
-            <p className="text-xs text-zinc-500 mb-4">
-                Sent {formatDistanceToNow(new Date(createdAt), { addSuffix: true })}
+            <p className="text-xs text-zinc-500">
+                Sent {formatDistanceToNow(new Date(offer.createdAt), { addSuffix: true })}
             </p>
 
-            {/* Actions for Seller receiving an initial offer */}
-            {isSeller && !isSender && isPending && (
+            {/* Actions for Seller receiving buyer's offer */}
+            {isSeller && isPending && (
                 <div className="flex flex-col gap-2">
                     <div className="flex gap-2">
                         <Button
                             size="sm"
-                            onClick={onAccept}
+                            onClick={handleAccept}
                             disabled={isProcessing}
                             className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                         >
@@ -111,7 +140,7 @@ export default function OfferCard({
                         <Button
                             size="sm"
                             variant="destructive"
-                            onClick={onReject}
+                            onClick={handleReject}
                             disabled={isProcessing}
                             className="flex-1"
                         >
@@ -119,25 +148,17 @@ export default function OfferCard({
                             Reject
                         </Button>
                     </div>
-                    <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={onCounter}
-                        disabled={isProcessing}
-                        className="w-full bg-zinc-700 hover:bg-zinc-600 text-zinc-100"
-                    >
-                        Counter Offer
-                    </Button>
+                    <CounterOfferModal offerId={offer.id} currentAmount={displayAmount} />
                 </div>
             )}
 
-            {/* Actions for Buyer receiving a COUNTER offer */}
+            {/* Actions for Buyer receiving seller's counter */}
             {!isSeller && isCounterPending && (
                 <div className="flex flex-col gap-2">
                     <div className="flex gap-2">
                         <Button
                             size="sm"
-                            onClick={onAccept}
+                            onClick={handleAccept}
                             disabled={isProcessing}
                             className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                         >
@@ -147,7 +168,7 @@ export default function OfferCard({
                         <Button
                             size="sm"
                             variant="destructive"
-                            onClick={onReject}
+                            onClick={handleReject}
                             disabled={isProcessing}
                             className="flex-1"
                         >
@@ -155,24 +176,16 @@ export default function OfferCard({
                             Reject
                         </Button>
                     </div>
-                    <Button
-                        size="sm"
-                        variant="secondary"
-                        onClick={onCounter}
-                        disabled={isProcessing}
-                        className="w-full bg-zinc-700 hover:bg-zinc-600 text-zinc-100"
-                    >
-                        Counter Offer
-                    </Button>
+                    <CounterOfferModal offerId={offer.id} currentAmount={displayAmount} />
                 </div>
             )}
 
-            {/* Actions for Sender (Buyer or Seller with Counter) - Cancel/Withdraw */}
-            {isSender && ((!isSeller && isPending) || (isSeller && isCounterPending)) && (
+            {/* Cancel button for sender */}
+            {((isPending && !isSeller) || (isCounterPending && isSeller)) && (
                 <Button
                     size="sm"
                     variant="outline"
-                    onClick={onCancel}
+                    onClick={handleCancel}
                     disabled={isProcessing}
                     className="w-full border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-white"
                 >
@@ -181,30 +194,34 @@ export default function OfferCard({
                 </Button>
             )}
 
-            {isCancelled && (
-                <div className="flex items-center justify-center p-2 bg-zinc-900/50 rounded text-xs text-zinc-500 border border-dashed border-zinc-800">
-                    <span className="flex items-center">
-                        <X className="w-3 h-3 mr-1" /> Cancelled
-                    </span>
+            {/* Buyer confirms receipt */}
+            {!isSeller && isAwaitingCompletion && (
+                <Button
+                    size="sm"
+                    onClick={handleConfirmReceipt}
+                    disabled={isProcessing}
+                    className="w-full bg-green-600 hover:bg-green-700 text-white"
+                >
+                    <Check className="w-4 h-4 mr-1" />
+                    Confirm Receipt
+                </Button>
+            )}
+
+            {/* Seller waiting for buyer confirmation */}
+            {isSeller && isAwaitingCompletion && (
+                <div className="flex items-center justify-center p-2 bg-blue-900/30 rounded text-xs text-blue-400 border border-blue-500/30">
+                    <Clock className="w-3 h-3 mr-1" />
+                    Waiting for buyer confirmation...
+                </div>
+            )}
+
+            {/* Completed */}
+            {isCompleted && (
+                <div className="flex items-center justify-center p-2 bg-green-900/30 rounded text-xs text-green-400 border border-green-500/30">
+                    <Check className="w-3 h-3 mr-1" />
+                    Transaction Completed
                 </div>
             )}
         </div>
     )
-}
-
-function StatusBadge({ status }: { status: OfferStatus }) {
-    switch (status) {
-        case "PENDING":
-            return <div className="bg-yellow-500/20 text-yellow-500 p-1.5 rounded-full"><Clock className="w-4 h-4" /></div>
-        case "ACCEPTED":
-        case "AWAITING_COMPLETION":
-        case "COMPLETED":
-            return <div className="bg-green-500/20 text-green-500 p-1.5 rounded-full"><Check className="w-4 h-4" /></div>
-        case "REJECTED":
-        case "CANCELLED":
-        case "EXPIRED":
-            return <div className="bg-zinc-500/20 text-zinc-500 p-1.5 rounded-full"><X className="w-4 h-4" /></div>
-        default:
-            return null
-    }
 }

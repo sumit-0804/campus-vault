@@ -38,9 +38,13 @@ export function RelicCard({ relic, currentUserId }: RelicProps) {
     const isFound = relic.type === "FOUND";
     // const isOwner = currentUserId === relic.reporterId; // Need reporterId in props if we want this check
 
+    const linkHref = currentUserId
+        ? `/dashboard/lost-found/${relic.id}`
+        : `/lost-found/${relic.id}`;
+
     return (
         <>
-            <Link href={`/dashboard/lost-found/${relic.id}`} className="block">
+            <Link href={linkHref} className="block">
                 <Card className="overflow-hidden bg-stone-900 border-stone-800 hover:border-stone-700 transition-all duration-300 group cursor-pointer">
                     <div className="relative h-48 w-full bg-stone-950">
                         {relic.images.length > 0 ? (

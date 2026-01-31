@@ -21,11 +21,21 @@ export function MakeOfferButton({ sellerId, relicId, isAvailable, isOwnItem, has
     const handleMakeOffer = async () => {
         setLoading(true)
         try {
+            // Optimistic check (though getOrCreateChatRoom checks server-side too)
+            // But good to catch here to redirect to sign-in
+            // We can't access session easily without useSession hook or prop.
+            // Let's rely on the server action failing with "Unauthorized" and catch it?
+            // "Unauthorized" error usually thrown by my actions.
+
             const chatRoom = await getOrCreateChatRoom(sellerId, relicId)
             router.push(`/dashboard/messages/${chatRoom.id}`)
-        } catch (error) {
+        } catch (error: any) {
             console.error("Failed to create chat:", error)
-            alert("Failed to start chat. Please try again.")
+            if (error.message === "Unauthorized" || error.message.includes("Unauthorized")) {
+                router.push("/sign-in")
+            } else {
+                alert("Failed to start chat. Please try again.")
+            }
         } finally {
             setLoading(false)
         }
@@ -47,7 +57,7 @@ export function MakeOfferButton({ sellerId, relicId, isAvailable, isOwnItem, has
         <Button
             size="lg"
             className="flex-1 bg-white text-black hover:bg-zinc-200 font-bold text-lg h-14"
-            disabled={(!isAvailable && !hasExistingOffer) || loading}
+            disabled={!isAvailable || loading}
             onClick={handleMakeOffer}
         >
             <MessageSquare className="w-5 h-5 mr-2" />

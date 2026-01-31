@@ -2,14 +2,14 @@ import { MarketplaceItemDetailView } from "@/components/marketplace/MarketplaceI
 
 export const dynamic = 'force-dynamic';
 
-export default async function ItemPage(props: { params: Promise<{ id: string }> }) {
+export default async function DashboardItemPage(props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
 
     return (
         <MarketplaceItemDetailView
             itemId={params.id}
-            backRoute="/marketplace"
-            backLabel="Back to Marketplace"
+            backRoute="/dashboard/marketplace"
+            backLabel="Back to Dashboard"
         />
     );
 }

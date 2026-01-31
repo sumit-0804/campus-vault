@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, Search, Filter } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { BackButton } from "@/components/ui/BackButton";
 
 // Mock data until we have real data
 // We will try to fetch from DB first, if empty show empty state
@@ -32,6 +33,9 @@ export default async function MarketplacePage() {
 
     return (
         <div className="p-6 sm:p-8 w-full space-y-8">
+            <div className="mb-4">
+                <BackButton fallbackRoute="/browse">Back to Browse</BackButton>
+            </div>
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>

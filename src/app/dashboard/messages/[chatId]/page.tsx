@@ -4,11 +4,9 @@ import { authOptions } from "@/auth"
 import { redirect } from "next/navigation"
 import prisma from "@/lib/db"
 import ChatWindow from "../_components/ChatWindow"
-import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { BackButton } from "@/components/ui/BackButton"
-import { checkAndExpireOffers } from "@/actions/chat"
+import { checkAndExpireOffers } from "@/actions/offers"
 
 export default async function ChatPage({ params }: { params: Promise<{ chatId: string }> }) {
     const session = await getServerSession(authOptions)
@@ -17,15 +15,15 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
     const { chatId } = await params
 
     // Check for expired offers before loading chat
-    await checkAndExpireOffers(chatId);
+    await checkAndExpireOffers(chatId)
 
     const chat = await prisma.chatRoom.findUnique({
         where: { id: chatId },
         include: {
             participants: true,
-            relic: true, // Include relic details
+            relic: true,
             messages: {
-                take: 50, // Only load last 50 messages
+                take: 50,
                 orderBy: { createdAt: "desc" }
             }
         }
@@ -35,7 +33,7 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
         redirect("/dashboard/messages")
     }
 
-    // Reverse messages to show oldest first (since we fetched desc)
+    // Reverse messages to show oldest first
     const messages = chat.messages.reverse()
 
     // Verify user is a participant
@@ -44,12 +42,32 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
         redirect("/dashboard/messages")
     }
 
-    // Fetch offers (BloodPacts) if there's a relic
-    let offers: any[] = []
+    // Fetch active offer and all offers for this item
+    let activeOffer = null
+    let allOffers: any[] = []
+
     if (chat.relicId) {
-        offers = await prisma.bloodPact.findMany({
-            where: { itemId: chat.relicId }
+        const isSeller = chat.relic?.sellerId === session.user.id
+
+        // Fetch ALL offers for this item (to show expired ones in history)
+        allOffers = await prisma.bloodPact.findMany({
+            where: {
+                itemId: chat.relicId,
+                // Buyers only see their own offers, sellers see all offers
+                ...(isSeller ? {} : { buyerId: session.user.id })
+            },
+            include: {
+                buyer: true
+            },
+            orderBy: {
+                createdAt: 'asc'
+            }
         })
+
+        // Find the active offer
+        activeOffer = allOffers.find(offer =>
+            ['PENDING', 'COUNTER_OFFER_PENDING', 'AWAITING_COMPLETION'].includes(offer.status)
+        ) || null
     }
 
     const otherUser = chat.participants.find(p => p.id !== session.user.id)!
@@ -73,12 +91,12 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
             <div className="flex-1 min-h-0">
                 <ChatWindow
                     chatId={chatId}
-                    initialMessages={messages}
                     currentUserId={session.user.id!}
                     otherUser={otherUser}
-                    initialOffers={offers}
                     relicId={chat.relicId}
                     isSeller={chat.relic?.sellerId === session.user.id}
+                    initialMessages={messages}
+                    initialActiveOffer={activeOffer}
                 />
             </div>
         </div>

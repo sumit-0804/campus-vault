@@ -6,42 +6,52 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Handshake } from "lucide-react"
+import { createOffer } from "@/actions/offers"
+import { useRouter } from "next/navigation"
 
 type OfferModalProps = {
-    onSubmit: (amount: number, expiresInMinutes: number) => Promise<void>
-    isSubmitting: boolean
+    chatId: string
 }
 
-export default function OfferModal({ onSubmit, isSubmitting }: OfferModalProps) {
+export default function OfferModal({ chatId }: OfferModalProps) {
     const [amount, setAmount] = useState("")
     const [hours, setHours] = useState(24)
     const [minutes, setMinutes] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         const numAmount = parseFloat(amount)
         if (isNaN(numAmount) || numAmount <= 0) return
 
-        const totalMinutes = (hours * 60) + minutes;
+        const totalMinutes = (hours * 60) + minutes
         if (totalMinutes <= 0 || totalMinutes > 1440) {
-            alert("Expiry must be between 1 minute and 24 hours");
-            return;
+            alert("Expiry must be between 1 minute and 24 hours")
+            return
         }
 
-        await onSubmit(numAmount, totalMinutes)
-        setIsOpen(false)
-        setAmount("")
-        setHours(24)
-        setMinutes(0)
+        setIsSubmitting(true)
+        try {
+            await createOffer(chatId, numAmount, totalMinutes)
+            setIsOpen(false)
+            setAmount("")
+            setHours(24)
+            setMinutes(0)
+            router.refresh()
+        } catch (error) {
+            console.error("Failed to create offer", error)
+            alert("Failed to create offer. Please try again.")
+        } finally {
+            setIsSubmitting(false)
+        }
     }
 
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
-                <Button
-                    className="bg-red-600 hover:bg-red-700 text-white font-bold"
-                >
+                <Button className="bg-red-600 hover:bg-red-700 text-white font-bold">
                     <Handshake className="w-4 h-4 mr-2" />
                     Make an Offer
                 </Button>
@@ -77,11 +87,10 @@ export default function OfferModal({ onSubmit, isSubmitting }: OfferModalProps) 
                                     max="24"
                                     value={hours}
                                     onChange={(e) => {
-                                        let val = parseInt(e.target.value) || 0;
-                                        if (val > 24) val = 24;
-                                        setHours(val);
-                                        // Reset minutes if hours is 24
-                                        if (val === 24) setMinutes(0);
+                                        let val = parseInt(e.target.value) || 0
+                                        if (val > 24) val = 24
+                                        setHours(val)
+                                        if (val === 24) setMinutes(0)
                                     }}
                                     className="bg-zinc-800 border-zinc-700 text-white"
                                 />
@@ -95,11 +104,10 @@ export default function OfferModal({ onSubmit, isSubmitting }: OfferModalProps) 
                                     max="59"
                                     value={minutes}
                                     onChange={(e) => {
-                                        let val = parseInt(e.target.value) || 0;
-                                        if (val > 59) val = 59;
-                                        // If hours is 24, force minutes to 0
-                                        if (hours === 24) val = 0;
-                                        setMinutes(val);
+                                        let val = parseInt(e.target.value) || 0
+                                        if (val > 59) val = 59
+                                        if (hours === 24) val = 0
+                                        setMinutes(val)
                                     }}
                                     className="bg-zinc-800 border-zinc-700 text-white"
                                     disabled={hours === 24}

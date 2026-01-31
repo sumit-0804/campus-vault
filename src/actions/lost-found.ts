@@ -144,6 +144,37 @@ export async function getUserLostRelics() {
     }
 }
 
+export async function getUserClaims() {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+        return { success: false, error: "Unauthorized" };
+    }
+
+    try {
+        const claims = await db.lostRelic.findMany({
+            where: {
+                claimerId: session.user.id,
+            },
+            include: {
+                reporter: {
+                    select: {
+                        fullName: true,
+                        avatarUrl: true,
+                        karmaRank: true,
+                    },
+                },
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+        return { success: true, data: claims };
+    } catch (error) {
+        console.error("Error fetching user claims:", error);
+        return { success: false, error: "Failed to fetch your claims" };
+    }
+}
+
 export async function getRelicById(id: string) {
     try {
         const relic = await db.lostRelic.findUnique({

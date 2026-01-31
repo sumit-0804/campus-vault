@@ -68,9 +68,13 @@ export function RelicDetailActions({ relic, isReporter, isClaimer }: RelicDetail
 
             const chat = await getOrCreateChatRoom(otherUserId, relic.id);
             router.push(`/dashboard/messages/${chat.id}`);
-        } catch (error) {
-            toast.error("Failed to start conversation");
+        } catch (error: any) {
             console.error(error);
+            if (error.message === "Unauthorized" || error.message.includes("Unauthorized")) {
+                router.push("/sign-in");
+            } else {
+                toast.error("Failed to start conversation");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -337,6 +341,9 @@ export function RelicDetailActions({ relic, isReporter, isClaimer }: RelicDetail
                                 router.refresh();
                             } else {
                                 toast.error(result.error);
+                                if (result.error === "Unauthorized" || result.error?.includes("Unauthorized")) {
+                                    router.push("/sign-in");
+                                }
                             }
                         }}
                         disabled={isLoading}

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { formatDistanceToNow } from "date-fns";
 import { Clock, Inbox } from "lucide-react";
-import { ChatRoom, Wizard, BloodPact, Message } from "@/app/generated/prisma/client";
+import type { ChatRoom, Wizard, BloodPact, Message } from "@/app/generated/prisma/client";
 
 type OwnerOfferListProps = {
     itemId: string;
