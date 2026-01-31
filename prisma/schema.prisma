@@ -66,6 +66,7 @@ model BloodPact {
   counterOfferAmount Float?
   status             OfferStatus  @default(PENDING)
   expiresAt          DateTime?
+  deliveredAt        DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -226,6 +227,7 @@ enum OfferStatus {
   EXPIRED
   CANCELLED
   AWAITING_COMPLETION
+  DELIVERED
   COMPLETED
 }
 

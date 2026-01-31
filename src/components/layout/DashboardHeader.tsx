@@ -17,6 +17,7 @@ import {
 import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { NotificationBell } from "@/components/features/notifications/NotificationBell"
 
 export function DashboardHeader() {
     const { state, isMobile } = useSidebar()
@@ -63,6 +64,7 @@ export function DashboardHeader() {
             </span>
 
             <div className="ml-auto flex items-center gap-2">
+                <NotificationBell />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="relative h-8 w-8 rounded-full ring-2 ring-white/10 hover:ring-white/20 transition-all">

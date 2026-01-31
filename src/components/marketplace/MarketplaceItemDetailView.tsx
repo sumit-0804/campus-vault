@@ -48,7 +48,16 @@ export async function MarketplaceItemDetailView({
         });
     }
 
-    const isAvailable = item.status === ItemStatus.ACTIVE;
+
+    // Check for any accepted/completed offers which make the item unavailable
+    const acceptedOffer = await prisma.bloodPact.findFirst({
+        where: {
+            itemId: itemId,
+            status: { in: ['AWAITING_COMPLETION', 'DELIVERED', 'COMPLETED'] }
+        }
+    });
+
+    const isAvailable = item.status === ItemStatus.ACTIVE && !acceptedOffer;
     const isOwnItem = session?.user?.id === item.sellerId;
 
     return (

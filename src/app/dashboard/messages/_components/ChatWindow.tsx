@@ -20,6 +20,7 @@ type ChatWindowProps = {
     isSeller: boolean
     initialMessages: Message[]
     initialActiveOffer?: (BloodPact & { buyer?: Wizard }) | null
+    isItemAvailable: boolean
 }
 
 export default function ChatWindow({
@@ -29,7 +30,8 @@ export default function ChatWindow({
     relicId,
     isSeller,
     initialMessages,
-    initialActiveOffer
+    initialActiveOffer,
+    isItemAvailable
 }: ChatWindowProps) {
     const [messages, setMessages] = useState<Message[]>(initialMessages)
     const [activeOffer, setActiveOffer] = useState<(BloodPact & { buyer?: Wizard }) | null>(initialActiveOffer || null)
@@ -152,7 +154,7 @@ export default function ChatWindow({
                     </div>
 
                     {/* Show "Make Offer" button only for buyers when no active offer */}
-                    {relicId && !isSeller && !activeOffer && (
+                    {relicId && !isSeller && !activeOffer && isItemAvailable && (
                         <OfferModal chatId={chatId} />
                     )}
                 </div>
@@ -233,36 +235,42 @@ export default function ChatWindow({
             )}
 
             {/* Input Area */}
-            <div className="bg-zinc-900/80 backdrop-blur-xl p-4 pt-4 border-t-0">
-                <form onSubmit={sendMessage} className="flex gap-3 items-end">
-                    <div className="flex-1 relative">
-                        <textarea
-                            className="w-full bg-zinc-800/50 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 resize-none transition-all min-h-[52px] max-h-[120px]"
-                            placeholder="Type your message..."
-                            value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
-                                    e.preventDefault()
-                                    sendMessage(e)
-                                }
-                            }}
-                            rows={1}
-                            disabled={isSending}
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        disabled={!newMessage.trim() || isSending}
-                        className="bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 disabled:from-zinc-700 disabled:to-zinc-800 disabled:cursor-not-allowed text-white p-3.5 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-red-500/20 disabled:shadow-none flex items-center justify-center min-w-[52px]"
-                    >
-                        <Send className="w-5 h-5" />
-                    </button>
-                </form>
-                <p className="text-xs text-zinc-600 mt-2 text-center">
-                    Press <kbd className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-400">Enter</kbd> to send • <kbd className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-400">Shift + Enter</kbd> for new line
-                </p>
-            </div>
+            {activeOffer?.status === 'COMPLETED' ? (
+                <div className="bg-zinc-900/80 backdrop-blur-xl p-4 border-t border-zinc-800 text-center text-zinc-500">
+                    <p className="font-medium">This chat is closed as the item has been sold.</p>
+                </div>
+            ) : (
+                <div className="bg-zinc-900/80 backdrop-blur-xl p-4 pt-4 border-t-0">
+                    <form onSubmit={sendMessage} className="flex gap-3 items-end">
+                        <div className="flex-1 relative">
+                            <textarea
+                                className="w-full bg-zinc-800/50 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 resize-none transition-all min-h-[52px] max-h-[120px]"
+                                placeholder="Type your message..."
+                                value={newMessage}
+                                onChange={(e) => setNewMessage(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault()
+                                        sendMessage(e)
+                                    }
+                                }}
+                                rows={1}
+                                disabled={isSending}
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            disabled={!newMessage.trim() || isSending}
+                            className="bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 disabled:from-zinc-700 disabled:to-zinc-800 disabled:cursor-not-allowed text-white p-3.5 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-red-500/20 disabled:shadow-none flex items-center justify-center min-w-[52px]"
+                        >
+                            <Send className="w-5 h-5" />
+                        </button>
+                    </form>
+                    <p className="text-xs text-zinc-600 mt-2 text-center">
+                        Press <kbd className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-400">Enter</kbd> to send • <kbd className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-400">Shift + Enter</kbd> for new line
+                    </p>
+                </div>
+            )}
         </div >
     )
 }

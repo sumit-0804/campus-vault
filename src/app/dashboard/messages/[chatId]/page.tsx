@@ -45,16 +45,22 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
     // Fetch active offer and all offers for this item
     let activeOffer = null
     let allOffers: any[] = []
+    let isItemAvailable = false
+
+    // Identify the other user in this chat (buyer for seller, seller for buyer)
+    const otherUser = chat.participants.find(p => p.id !== session.user.id)!
 
     if (chat.relicId) {
         const isSeller = chat.relic?.sellerId === session.user.id
 
-        // Fetch ALL offers for this item (to show expired ones in history)
+        // IMPORTANT: In each chat, only fetch offers from the specific buyer in this conversation.
+        // This prevents the seller from seeing Buyer 1's offer when in Buyer 2's chat.
+        const buyerIdInThisChat = isSeller ? otherUser.id : session.user.id
+
         allOffers = await prisma.bloodPact.findMany({
             where: {
                 itemId: chat.relicId,
-                // Buyers only see their own offers, sellers see all offers
-                ...(isSeller ? {} : { buyerId: session.user.id })
+                buyerId: buyerIdInThisChat // Always filter by the buyer in this specific chat
             },
             include: {
                 buyer: true
@@ -64,13 +70,21 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
             }
         })
 
-        // Find the active offer
+        // Find the active offer from THIS buyer
         activeOffer = allOffers.find(offer =>
-            ['PENDING', 'COUNTER_OFFER_PENDING', 'AWAITING_COMPLETION'].includes(offer.status)
+            ['PENDING', 'COUNTER_OFFER_PENDING', 'AWAITING_COMPLETION', 'DELIVERED', 'COMPLETED'].includes(offer.status)
         ) || null
-    }
 
-    const otherUser = chat.participants.find(p => p.id !== session.user.id)!
+        // Check availability by looking at ALL offers for this item (not just this buyer's)
+        // Item is unavailable if ANY buyer has an accepted/delivered/completed offer
+        const anyAcceptedOffer = await prisma.bloodPact.findFirst({
+            where: {
+                itemId: chat.relicId,
+                status: { in: ['AWAITING_COMPLETION', 'DELIVERED', 'COMPLETED'] }
+            }
+        })
+        isItemAvailable = chat.relic?.status === 'ACTIVE' && !anyAcceptedOffer
+    }
 
     return (
         <div className="h-full flex flex-col bg-zinc-950">
@@ -97,6 +111,7 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
                     isSeller={chat.relic?.sellerId === session.user.id}
                     initialMessages={messages}
                     initialActiveOffer={activeOffer}
+                    isItemAvailable={isItemAvailable}
                 />
             </div>
         </div>

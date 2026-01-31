@@ -15,8 +15,8 @@ type OfferModalProps = {
 
 export default function OfferModal({ chatId }: OfferModalProps) {
     const [amount, setAmount] = useState("")
-    const [hours, setHours] = useState(24)
-    const [minutes, setMinutes] = useState(0)
+    const [hours, setHours] = useState(0)
+    const [minutes, setMinutes] = useState(1)
     const [isOpen, setIsOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const router = useRouter()
@@ -37,8 +37,8 @@ export default function OfferModal({ chatId }: OfferModalProps) {
             await createOffer(chatId, numAmount, totalMinutes)
             setIsOpen(false)
             setAmount("")
-            setHours(24)
-            setMinutes(0)
+            setHours(0)
+            setMinutes(1)
             router.refresh()
         } catch (error) {
             console.error("Failed to create offer", error)

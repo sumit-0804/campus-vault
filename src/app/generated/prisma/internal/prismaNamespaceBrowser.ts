@@ -124,6 +124,7 @@ export const BloodPactScalarFieldEnum = {
   counterOfferAmount: 'counterOfferAmount',
   status: 'status',
   expiresAt: 'expiresAt',
+  deliveredAt: 'deliveredAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -5,7 +5,7 @@ import { formatDistanceToNow } from "date-fns"
 import { Check, X, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { BloodPact, Wizard } from "@/app/generated/prisma/client"
-import { respondToOffer, cancelOffer, confirmReceipt } from "@/actions/offers"
+import { respondToOffer, cancelOffer, confirmDelivery, markAsDelivered, rejectDelivery } from "@/actions/offers"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import CounterOfferModal from "./CounterOfferModal"
@@ -23,6 +23,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
     const isPending = offer.status === "PENDING"
     const isCounterPending = offer.status === "COUNTER_OFFER_PENDING"
     const isAwaitingCompletion = offer.status === "AWAITING_COMPLETION"
+    const isDelivered = offer.status === "DELIVERED"
     const isCompleted = offer.status === "COMPLETED"
 
     // Determine display amount
@@ -72,13 +73,37 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
         }
     }
 
-    const handleConfirmReceipt = async () => {
+    const handleMarkAsDelivered = async () => {
         setIsProcessing(true)
         try {
-            await confirmReceipt(offer.id)
+            await markAsDelivered(offer.id)
             router.refresh()
         } catch (error) {
-            console.error("Failed to confirm receipt", error)
+            console.error("Failed to mark as delivered", error)
+        } finally {
+            setIsProcessing(false)
+        }
+    }
+
+    const handleConfirmDelivery = async () => {
+        setIsProcessing(true)
+        try {
+            await confirmDelivery(offer.id)
+            router.refresh()
+        } catch (error) {
+            console.error("Failed to confirm delivery", error)
+        } finally {
+            setIsProcessing(false)
+        }
+    }
+
+    const handleRejectDelivery = async () => {
+        setIsProcessing(true)
+        try {
+            await rejectDelivery(offer.id)
+            router.refresh()
+        } catch (error) {
+            console.error("Failed to reject delivery", error)
         } finally {
             setIsProcessing(false)
         }
@@ -194,24 +219,63 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                 </Button>
             )}
 
-            {/* Buyer confirms receipt */}
-            {!isSeller && isAwaitingCompletion && (
+            {/* Seller Marks as Delivered */}
+            {isSeller && isAwaitingCompletion && (
                 <Button
                     size="sm"
-                    onClick={handleConfirmReceipt}
+                    onClick={handleMarkAsDelivered}
                     disabled={isProcessing}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                 >
                     <Check className="w-4 h-4 mr-1" />
-                    Confirm Receipt
+                    Mark as Delivered
                 </Button>
             )}
 
-            {/* Seller waiting for buyer confirmation */}
-            {isSeller && isAwaitingCompletion && (
+            {/* Buyer Waiting for Delivery */}
+            {!isSeller && isAwaitingCompletion && (
                 <div className="flex items-center justify-center p-2 bg-blue-900/30 rounded text-xs text-blue-400 border border-blue-500/30">
                     <Clock className="w-3 h-3 mr-1" />
-                    Waiting for buyer confirmation...
+                    Waiting for seller to deliver...
+                </div>
+            )}
+
+            {/* Buyer Confirms/Rejects Delivery */}
+            {!isSeller && isDelivered && (
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-center p-2 bg-blue-900/30 rounded text-xs text-blue-400 border border-blue-500/30 mb-2">
+                        <Check className="w-3 h-3 mr-1" />
+                        Seller marked as delivered
+                    </div>
+                    <div className="flex gap-2">
+                        <Button
+                            size="sm"
+                            onClick={handleConfirmDelivery}
+                            disabled={isProcessing}
+                            className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                        >
+                            <Check className="w-4 h-4 mr-1" />
+                            Confirm Receipt
+                        </Button>
+                        <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={handleRejectDelivery}
+                            disabled={isProcessing}
+                            className="flex-1"
+                        >
+                            <X className="w-4 h-4 mr-1" />
+                            Not Received
+                        </Button>
+                    </div>
+                </div>
+            )}
+
+            {/* Seller Waiting for Confirmation */}
+            {isSeller && isDelivered && (
+                <div className="flex items-center justify-center p-2 bg-blue-900/30 rounded text-xs text-blue-400 border border-blue-500/30">
+                    <Clock className="w-3 h-3 mr-1" />
+                    Delivered. Waiting for buyer confirmation...
                 </div>
             )}
 

@@ -479,11 +479,9 @@ export async function cancelOffer(offerId: string) {
 }
 
 /**
- * Buyer confirms receipt of item
- * Item becomes SOLD, transaction is created
- * Awards karma: Seller +10, Buyer +5
+ * Seller marks the item as delivered
  */
-export async function confirmReceipt(offerId: string) {
+export async function markAsDelivered(offerId: string) {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) throw new Error("Unauthorized")
 
@@ -495,15 +493,83 @@ export async function confirmReceipt(offerId: string) {
 
         if (!offer) throw new Error("Offer not found")
 
-        // Only buyer can confirm
-        if (offer.buyerId !== session.user.id) {
-            throw new Error("Only the buyer can confirm receipt")
+        // Authorization: Only seller
+        if (offer.item.sellerId !== session.user.id) throw new Error("Only seller can mark as delivered")
+
+        // Must be in AWAITING_COMPLETION
+        if (offer.status !== 'AWAITING_COMPLETION') throw new Error("Offer is not in AWAITING_COMPLETION state")
+
+        // Update to DELIVERED
+        await prisma.bloodPact.update({
+            where: { id: offerId },
+            data: {
+                status: 'DELIVERED',
+                deliveredAt: new Date()
+            }
+        })
+
+        // Notify Buyer
+        const chat = await prisma.chatRoom.findFirst({
+            where: {
+                relicId: offer.itemId,
+                participants: { some: { id: offer.buyerId } }
+            }
+        })
+
+        if (chat) {
+            await createSystemMessage(
+                chat.id,
+                `Seller has marked the item as delivered. Please confirm receipt.`,
+                session.user.id
+            )
+            revalidatePath(`/dashboard/messages/${chat.id}`)
         }
 
-        // Must be in AWAITING_COMPLETION status
-        if (offer.status !== 'AWAITING_COMPLETION') {
-            throw new Error("Offer is not awaiting completion")
+        revalidatePath('/marketplace')
+        revalidatePath(`/marketplace/${offer.itemId}`)
+        return { success: true }
+    } catch (error) {
+        console.error("Error marking as delivered:", error)
+        throw error
+    }
+}
+
+/**
+ * Buyer confirms receipt of item
+ * Item becomes SOLD, transaction is created
+ * Awards karma: Seller +10, Buyer +5
+ */
+/**
+ * Buyer confirms delivery (Finalizing the transaction)
+ */
+export async function confirmDelivery(offerId: string) {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id) throw new Error("Unauthorized")
+
+    try {
+        const offer = await prisma.bloodPact.findUnique({
+            where: { id: offerId },
+            include: { item: true }
+        })
+
+        if (!offer) throw new Error("Offer not found")
+
+        // Authorization: Buyer only
+        if (offer.buyerId !== session.user.id) {
+            // Allow system (auto-confirm) to bypass this check if we pass a special flag, 
+            // but effectively the session check above handles user calls.
+            // For auto-confirm (cron/system), we might need a different entry point or 
+            // ensure session is mocked/bypassed carefully. 
+            // For now, assuming this is user-triggered.
+            throw new Error("Only the buyer can confirm delivery")
         }
+
+        // Must be in DELIVERED status (strict flow)
+        if (offer.status !== 'DELIVERED') {
+            throw new Error("Item must be marked delivered before confirming")
+        }
+
+        // --- Transaction Logic (Same as before) ---
 
         // Create transaction
         await prisma.transaction.create({
@@ -531,23 +597,23 @@ export async function confirmReceipt(offerId: string) {
         await prisma.offerHistory.create({
             data: {
                 offerId,
-                action: 'ACCEPTED', // Final acceptance
+                action: 'ACCEPTED', // Using ACCEPTED to represent completion in history for now, or could map to COMPLETED
                 actorId: session.user.id
             }
         })
 
-        // Award karma to seller (+10) and buyer (+5)
+        // Award karma
         const { awardSellKarma, awardBuyKarma } = await import("./karma")
         await Promise.all([
             awardSellKarma(offer.item.sellerId),
             awardBuyKarma(offer.buyerId),
         ])
 
-        // Create notification for seller about item sold
+        // Notifications
         const { createNotification } = await import("./notifications")
         await createNotification(offer.item.sellerId, "ITEM_SOLD", offer.itemId)
 
-        // Notify in chat
+        // Chat System Message
         const chat = await prisma.chatRoom.findFirst({
             where: {
                 relicId: offer.itemId,
@@ -566,14 +632,69 @@ export async function confirmReceipt(offerId: string) {
 
         revalidatePath('/marketplace')
         revalidatePath(`/marketplace/${offer.itemId}`)
-        revalidatePath('/dashboard')
-        revalidatePath('/dashboard/transactions')
         return { success: true }
     } catch (error) {
-        console.error("Error confirming receipt:", error)
+        console.error("Error confirming delivery:", error)
         throw error
     }
 }
+
+/**
+ * Buyer rejects delivery
+ */
+export async function rejectDelivery(offerId: string) {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id) throw new Error("Unauthorized")
+
+    try {
+        const offer = await prisma.bloodPact.findUnique({
+            where: { id: offerId },
+            include: { item: true }
+        })
+
+        if (!offer) throw new Error("Offer not found")
+
+        // Authorization: Buyer only
+        if (offer.buyerId !== session.user.id) throw new Error("Only buyer can reject delivery")
+
+        // Must be in DELIVERED status
+        if (offer.status !== 'DELIVERED') throw new Error("Item is not marked as delivered")
+
+        // Update back to AWAITING_COMPLETION and clear deliveredAt
+        await prisma.bloodPact.update({
+            where: { id: offerId },
+            data: {
+                status: 'AWAITING_COMPLETION',
+                deliveredAt: null // Reset timer
+            }
+        })
+
+        // Notify Seller
+        const chat = await prisma.chatRoom.findFirst({
+            where: {
+                relicId: offer.itemId,
+                participants: { some: { id: offer.buyerId } }
+            }
+        })
+
+        if (chat) {
+            await createSystemMessage(
+                chat.id,
+                `Buyer rejected delivery confirmation. Status reverted.`,
+                session.user.id
+            )
+            revalidatePath(`/dashboard/messages/${chat.id}`)
+        }
+
+        revalidatePath('/marketplace')
+        revalidatePath(`/marketplace/${offer.itemId}`)
+        return { success: true }
+    } catch (error) {
+        console.error("Error rejecting delivery:", error)
+        throw error
+    }
+}
+
 
 /**
  * Check and expire offers when chat is loaded
@@ -590,7 +711,7 @@ export async function checkAndExpireOffers(chatId: string) {
 
         if (!chat?.relicId) return
 
-        // Find expired offers
+        // 1. Expire PENDING offers
         const expiredOffers = await prisma.bloodPact.findMany({
             where: {
                 itemId: chat.relicId,
@@ -599,16 +720,11 @@ export async function checkAndExpireOffers(chatId: string) {
             }
         })
 
-        if (expiredOffers.length === 0) return
-
         for (const offer of expiredOffers) {
-            // Update to REJECTED
             await prisma.bloodPact.update({
                 where: { id: offer.id },
                 data: { status: 'REJECTED' }
             })
-
-            // Log history
             await prisma.offerHistory.create({
                 data: {
                     offerId: offer.id,
@@ -616,15 +732,68 @@ export async function checkAndExpireOffers(chatId: string) {
                     actorId: session.user.id
                 }
             })
-
-            // Create system message
             await createSystemMessage(
                 chatId,
                 `Offer for ₹${offer.counterOfferAmount || offer.offerAmount} has expired and was automatically rejected`,
                 session.user.id
             )
         }
+
+        // 2. Auto-complete DELIVERED offers > 48 hours
+        const autoDeliveredOffers = await prisma.bloodPact.findMany({
+            where: {
+                itemId: chat.relicId,
+                status: 'DELIVERED',
+                deliveredAt: {
+                    lt: new Date(Date.now() - 48 * 60 * 60 * 1000) // 48 hours ago
+                }
+            },
+            include: { item: true }
+        })
+
+        for (const offer of autoDeliveredOffers) {
+            // Re-use confirm logic but tailored for system action
+            // Verify not already completed to be safe
+            if (offer.status === 'COMPLETED') continue
+
+            // Perform completion logic manually to avoid auth checks in confirmDelivery
+
+            await prisma.transaction.create({
+                data: {
+                    buyerId: offer.buyerId,
+                    sellerId: offer.item.sellerId,
+                    relicId: offer.itemId,
+                    finalPrice: offer.counterOfferAmount || offer.offerAmount,
+                }
+            })
+
+            await prisma.bloodPact.update({
+                where: { id: offer.id },
+                data: { status: 'COMPLETED' }
+            })
+
+            await prisma.cursedObject.update({
+                where: { id: offer.itemId },
+                data: { status: 'SOLD' }
+            })
+
+            // Award karma 
+            const { awardSellKarma, awardBuyKarma } = await import("./karma")
+            await Promise.all([
+                awardSellKarma(offer.item.sellerId),
+                awardBuyKarma(offer.buyerId),
+            ])
+
+            // Notify
+            await createSystemMessage(
+                chatId,
+                `System: Delivery auto-confirmed after 48 hours. Transaction completed.`,
+                session.user.id // Attribution to current user triggering the check, usually fine
+            )
+        }
+
     } catch (error) {
-        console.error("Error checking expired offers:", error)
+        console.error("Error checking offers:", error)
     }
 }
+
