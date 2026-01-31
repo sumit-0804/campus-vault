@@ -8,12 +8,14 @@ import { Label } from "@/components/ui/label"
 import { Handshake } from "lucide-react"
 
 type OfferModalProps = {
-    onSubmit: (amount: number) => Promise<void>
+    onSubmit: (amount: number, expiresInMinutes: number) => Promise<void>
     isSubmitting: boolean
 }
 
 export default function OfferModal({ onSubmit, isSubmitting }: OfferModalProps) {
     const [amount, setAmount] = useState("")
+    const [hours, setHours] = useState(24)
+    const [minutes, setMinutes] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -21,9 +23,17 @@ export default function OfferModal({ onSubmit, isSubmitting }: OfferModalProps) 
         const numAmount = parseFloat(amount)
         if (isNaN(numAmount) || numAmount <= 0) return
 
-        await onSubmit(numAmount)
+        const totalMinutes = (hours * 60) + minutes;
+        if (totalMinutes <= 0 || totalMinutes > 1440) {
+            alert("Expiry must be between 1 minute and 24 hours");
+            return;
+        }
+
+        await onSubmit(numAmount, totalMinutes)
         setIsOpen(false)
         setAmount("")
+        setHours(24)
+        setMinutes(0)
     }
 
     return (
@@ -55,9 +65,54 @@ export default function OfferModal({ onSubmit, isSubmitting }: OfferModalProps) 
                             required
                         />
                     </div>
+                    <div className="space-y-2">
+                        <Label>Offer Expiry (Max 24h)</Label>
+                        <div className="flex gap-4">
+                            <div className="flex-1 space-y-1">
+                                <Label htmlFor="hours" className="text-xs text-zinc-500">Hours</Label>
+                                <Input
+                                    id="hours"
+                                    type="number"
+                                    min="0"
+                                    max="24"
+                                    value={hours}
+                                    onChange={(e) => {
+                                        let val = parseInt(e.target.value) || 0;
+                                        if (val > 24) val = 24;
+                                        setHours(val);
+                                        // Reset minutes if hours is 24
+                                        if (val === 24) setMinutes(0);
+                                    }}
+                                    className="bg-zinc-800 border-zinc-700 text-white"
+                                />
+                            </div>
+                            <div className="flex-1 space-y-1">
+                                <Label htmlFor="minutes" className="text-xs text-zinc-500">Minutes</Label>
+                                <Input
+                                    id="minutes"
+                                    type="number"
+                                    min="0"
+                                    max="59"
+                                    value={minutes}
+                                    onChange={(e) => {
+                                        let val = parseInt(e.target.value) || 0;
+                                        if (val > 59) val = 59;
+                                        // If hours is 24, force minutes to 0
+                                        if (hours === 24) val = 0;
+                                        setMinutes(val);
+                                    }}
+                                    className="bg-zinc-800 border-zinc-700 text-white"
+                                    disabled={hours === 24}
+                                />
+                            </div>
+                        </div>
+                        <div className="text-xs text-zinc-500">
+                            Total: {hours * 60 + minutes} minutes
+                        </div>
+                    </div>
                     <Button
                         type="submit"
-                        disabled={!amount || isSubmitting}
+                        disabled={!amount || isSubmitting || (hours === 0 && minutes === 0)}
                         className="w-full bg-red-600 hover:bg-red-700 text-white font-bold"
                     >
                         {isSubmitting ? "Sealing Pact..." : "Send Offer"}

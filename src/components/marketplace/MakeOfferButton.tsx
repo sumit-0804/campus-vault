@@ -11,9 +11,10 @@ type MakeOfferButtonProps = {
     relicId: string
     isAvailable: boolean
     isOwnItem: boolean
+    hasExistingOffer?: boolean
 }
 
-export function MakeOfferButton({ sellerId, relicId, isAvailable, isOwnItem }: MakeOfferButtonProps) {
+export function MakeOfferButton({ sellerId, relicId, isAvailable, isOwnItem, hasExistingOffer }: MakeOfferButtonProps) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
 
@@ -46,11 +47,11 @@ export function MakeOfferButton({ sellerId, relicId, isAvailable, isOwnItem }: M
         <Button
             size="lg"
             className="flex-1 bg-white text-black hover:bg-zinc-200 font-bold text-lg h-14"
-            disabled={!isAvailable || loading}
+            disabled={(!isAvailable && !hasExistingOffer) || loading}
             onClick={handleMakeOffer}
         >
             <MessageSquare className="w-5 h-5 mr-2" />
-            {loading ? "Opening Chat..." : "Make an Offer"}
+            {loading ? "Opening Chat..." : (hasExistingOffer ? "View Offer" : "Make an Offer")}
         </Button>
     )
 }

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ShoppingBag, Search, ChevronRight, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/ui/Navbar";
+import { BackButton } from "@/components/ui/BackButton";
 
 export default function BrowsePage() {
     return (
@@ -91,9 +92,9 @@ export default function BrowsePage() {
                         transition={{ delay: 0.5 }}
                         className="mt-12 text-center"
                     >
-                        <Link href="/" className="inline-flex items-center text-zinc-600 hover:text-white transition-colors text-sm font-medium">
+                        <BackButton fallbackRoute="/" className="text-zinc-600 hover:text-white text-sm font-medium">
                             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
-                        </Link>
+                        </BackButton>
                     </motion.div>
                 </div>
             </main>

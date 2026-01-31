@@ -28,10 +28,12 @@ export type AggregateBloodPact = {
 
 export type BloodPactAvgAggregateOutputType = {
   offerAmount: number | null
+  counterOfferAmount: number | null
 }
 
 export type BloodPactSumAggregateOutputType = {
   offerAmount: number | null
+  counterOfferAmount: number | null
 }
 
 export type BloodPactMinAggregateOutputType = {
@@ -39,7 +41,9 @@ export type BloodPactMinAggregateOutputType = {
   itemId: string | null
   buyerId: string | null
   offerAmount: number | null
+  counterOfferAmount: number | null
   status: $Enums.OfferStatus | null
+  expiresAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -49,7 +53,9 @@ export type BloodPactMaxAggregateOutputType = {
   itemId: string | null
   buyerId: string | null
   offerAmount: number | null
+  counterOfferAmount: number | null
   status: $Enums.OfferStatus | null
+  expiresAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -59,7 +65,9 @@ export type BloodPactCountAggregateOutputType = {
   itemId: number
   buyerId: number
   offerAmount: number
+  counterOfferAmount: number
   status: number
+  expiresAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -68,10 +76,12 @@ export type BloodPactCountAggregateOutputType = {
 
 export type BloodPactAvgAggregateInputType = {
   offerAmount?: true
+  counterOfferAmount?: true
 }
 
 export type BloodPactSumAggregateInputType = {
   offerAmount?: true
+  counterOfferAmount?: true
 }
 
 export type BloodPactMinAggregateInputType = {
@@ -79,7 +89,9 @@ export type BloodPactMinAggregateInputType = {
   itemId?: true
   buyerId?: true
   offerAmount?: true
+  counterOfferAmount?: true
   status?: true
+  expiresAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -89,7 +101,9 @@ export type BloodPactMaxAggregateInputType = {
   itemId?: true
   buyerId?: true
   offerAmount?: true
+  counterOfferAmount?: true
   status?: true
+  expiresAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -99,7 +113,9 @@ export type BloodPactCountAggregateInputType = {
   itemId?: true
   buyerId?: true
   offerAmount?: true
+  counterOfferAmount?: true
   status?: true
+  expiresAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -196,7 +212,9 @@ export type BloodPactGroupByOutputType = {
   itemId: string
   buyerId: string
   offerAmount: number
+  counterOfferAmount: number | null
   status: $Enums.OfferStatus
+  expiresAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: BloodPactCountAggregateOutputType | null
@@ -229,11 +247,14 @@ export type BloodPactWhereInput = {
   itemId?: Prisma.StringFilter<"BloodPact"> | string
   buyerId?: Prisma.StringFilter<"BloodPact"> | string
   offerAmount?: Prisma.FloatFilter<"BloodPact"> | number
+  counterOfferAmount?: Prisma.FloatNullableFilter<"BloodPact"> | number | null
   status?: Prisma.EnumOfferStatusFilter<"BloodPact"> | $Enums.OfferStatus
+  expiresAt?: Prisma.DateTimeNullableFilter<"BloodPact"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BloodPact"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BloodPact"> | Date | string
   item?: Prisma.XOR<Prisma.CursedObjectScalarRelationFilter, Prisma.CursedObjectWhereInput>
   buyer?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
+  history?: Prisma.OfferHistoryListRelationFilter
 }
 
 export type BloodPactOrderByWithRelationInput = {
@@ -241,11 +262,14 @@ export type BloodPactOrderByWithRelationInput = {
   itemId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   offerAmount?: Prisma.SortOrder
+  counterOfferAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   item?: Prisma.CursedObjectOrderByWithRelationInput
   buyer?: Prisma.WizardOrderByWithRelationInput
+  history?: Prisma.OfferHistoryOrderByRelationAggregateInput
 }
 
 export type BloodPactWhereUniqueInput = Prisma.AtLeast<{
@@ -256,11 +280,14 @@ export type BloodPactWhereUniqueInput = Prisma.AtLeast<{
   itemId?: Prisma.StringFilter<"BloodPact"> | string
   buyerId?: Prisma.StringFilter<"BloodPact"> | string
   offerAmount?: Prisma.FloatFilter<"BloodPact"> | number
+  counterOfferAmount?: Prisma.FloatNullableFilter<"BloodPact"> | number | null
   status?: Prisma.EnumOfferStatusFilter<"BloodPact"> | $Enums.OfferStatus
+  expiresAt?: Prisma.DateTimeNullableFilter<"BloodPact"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BloodPact"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BloodPact"> | Date | string
   item?: Prisma.XOR<Prisma.CursedObjectScalarRelationFilter, Prisma.CursedObjectWhereInput>
   buyer?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
+  history?: Prisma.OfferHistoryListRelationFilter
 }, "id">
 
 export type BloodPactOrderByWithAggregationInput = {
@@ -268,7 +295,9 @@ export type BloodPactOrderByWithAggregationInput = {
   itemId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   offerAmount?: Prisma.SortOrder
+  counterOfferAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BloodPactCountOrderByAggregateInput
@@ -286,7 +315,9 @@ export type BloodPactScalarWhereWithAggregatesInput = {
   itemId?: Prisma.StringWithAggregatesFilter<"BloodPact"> | string
   buyerId?: Prisma.StringWithAggregatesFilter<"BloodPact"> | string
   offerAmount?: Prisma.FloatWithAggregatesFilter<"BloodPact"> | number
+  counterOfferAmount?: Prisma.FloatNullableWithAggregatesFilter<"BloodPact"> | number | null
   status?: Prisma.EnumOfferStatusWithAggregatesFilter<"BloodPact"> | $Enums.OfferStatus
+  expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"BloodPact"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BloodPact"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BloodPact"> | Date | string
 }
@@ -294,11 +325,14 @@ export type BloodPactScalarWhereWithAggregatesInput = {
 export type BloodPactCreateInput = {
   id?: string
   offerAmount: number
+  counterOfferAmount?: number | null
   status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   item: Prisma.CursedObjectCreateNestedOneWithoutOffersInput
   buyer: Prisma.WizardCreateNestedOneWithoutBloodPactsInput
+  history?: Prisma.OfferHistoryCreateNestedManyWithoutOfferInput
 }
 
 export type BloodPactUncheckedCreateInput = {
@@ -306,19 +340,25 @@ export type BloodPactUncheckedCreateInput = {
   itemId: string
   buyerId: string
   offerAmount: number
+  counterOfferAmount?: number | null
   status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  history?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutOfferInput
 }
 
 export type BloodPactUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   item?: Prisma.CursedObjectUpdateOneRequiredWithoutOffersNestedInput
   buyer?: Prisma.WizardUpdateOneRequiredWithoutBloodPactsNestedInput
+  history?: Prisma.OfferHistoryUpdateManyWithoutOfferNestedInput
 }
 
 export type BloodPactUncheckedUpdateInput = {
@@ -326,9 +366,12 @@ export type BloodPactUncheckedUpdateInput = {
   itemId?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  history?: Prisma.OfferHistoryUncheckedUpdateManyWithoutOfferNestedInput
 }
 
 export type BloodPactCreateManyInput = {
@@ -336,7 +379,9 @@ export type BloodPactCreateManyInput = {
   itemId: string
   buyerId: string
   offerAmount: number
+  counterOfferAmount?: number | null
   status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -344,7 +389,9 @@ export type BloodPactCreateManyInput = {
 export type BloodPactUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -354,7 +401,9 @@ export type BloodPactUncheckedUpdateManyInput = {
   itemId?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -374,13 +423,16 @@ export type BloodPactCountOrderByAggregateInput = {
   itemId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   offerAmount?: Prisma.SortOrder
+  counterOfferAmount?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type BloodPactAvgOrderByAggregateInput = {
   offerAmount?: Prisma.SortOrder
+  counterOfferAmount?: Prisma.SortOrder
 }
 
 export type BloodPactMaxOrderByAggregateInput = {
@@ -388,7 +440,9 @@ export type BloodPactMaxOrderByAggregateInput = {
   itemId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   offerAmount?: Prisma.SortOrder
+  counterOfferAmount?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -398,13 +452,21 @@ export type BloodPactMinOrderByAggregateInput = {
   itemId?: Prisma.SortOrder
   buyerId?: Prisma.SortOrder
   offerAmount?: Prisma.SortOrder
+  counterOfferAmount?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type BloodPactSumOrderByAggregateInput = {
   offerAmount?: Prisma.SortOrder
+  counterOfferAmount?: Prisma.SortOrder
+}
+
+export type BloodPactScalarRelationFilter = {
+  is?: Prisma.BloodPactWhereInput
+  isNot?: Prisma.BloodPactWhereInput
 }
 
 export type BloodPactCreateNestedManyWithoutBuyerInput = {
@@ -491,26 +553,58 @@ export type BloodPactUncheckedUpdateManyWithoutItemNestedInput = {
   deleteMany?: Prisma.BloodPactScalarWhereInput | Prisma.BloodPactScalarWhereInput[]
 }
 
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type EnumOfferStatusFieldUpdateOperationsInput = {
   set?: $Enums.OfferStatus
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type BloodPactCreateNestedOneWithoutHistoryInput = {
+  create?: Prisma.XOR<Prisma.BloodPactCreateWithoutHistoryInput, Prisma.BloodPactUncheckedCreateWithoutHistoryInput>
+  connectOrCreate?: Prisma.BloodPactCreateOrConnectWithoutHistoryInput
+  connect?: Prisma.BloodPactWhereUniqueInput
+}
+
+export type BloodPactUpdateOneRequiredWithoutHistoryNestedInput = {
+  create?: Prisma.XOR<Prisma.BloodPactCreateWithoutHistoryInput, Prisma.BloodPactUncheckedCreateWithoutHistoryInput>
+  connectOrCreate?: Prisma.BloodPactCreateOrConnectWithoutHistoryInput
+  upsert?: Prisma.BloodPactUpsertWithoutHistoryInput
+  connect?: Prisma.BloodPactWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BloodPactUpdateToOneWithWhereWithoutHistoryInput, Prisma.BloodPactUpdateWithoutHistoryInput>, Prisma.BloodPactUncheckedUpdateWithoutHistoryInput>
 }
 
 export type BloodPactCreateWithoutBuyerInput = {
   id?: string
   offerAmount: number
+  counterOfferAmount?: number | null
   status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   item: Prisma.CursedObjectCreateNestedOneWithoutOffersInput
+  history?: Prisma.OfferHistoryCreateNestedManyWithoutOfferInput
 }
 
 export type BloodPactUncheckedCreateWithoutBuyerInput = {
   id?: string
   itemId: string
   offerAmount: number
+  counterOfferAmount?: number | null
   status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  history?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutOfferInput
 }
 
 export type BloodPactCreateOrConnectWithoutBuyerInput = {
@@ -547,7 +641,9 @@ export type BloodPactScalarWhereInput = {
   itemId?: Prisma.StringFilter<"BloodPact"> | string
   buyerId?: Prisma.StringFilter<"BloodPact"> | string
   offerAmount?: Prisma.FloatFilter<"BloodPact"> | number
+  counterOfferAmount?: Prisma.FloatNullableFilter<"BloodPact"> | number | null
   status?: Prisma.EnumOfferStatusFilter<"BloodPact"> | $Enums.OfferStatus
+  expiresAt?: Prisma.DateTimeNullableFilter<"BloodPact"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"BloodPact"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BloodPact"> | Date | string
 }
@@ -555,19 +651,25 @@ export type BloodPactScalarWhereInput = {
 export type BloodPactCreateWithoutItemInput = {
   id?: string
   offerAmount: number
+  counterOfferAmount?: number | null
   status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   buyer: Prisma.WizardCreateNestedOneWithoutBloodPactsInput
+  history?: Prisma.OfferHistoryCreateNestedManyWithoutOfferInput
 }
 
 export type BloodPactUncheckedCreateWithoutItemInput = {
   id?: string
   buyerId: string
   offerAmount: number
+  counterOfferAmount?: number | null
   status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  history?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutOfferInput
 }
 
 export type BloodPactCreateOrConnectWithoutItemInput = {
@@ -596,11 +698,77 @@ export type BloodPactUpdateManyWithWhereWithoutItemInput = {
   data: Prisma.XOR<Prisma.BloodPactUpdateManyMutationInput, Prisma.BloodPactUncheckedUpdateManyWithoutItemInput>
 }
 
+export type BloodPactCreateWithoutHistoryInput = {
+  id?: string
+  offerAmount: number
+  counterOfferAmount?: number | null
+  status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  item: Prisma.CursedObjectCreateNestedOneWithoutOffersInput
+  buyer: Prisma.WizardCreateNestedOneWithoutBloodPactsInput
+}
+
+export type BloodPactUncheckedCreateWithoutHistoryInput = {
+  id?: string
+  itemId: string
+  buyerId: string
+  offerAmount: number
+  counterOfferAmount?: number | null
+  status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type BloodPactCreateOrConnectWithoutHistoryInput = {
+  where: Prisma.BloodPactWhereUniqueInput
+  create: Prisma.XOR<Prisma.BloodPactCreateWithoutHistoryInput, Prisma.BloodPactUncheckedCreateWithoutHistoryInput>
+}
+
+export type BloodPactUpsertWithoutHistoryInput = {
+  update: Prisma.XOR<Prisma.BloodPactUpdateWithoutHistoryInput, Prisma.BloodPactUncheckedUpdateWithoutHistoryInput>
+  create: Prisma.XOR<Prisma.BloodPactCreateWithoutHistoryInput, Prisma.BloodPactUncheckedCreateWithoutHistoryInput>
+  where?: Prisma.BloodPactWhereInput
+}
+
+export type BloodPactUpdateToOneWithWhereWithoutHistoryInput = {
+  where?: Prisma.BloodPactWhereInput
+  data: Prisma.XOR<Prisma.BloodPactUpdateWithoutHistoryInput, Prisma.BloodPactUncheckedUpdateWithoutHistoryInput>
+}
+
+export type BloodPactUpdateWithoutHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  item?: Prisma.CursedObjectUpdateOneRequiredWithoutOffersNestedInput
+  buyer?: Prisma.WizardUpdateOneRequiredWithoutBloodPactsNestedInput
+}
+
+export type BloodPactUncheckedUpdateWithoutHistoryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  itemId?: Prisma.StringFieldUpdateOperationsInput | string
+  buyerId?: Prisma.StringFieldUpdateOperationsInput | string
+  offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type BloodPactCreateManyBuyerInput = {
   id?: string
   itemId: string
   offerAmount: number
+  counterOfferAmount?: number | null
   status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -608,26 +776,34 @@ export type BloodPactCreateManyBuyerInput = {
 export type BloodPactUpdateWithoutBuyerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   item?: Prisma.CursedObjectUpdateOneRequiredWithoutOffersNestedInput
+  history?: Prisma.OfferHistoryUpdateManyWithoutOfferNestedInput
 }
 
 export type BloodPactUncheckedUpdateWithoutBuyerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   itemId?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  history?: Prisma.OfferHistoryUncheckedUpdateManyWithoutOfferNestedInput
 }
 
 export type BloodPactUncheckedUpdateManyWithoutBuyerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   itemId?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -636,7 +812,9 @@ export type BloodPactCreateManyItemInput = {
   id?: string
   buyerId: string
   offerAmount: number
+  counterOfferAmount?: number | null
   status?: $Enums.OfferStatus
+  expiresAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -644,30 +822,67 @@ export type BloodPactCreateManyItemInput = {
 export type BloodPactUpdateWithoutItemInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buyer?: Prisma.WizardUpdateOneRequiredWithoutBloodPactsNestedInput
+  history?: Prisma.OfferHistoryUpdateManyWithoutOfferNestedInput
 }
 
 export type BloodPactUncheckedUpdateWithoutItemInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  history?: Prisma.OfferHistoryUncheckedUpdateManyWithoutOfferNestedInput
 }
 
 export type BloodPactUncheckedUpdateManyWithoutItemInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buyerId?: Prisma.StringFieldUpdateOperationsInput | string
   offerAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  counterOfferAmount?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumOfferStatusFieldUpdateOperationsInput | $Enums.OfferStatus
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type BloodPactCountOutputType
+ */
+
+export type BloodPactCountOutputType = {
+  history: number
+}
+
+export type BloodPactCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  history?: boolean | BloodPactCountOutputTypeCountHistoryArgs
+}
+
+/**
+ * BloodPactCountOutputType without action
+ */
+export type BloodPactCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BloodPactCountOutputType
+   */
+  select?: Prisma.BloodPactCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * BloodPactCountOutputType without action
+ */
+export type BloodPactCountOutputTypeCountHistoryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OfferHistoryWhereInput
+}
 
 
 export type BloodPactSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -675,11 +890,15 @@ export type BloodPactSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   itemId?: boolean
   buyerId?: boolean
   offerAmount?: boolean
+  counterOfferAmount?: boolean
   status?: boolean
+  expiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   item?: boolean | Prisma.CursedObjectDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
+  history?: boolean | Prisma.BloodPact$historyArgs<ExtArgs>
+  _count?: boolean | Prisma.BloodPactCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bloodPact"]>
 
 export type BloodPactSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -687,7 +906,9 @@ export type BloodPactSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   itemId?: boolean
   buyerId?: boolean
   offerAmount?: boolean
+  counterOfferAmount?: boolean
   status?: boolean
+  expiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   item?: boolean | Prisma.CursedObjectDefaultArgs<ExtArgs>
@@ -699,7 +920,9 @@ export type BloodPactSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   itemId?: boolean
   buyerId?: boolean
   offerAmount?: boolean
+  counterOfferAmount?: boolean
   status?: boolean
+  expiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   item?: boolean | Prisma.CursedObjectDefaultArgs<ExtArgs>
@@ -711,15 +934,19 @@ export type BloodPactSelectScalar = {
   itemId?: boolean
   buyerId?: boolean
   offerAmount?: boolean
+  counterOfferAmount?: boolean
   status?: boolean
+  expiresAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BloodPactOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "itemId" | "buyerId" | "offerAmount" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["bloodPact"]>
+export type BloodPactOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "itemId" | "buyerId" | "offerAmount" | "counterOfferAmount" | "status" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["bloodPact"]>
 export type BloodPactInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   item?: boolean | Prisma.CursedObjectDefaultArgs<ExtArgs>
   buyer?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
+  history?: boolean | Prisma.BloodPact$historyArgs<ExtArgs>
+  _count?: boolean | Prisma.BloodPactCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BloodPactIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   item?: boolean | Prisma.CursedObjectDefaultArgs<ExtArgs>
@@ -735,13 +962,16 @@ export type $BloodPactPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     item: Prisma.$CursedObjectPayload<ExtArgs>
     buyer: Prisma.$WizardPayload<ExtArgs>
+    history: Prisma.$OfferHistoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     itemId: string
     buyerId: string
     offerAmount: number
+    counterOfferAmount: number | null
     status: $Enums.OfferStatus
+    expiresAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["bloodPact"]>
@@ -1140,6 +1370,7 @@ export interface Prisma__BloodPactClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   item<T extends Prisma.CursedObjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CursedObjectDefaultArgs<ExtArgs>>): Prisma.Prisma__CursedObjectClient<runtime.Types.Result.GetResult<Prisma.$CursedObjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   buyer<T extends Prisma.WizardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.WizardDefaultArgs<ExtArgs>>): Prisma.Prisma__WizardClient<runtime.Types.Result.GetResult<Prisma.$WizardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  history<T extends Prisma.BloodPact$historyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BloodPact$historyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OfferHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1173,7 +1404,9 @@ export interface BloodPactFieldRefs {
   readonly itemId: Prisma.FieldRef<"BloodPact", 'String'>
   readonly buyerId: Prisma.FieldRef<"BloodPact", 'String'>
   readonly offerAmount: Prisma.FieldRef<"BloodPact", 'Float'>
+  readonly counterOfferAmount: Prisma.FieldRef<"BloodPact", 'Float'>
   readonly status: Prisma.FieldRef<"BloodPact", 'OfferStatus'>
+  readonly expiresAt: Prisma.FieldRef<"BloodPact", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"BloodPact", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"BloodPact", 'DateTime'>
 }
@@ -1569,6 +1802,30 @@ export type BloodPactDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many BloodPacts to delete.
    */
   limit?: number
+}
+
+/**
+ * BloodPact.history
+ */
+export type BloodPact$historyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OfferHistory
+   */
+  select?: Prisma.OfferHistorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OfferHistory
+   */
+  omit?: Prisma.OfferHistoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OfferHistoryInclude<ExtArgs> | null
+  where?: Prisma.OfferHistoryWhereInput
+  orderBy?: Prisma.OfferHistoryOrderByWithRelationInput | Prisma.OfferHistoryOrderByWithRelationInput[]
+  cursor?: Prisma.OfferHistoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OfferHistoryScalarFieldEnum | Prisma.OfferHistoryScalarFieldEnum[]
 }
 
 /**

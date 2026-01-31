@@ -20,7 +20,7 @@ import SummonImage from "@/components/ui/SummonImage";
 const formSchema = z.object({
     title: z.string().min(3, "The legend must be at least 3 characters."),
     description: z.string().min(10, "The lore must be descriptive (min 10 chars)."),
-    imageUrl: z.url("Must be a valid URL (for now)."),
+    images: z.array(z.string()).min(1, "You must summon at least one visual."),
     price: z.coerce.number().min(0, "Price cannot be negative."),
     condition: z.string().min(1, "Condition is required."),
     category: z.string().min(1, "Category is required."),
@@ -41,7 +41,7 @@ export default function CreateItemWizard() {
         defaultValues: {
             title: "",
             description: "",
-            imageUrl: "",
+            images: [],
             price: 0,
             condition: "New",
             category: "Artifacts",
@@ -55,7 +55,7 @@ export default function CreateItemWizard() {
         // Validate current step fields before moving
         let fieldsToValidate: any[] = [];
         if (currentStep === 1) fieldsToValidate = ["title", "description"];
-        if (currentStep === 2) fieldsToValidate = ["imageUrl"];
+        if (currentStep === 2) fieldsToValidate = ["images"];
 
         const result = await form.trigger(fieldsToValidate);
 
@@ -72,7 +72,7 @@ export default function CreateItemWizard() {
         const res = await createCursedObject(values);
 
         if (res.success) {
-            router.push("/dashboard/market");
+            router.push("/dashboard/listings");
             router.refresh();
         } else {
             alert(res.error);
@@ -161,38 +161,54 @@ export default function CreateItemWizard() {
                                     >
                                         <FormField
                                             control={form.control}
-                                            name="imageUrl"
+                                            name="images"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel className="text-zinc-300">Object Visual</FormLabel>
+                                                    <FormLabel className="text-zinc-300">Object Visuals</FormLabel>
                                                     <FormControl>
                                                         <div className="space-y-4">
-                                                            <SummonImage
-                                                                label="Upload Evidence"
-                                                                onUploadComplete={(url) => field.onChange(url)}
-                                                            />
-                                                            <Input type="hidden" {...field} />
+                                                            {field.value.length === 0 ? (
+                                                                <SummonImage
+                                                                    label="Upload Evidence"
+                                                                    onUploadComplete={(url) => field.onChange([...field.value, url])}
+                                                                    variant="banner"
+                                                                    multiple={true}
+                                                                />
+                                                            ) : (
+                                                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                                                    {field.value.map((url, idx) => (
+                                                                        <div key={idx} className="relative aspect-square rounded-lg overflow-hidden border border-zinc-700 group bg-zinc-950">
+                                                                            <CldImage
+                                                                                src={url}
+                                                                                alt={`Evidence ${idx + 1}`}
+                                                                                fill
+                                                                                className="object-cover"
+                                                                            />
+                                                                            <button
+                                                                                type="button"
+                                                                                onClick={() => field.onChange(field.value.filter((_, i) => i !== idx))}
+                                                                                className="absolute top-1 right-1 bg-red-900/80 p-1.5 rounded-full text-red-200 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                                            >
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" x2="10" y1="11" y2="17" /><line x1="14" x2="14" y1="11" y2="17" /></svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    ))}
+                                                                    {field.value.length < 5 && (
+                                                                        <SummonImage
+                                                                            onUploadComplete={(url) => field.onChange([...field.value, url])}
+                                                                            variant="tile"
+                                                                            multiple={true}
+                                                                            className="h-full min-h-[120px]"
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                            )}
+                                                            <FormMessage />
                                                         </div>
                                                     </FormControl>
-                                                    <FormMessage />
                                                 </FormItem>
                                             )}
                                         />
-                                        {form.watch("imageUrl") && (
-                                            <div className="relative aspect-square w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-zinc-700 bg-zinc-950 mt-4">
-                                                <CldImage
-                                                    src={form.watch("imageUrl")}
-                                                    alt="Preview"
-                                                    width="600"
-                                                    height="600"
-                                                    className="object-cover w-full h-full"
-                                                    crop={{
-                                                        type: 'auto',
-                                                        source: true
-                                                    }}
-                                                />
-                                            </div>
-                                        )}
                                     </motion.div>
                                 )}
 

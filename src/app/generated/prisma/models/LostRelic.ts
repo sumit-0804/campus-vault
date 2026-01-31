@@ -624,10 +624,6 @@ export type EnumRelicStatusFieldUpdateOperationsInput = {
   set?: $Enums.RelicStatus
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type LostRelicCreateNestedOneWithoutChatRoomsInput = {
   create?: Prisma.XOR<Prisma.LostRelicCreateWithoutChatRoomsInput, Prisma.LostRelicUncheckedCreateWithoutChatRoomsInput>
   connectOrCreate?: Prisma.LostRelicCreateOrConnectWithoutChatRoomsInput

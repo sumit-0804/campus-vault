@@ -9,9 +9,23 @@
 * 🟢 You can import this file directly.
 */
 
+export const OfferAction = {
+  CREATED: 'CREATED',
+  COUNTERED: 'COUNTERED',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED',
+  REVIVED: 'REVIVED',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type OfferAction = (typeof OfferAction)[keyof typeof OfferAction]
+
+
 export const MessageType = {
   TEXT: 'TEXT',
   OFFER: 'OFFER',
+  COUNTER_OFFER: 'COUNTER_OFFER',
   SYSTEM: 'SYSTEM'
 } as const
 
@@ -57,6 +71,7 @@ export type ItemStatus = (typeof ItemStatus)[keyof typeof ItemStatus]
 
 export const OfferStatus = {
   PENDING: 'PENDING',
+  COUNTER_OFFER_PENDING: 'COUNTER_OFFER_PENDING',
   ACCEPTED: 'ACCEPTED',
   REJECTED: 'REJECTED',
   EXPIRED: 'EXPIRED',

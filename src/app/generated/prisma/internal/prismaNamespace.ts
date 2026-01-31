@@ -387,6 +387,7 @@ export const ModelName = {
   Wizard: 'Wizard',
   CursedObject: 'CursedObject',
   BloodPact: 'BloodPact',
+  OfferHistory: 'OfferHistory',
   LostRelic: 'LostRelic',
   ChatRoom: 'ChatRoom',
   Message: 'Message',
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "wizard" | "cursedObject" | "bloodPact" | "lostRelic" | "chatRoom" | "message" | "notification" | "transaction"
+    modelProps: "wizard" | "cursedObject" | "bloodPact" | "offerHistory" | "lostRelic" | "chatRoom" | "message" | "notification" | "transaction"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -630,6 +631,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.BloodPactCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.BloodPactCountAggregateOutputType> | number
+        }
+      }
+    }
+    OfferHistory: {
+      payload: Prisma.$OfferHistoryPayload<ExtArgs>
+      fields: Prisma.OfferHistoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OfferHistoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OfferHistoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload>
+        }
+        findFirst: {
+          args: Prisma.OfferHistoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OfferHistoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload>
+        }
+        findMany: {
+          args: Prisma.OfferHistoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload>[]
+        }
+        create: {
+          args: Prisma.OfferHistoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload>
+        }
+        createMany: {
+          args: Prisma.OfferHistoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OfferHistoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload>[]
+        }
+        delete: {
+          args: Prisma.OfferHistoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload>
+        }
+        update: {
+          args: Prisma.OfferHistoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.OfferHistoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OfferHistoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OfferHistoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.OfferHistoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OfferHistoryPayload>
+        }
+        aggregate: {
+          args: Prisma.OfferHistoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOfferHistory>
+        }
+        groupBy: {
+          args: Prisma.OfferHistoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OfferHistoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OfferHistoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OfferHistoryCountAggregateOutputType> | number
         }
       }
     }
@@ -1083,12 +1158,26 @@ export const BloodPactScalarFieldEnum = {
   itemId: 'itemId',
   buyerId: 'buyerId',
   offerAmount: 'offerAmount',
+  counterOfferAmount: 'counterOfferAmount',
   status: 'status',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type BloodPactScalarFieldEnum = (typeof BloodPactScalarFieldEnum)[keyof typeof BloodPactScalarFieldEnum]
+
+
+export const OfferHistoryScalarFieldEnum = {
+  id: 'id',
+  offerId: 'offerId',
+  action: 'action',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  actorId: 'actorId'
+} as const
+
+export type OfferHistoryScalarFieldEnum = (typeof OfferHistoryScalarFieldEnum)[keyof typeof OfferHistoryScalarFieldEnum]
 
 
 export const LostRelicScalarFieldEnum = {
@@ -1312,6 +1401,20 @@ export type ListEnumOfferStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
 
 
 /**
+ * Reference to a field of type 'OfferAction'
+ */
+export type EnumOfferActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OfferAction'>
+    
+
+
+/**
+ * Reference to a field of type 'OfferAction[]'
+ */
+export type ListEnumOfferActionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OfferAction[]'>
+    
+
+
+/**
  * Reference to a field of type 'RelicType'
  */
 export type EnumRelicTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RelicType'>
@@ -1464,6 +1567,7 @@ export type GlobalOmitConfig = {
   wizard?: Prisma.WizardOmit
   cursedObject?: Prisma.CursedObjectOmit
   bloodPact?: Prisma.BloodPactOmit
+  offerHistory?: Prisma.OfferHistoryOmit
   lostRelic?: Prisma.LostRelicOmit
   chatRoom?: Prisma.ChatRoomOmit
   message?: Prisma.MessageOmit

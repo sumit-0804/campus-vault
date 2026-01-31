@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, LayoutDashboard, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BackButton } from "@/components/ui/BackButton";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -16,35 +17,33 @@ import {
 import { User, Sparkles, LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
+import { usePathname } from "next/navigation";
 
 interface MarketplaceNavbarProps {
     session: Session | null;
 }
 
 export function MarketplaceNavbar({ session }: MarketplaceNavbarProps) {
+    const pathname = usePathname();
     return (
         <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-black/50 backdrop-blur-xl">
             <div className="container flex h-16 items-center px-4 sm:px-8 max-w-7xl mx-auto relative justify-between">
                 {/* Left Side - Back Link */}
+                {/* Left Side - Back Link */}
                 <div className="flex items-center">
-                    {session ? (
-                        <Link
-                            href="/dashboard"
-                            className="text-sm font-medium text-zinc-400 hover:text-white transition-colors flex items-center"
-                        >
+                    {/* Dynamic Back Button Logic */}
+                    {pathname === "/marketplace" ? (
+                        <BackButton fallbackRoute="/dashboard" className="text-sm font-medium">
                             <ArrowLeft className="w-4 h-4 mr-2" />
                             <span className="hidden sm:inline">Back to Dashboard</span>
                             <span className="sm:hidden">Back</span>
-                        </Link>
+                        </BackButton>
                     ) : (
-                        <Link
-                            href="/"
-                            className="text-sm font-medium text-zinc-400 hover:text-white transition-colors flex items-center"
-                        >
+                        <BackButton fallbackRoute="/marketplace" className="text-sm font-medium">
                             <ArrowLeft className="w-4 h-4 mr-2" />
-                            <span className="hidden sm:inline">Back to Home</span>
+                            <span className="hidden sm:inline">Back to Bazaar</span>
                             <span className="sm:hidden">Back</span>
-                        </Link>
+                        </BackButton>
                     )}
                 </div>
 

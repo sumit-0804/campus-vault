@@ -33,6 +33,11 @@ export type CursedObject = Prisma.CursedObjectModel
  */
 export type BloodPact = Prisma.BloodPactModel
 /**
+ * Model OfferHistory
+ * 
+ */
+export type OfferHistory = Prisma.OfferHistoryModel
+/**
  * Model LostRelic
  * 
  */

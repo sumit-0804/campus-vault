@@ -7,12 +7,17 @@ import ChatWindow from "../_components/ChatWindow"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { BackButton } from "@/components/ui/BackButton"
+import { checkAndExpireOffers } from "@/actions/chat"
 
 export default async function ChatPage({ params }: { params: Promise<{ chatId: string }> }) {
     const session = await getServerSession(authOptions)
     if (!session?.user) redirect("/")
 
     const { chatId } = await params
+
+    // Check for expired offers before loading chat
+    await checkAndExpireOffers(chatId);
 
     const chat = await prisma.chatRoom.findUnique({
         where: { id: chatId },
@@ -53,16 +58,15 @@ export default async function ChatPage({ params }: { params: Promise<{ chatId: s
         <div className="h-full flex flex-col bg-zinc-950">
             {/* Back Button */}
             <div className="border-b border-zinc-800 bg-zinc-900/50 px-4 py-3">
-                <Link href="/dashboard/messages">
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-zinc-400 hover:text-white hover:bg-zinc-800"
-                    >
-                        <ArrowLeft className="w-4 h-4 mr-2" />
-                        Back to Inbox
-                    </Button>
-                </Link>
+                <BackButton
+                    fallbackRoute="/dashboard/messages"
+                    variant="ghost"
+                    size="sm"
+                    className="text-zinc-400 hover:text-white hover:bg-zinc-800"
+                >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Inbox
+                </BackButton>
             </div>
 
             {/* Chat Window */}

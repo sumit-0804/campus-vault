@@ -2,6 +2,7 @@ import prisma from "@/lib/db";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { BackButton } from "@/components/ui/BackButton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -11,6 +12,8 @@ import { ItemStatus } from "@/app/generated/prisma/enums";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import { MakeOfferButton } from "@/components/marketplace/MakeOfferButton";
+import { ImageGallery } from "@/components/ui/ImageGallery";
+import { OwnerOfferListWrapper } from "@/components/marketplace/OwnerOfferListWrapper";
 
 // Force dynamic behavior because we are fetching specific data that might change
 export const dynamic = 'force-dynamic';
@@ -26,6 +29,16 @@ export default async function ItemPage(props: { params: Promise<{ id: string }> 
         }
     });
 
+    let existingOffer = null;
+    if (session?.user?.id) {
+        existingOffer = await prisma.bloodPact.findFirst({
+            where: {
+                itemId: params.id,
+                buyerId: session.user.id
+            }
+        });
+    }
+
     if (!item) {
         notFound();
     }
@@ -36,10 +49,7 @@ export default async function ItemPage(props: { params: Promise<{ id: string }> 
     return (
         <div className="p-6 md:p-10 max-w-7xl mx-auto min-h-screen">
             {/* Nav */}
-            <div className="flex justify-between items-center mb-8">
-                <Link href="/marketplace" className="inline-flex items-center text-zinc-500 hover:text-white transition-colors">
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to Bazaar
-                </Link>
+            <div className="flex justify-end items-center mb-8">
                 <Button variant="ghost" size="icon" className="text-zinc-400 hover:text-white">
                     <Share2 className="w-5 h-5" />
                 </Button>
@@ -48,38 +58,9 @@ export default async function ItemPage(props: { params: Promise<{ id: string }> 
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16">
                 {/* Left: Images */}
                 <div className="space-y-4">
-                    <div className="aspect-square relative rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900">
-                        {item.images.length > 0 ? (
-                            <Image
-                                src={item.images[0]}
-                                alt={item.title}
-                                fill
-                                className="object-cover"
-                                priority
-                            />
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center text-zinc-600 flex-col gap-2">
-                                <Skull className="w-12 h-12 opacity-50" />
-                                <span>No Image Summoned</span>
-                            </div>
-                        )}
+                    <ImageGallery images={item.images} title={item.title} />
 
-                        {!isAvailable && (
-                            <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm z-10">
-                                <span className="text-4xl font-black uppercase tracking-widest text-red-600 border-4 border-red-600 px-6 py-3 -rotate-12 rounded-xl">
-                                    {item.status}
-                                </span>
-                            </div>
-                        )}
-                    </div>
-                    {/* Thumbnails (Future) */}
-                    <div className="flex gap-4 overflow-x-auto pb-2">
-                        {item.images.map((img, i) => (
-                            <div key={i} className="w-20 h-20 relative rounded-lg overflow-hidden border border-zinc-700 flex-shrink-0">
-                                <Image src={img} alt="Thumbnail" fill className="object-cover" />
-                            </div>
-                        ))}
-                    </div>
+
                 </div>
 
                 {/* Right: Details */}
@@ -132,12 +113,17 @@ export default async function ItemPage(props: { params: Promise<{ id: string }> 
 
                     {/* Actions */}
                     <div className="flex gap-4 pt-4">
-                        <MakeOfferButton
-                            sellerId={item.sellerId}
-                            relicId={item.id}
-                            isAvailable={isAvailable}
-                            isOwnItem={isOwnItem}
-                        />
+                        {isOwnItem ? (
+                            <OwnerOfferListWrapper itemId={item.id} />
+                        ) : (
+                            <MakeOfferButton
+                                sellerId={item.sellerId}
+                                relicId={item.id}
+                                isAvailable={isAvailable}
+                                isOwnItem={isOwnItem}
+                                hasExistingOffer={!!existingOffer}
+                            />
+                        )}
                         {/* Wishlist Button (Future) */}
                     </div>
                 </div>

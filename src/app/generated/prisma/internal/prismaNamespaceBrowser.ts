@@ -54,6 +54,7 @@ export const ModelName = {
   Wizard: 'Wizard',
   CursedObject: 'CursedObject',
   BloodPact: 'BloodPact',
+  OfferHistory: 'OfferHistory',
   LostRelic: 'LostRelic',
   ChatRoom: 'ChatRoom',
   Message: 'Message',
@@ -118,12 +119,26 @@ export const BloodPactScalarFieldEnum = {
   itemId: 'itemId',
   buyerId: 'buyerId',
   offerAmount: 'offerAmount',
+  counterOfferAmount: 'counterOfferAmount',
   status: 'status',
+  expiresAt: 'expiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type BloodPactScalarFieldEnum = (typeof BloodPactScalarFieldEnum)[keyof typeof BloodPactScalarFieldEnum]
+
+
+export const OfferHistoryScalarFieldEnum = {
+  id: 'id',
+  offerId: 'offerId',
+  action: 'action',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  actorId: 'actorId'
+} as const
+
+export type OfferHistoryScalarFieldEnum = (typeof OfferHistoryScalarFieldEnum)[keyof typeof OfferHistoryScalarFieldEnum]
 
 
 export const LostRelicScalarFieldEnum = {

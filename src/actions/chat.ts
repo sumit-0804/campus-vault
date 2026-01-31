@@ -133,9 +133,14 @@ export async function getOrCreateChatRoom(otherUserId: string, relicId?: string)
         throw error
     }
 }
-export async function createOffer(chatId: string, amount: number) {
+export async function createOffer(chatId: string, amount: number, expiresInMinutes: number = 1440) {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) throw new Error("Unauthorized")
+
+    // Validate expiresInMinutes (Max 24 hours = 1440 minutes)
+    if (expiresInMinutes < 1 || expiresInMinutes > 1440) {
+        expiresInMinutes = 1440;
+    }
 
     try {
         const chat = await prisma.chatRoom.findUnique({
@@ -148,29 +153,94 @@ export async function createOffer(chatId: string, amount: number) {
         const isParticipant = chat.participants.some(p => p.id === session.user.id)
         if (!isParticipant) throw new Error("Not a participant")
 
-        // Create BloodPact (Offer)
-        const bloodPact = await prisma.bloodPact.create({
-            data: {
+        // Check for existing offer for this item by this buyer
+        const existingOffer = await prisma.bloodPact.findFirst({
+            where: {
                 itemId: chat.relicId,
-                buyerId: session.user.id,
-                offerAmount: amount,
-                status: 'PENDING'
+                buyerId: session.user.id
             }
         })
 
+        let bloodPact;
+        // Calculate expiry date
+        const expiresAt = new Date(Date.now() + expiresInMinutes * 60 * 1000);
+
+        if (existingOffer) {
+            // If active, prevent new offer
+            const activeStatuses = ['PENDING', 'COUNTER_OFFER_PENDING'];
+            if (activeStatuses.includes(existingOffer.status)) {
+                throw new Error("An active offer already exists");
+            }
+
+            // Revive existing offer
+            bloodPact = await prisma.bloodPact.update({
+                where: { id: existingOffer.id },
+                data: {
+                    offerAmount: amount,
+                    counterOfferAmount: null, // Reset counter
+                    status: 'PENDING',
+                    expiresAt: expiresAt, // Set new expiry
+                }
+            })
+            // Log history safely
+            try {
+                await prisma.offerHistory.create({
+                    data: {
+                        offerId: existingOffer.id,
+                        action: 'REVIVED',
+                        amount: amount,
+                        actorId: session.user.id
+                    }
+                })
+            } catch (e) {
+                console.error("Failed to log history (ignoring):", e)
+            }
+        } else {
+            // Create new offer
+            bloodPact = await prisma.bloodPact.create({
+                data: {
+                    itemId: chat.relicId,
+                    buyerId: session.user.id,
+                    offerAmount: amount,
+                    status: 'PENDING',
+                    expiresAt: expiresAt,
+                }
+            })
+            // Log history safely
+            try {
+                await prisma.offerHistory.create({
+                    data: {
+                        offerId: bloodPact.id,
+                        action: 'CREATED',
+                        amount: amount,
+                        actorId: session.user.id
+                    }
+                })
+            } catch (e) {
+                console.error("Failed to log history (ignoring):", e)
+            }
+        }
+
         // Update item status to RESERVED
+        // NOTE: If we want to allow multiple offers, we shouldn't reserve here.
+        // But for "one offer per chat" and assuming "first come first serve" reservation logic:
         await prisma.cursedObject.update({
             where: { id: chat.relicId },
             data: { status: 'RESERVED' }
         })
 
-        // Send OFFER message with BloodPact ID
+        // Send message based on action (New Offer vs Revival)
+        const messageType = existingOffer ? 'SYSTEM' : 'OFFER';
+        const messageContent = existingOffer
+            ? `Offer revived for $${amount}`
+            : `OFFER_ID:${bloodPact.id}`;
+
         const message = await prisma.message.create({
             data: {
                 chatRoomId: chatId,
                 senderId: session.user.id,
-                content: `OFFER_ID:${bloodPact.id}`, // Store ID in content
-                type: 'OFFER',
+                content: messageContent,
+                type: messageType,
             }
         })
 
@@ -189,7 +259,7 @@ export async function createOffer(chatId: string, amount: number) {
     }
 }
 
-export async function respondToOffer(offerId: string, status: 'ACCEPTED' | 'REJECTED') {
+export async function respondToOffer(offerId: string, status: 'ACCEPTED' | 'REJECTED', chatId?: string) {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) throw new Error("Unauthorized")
 
@@ -200,13 +270,42 @@ export async function respondToOffer(offerId: string, status: 'ACCEPTED' | 'REJE
         })
 
         if (!bloodPact) throw new Error("Offer not found")
-        if (bloodPact.item.sellerId !== session.user.id) throw new Error("Not authorized")
+
+        // Authorization Logic
+        const isSeller = bloodPact.item.sellerId === session.user.id;
+        const isBuyer = bloodPact.buyerId === session.user.id;
+
+        if (bloodPact.status === 'PENDING') {
+            if (!isSeller) throw new Error("Not authorized")
+        } else if (bloodPact.status === 'COUNTER_OFFER_PENDING') {
+            if (!isBuyer) throw new Error("Not authorized")
+        } else {
+            throw new Error("Offer is not in a responsive state")
+        }
 
         // Update BloodPact status
         await prisma.bloodPact.update({
             where: { id: offerId },
-            data: { status }
+            data: {
+                status,
+                // If accepting a counter offer, we might want to update the offerAmount to the counterAmount?
+                // Or just rely on the fact that counterAmount exists.
+                // Logic below uses counterOfferAmount preferred.
+            }
         })
+
+        // Log history safely
+        try {
+            await prisma.offerHistory.create({
+                data: {
+                    offerId: offerId,
+                    action: status,
+                    actorId: session.user.id
+                }
+            })
+        } catch (e) {
+            console.error("Failed to log history (ignoring):", e)
+        }
 
         // If accepted, create transaction
         if (status === 'ACCEPTED') {
@@ -215,7 +314,7 @@ export async function respondToOffer(offerId: string, status: 'ACCEPTED' | 'REJE
                     buyerId: bloodPact.buyerId,
                     sellerId: session.user.id,
                     relicId: bloodPact.itemId,
-                    finalPrice: bloodPact.offerAmount,
+                    finalPrice: bloodPact.counterOfferAmount || bloodPact.offerAmount, // Use counter amount if exists
                 }
             })
 
@@ -245,19 +344,26 @@ export async function respondToOffer(offerId: string, status: 'ACCEPTED' | 'REJE
 
         // Notify via chat
         // Find chat room for this item and buyer
-        const chat = await prisma.chatRoom.findFirst({
-            where: {
-                relicId: bloodPact.itemId,
-                participants: { some: { id: bloodPact.buyerId } }
-            }
-        })
+        let chat;
+        if (chatId) {
+            chat = await prisma.chatRoom.findUnique({
+                where: { id: chatId }
+            })
+        } else {
+            chat = await prisma.chatRoom.findFirst({
+                where: {
+                    relicId: bloodPact.itemId,
+                    participants: { some: { id: bloodPact.buyerId } }
+                }
+            })
+        }
 
         if (chat) {
             const message = await prisma.message.create({
                 data: {
                     chatRoomId: chat.id,
                     senderId: session.user.id,
-                    content: `Offer for ₹${bloodPact.offerAmount} was ${status.toLowerCase()}`,
+                    content: `Offer for ₹${bloodPact.counterOfferAmount || bloodPact.offerAmount} was ${status.toLowerCase()}`,
                     type: 'SYSTEM',
                 }
             })
@@ -273,7 +379,7 @@ export async function respondToOffer(offerId: string, status: 'ACCEPTED' | 'REJE
     }
 }
 
-export async function cancelOffer(offerId: string) {
+export async function cancelOffer(offerId: string, chatId?: string) {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) throw new Error("Unauthorized")
 
@@ -284,14 +390,37 @@ export async function cancelOffer(offerId: string) {
         })
 
         if (!bloodPact) throw new Error("Offer not found")
-        if (bloodPact.buyerId !== session.user.id) throw new Error("Not authorized")
-        if (bloodPact.status !== 'PENDING') throw new Error("Can only cancel pending offers")
+        if (bloodPact.status !== 'PENDING' && bloodPact.status !== 'COUNTER_OFFER_PENDING') {
+            throw new Error("Can only cancel pending offers")
+        }
+
+        // Authorization check
+        if (bloodPact.status === 'PENDING') {
+            if (bloodPact.buyerId !== session.user.id) throw new Error("Not authorized")
+        } else if (bloodPact.status === 'COUNTER_OFFER_PENDING') {
+            if (bloodPact.item.sellerId !== session.user.id) throw new Error("Not authorized")
+        }
 
         // Update BloodPact status
         await prisma.bloodPact.update({
             where: { id: offerId },
-            data: { status: 'CANCELLED' }
+            data: {
+                status: 'CANCELLED',
+            }
         })
+
+        // Log history safely
+        try {
+            await prisma.offerHistory.create({
+                data: {
+                    offerId: offerId,
+                    action: 'CANCELLED',
+                    actorId: session.user.id
+                }
+            })
+        } catch (e) {
+            console.error("Failed to log history (ignoring):", e)
+        }
 
         // Check if there are other pending offers
         const pendingOffersCount = await prisma.bloodPact.count({
@@ -311,12 +440,19 @@ export async function cancelOffer(offerId: string) {
         }
 
         // Notify via chat
-        const chat = await prisma.chatRoom.findFirst({
-            where: {
-                relicId: bloodPact.itemId,
-                participants: { some: { id: session.user.id } }
-            }
-        })
+        let chat;
+        if (chatId) {
+            chat = await prisma.chatRoom.findUnique({
+                where: { id: chatId }
+            })
+        } else {
+            chat = await prisma.chatRoom.findFirst({
+                where: {
+                    relicId: bloodPact.itemId,
+                    participants: { some: { id: session.user.id } }
+                }
+            })
+        }
 
         if (chat) {
             const message = await prisma.message.create({
@@ -337,5 +473,74 @@ export async function cancelOffer(offerId: string) {
     } catch (error) {
         console.error("Error cancelling offer:", error)
         throw error
+    }
+}
+
+export async function checkAndExpireOffers(chatId: string) {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id) return
+
+    try {
+        const chat = await prisma.chatRoom.findUnique({
+            where: { id: chatId },
+            select: { relicId: true }
+        })
+
+        if (!chat?.relicId) return
+
+        // Find pending offers that have expired
+        const expiredOffers = await prisma.bloodPact.findMany({
+            where: {
+                itemId: chat.relicId,
+                status: {
+                    in: ['PENDING', 'COUNTER_OFFER_PENDING']
+                },
+                expiresAt: {
+                    lt: new Date()
+                }
+            }
+        })
+
+        if (expiredOffers.length === 0) return
+
+        for (const offer of expiredOffers) {
+            // Update status to REJECTED (as per requirement)
+            await prisma.bloodPact.update({
+                where: { id: offer.id },
+                data: {
+                    status: 'REJECTED'
+                }
+            })
+
+            // Log history
+            try {
+                await prisma.offerHistory.create({
+                    data: {
+                        offerId: offer.id,
+                        action: 'EXPIRED', // Log as EXPIRED to distinguish cause
+                        actorId: session.user.id // Logged by the user who loaded the page effectively
+                    }
+                })
+            } catch (e) {
+                console.error("Failed to log history (ignoring):", e)
+            }
+
+            // Create system message
+            const message = await prisma.message.create({
+                data: {
+                    chatRoomId: chatId,
+                    senderId: session.user.id, // System message attributed to current user
+                    content: `Offer for ₹${offer.counterOfferAmount || offer.offerAmount} has expired and was automatically rejected`,
+                    type: 'SYSTEM',
+                }
+            })
+            await pusherServer.trigger(`private-chat-${chatId}`, 'new-message', message)
+        }
+
+        // if (expiredOffers.length > 0) {
+        //     revalidatePath(`/dashboard/messages/${chatId}`)
+        // }
+    } catch (error) {
+        console.error("Error checking expired offers:", error)
     }
 }

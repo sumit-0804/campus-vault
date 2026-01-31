@@ -52,16 +52,41 @@ model CursedObject {
 }
 
 model BloodPact {
-  id          String       @id @default(cuid())
-  itemId      String
-  item        CursedObject @relation(fields: [itemId], references: [id])
-  buyerId     String
-  buyer       Wizard       @relation(fields: [buyerId], references: [id])
-  offerAmount Float
-  status      OfferStatus  @default(PENDING)
+  id                 String       @id @default(cuid())
+  itemId             String
+  item               CursedObject @relation(fields: [itemId], references: [id])
+  buyerId            String
+  buyer              Wizard       @relation(fields: [buyerId], references: [id])
+  offerAmount        Float
+  counterOfferAmount Float?
+  status             OfferStatus  @default(PENDING)
+  expiresAt          DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  history OfferHistory[]
+}
+
+model OfferHistory {
+  id      String    @id @default(cuid())
+  offerId String
+  offer   BloodPact @relation(fields: [offerId], references: [id], onDelete: Cascade)
+
+  action    OfferAction
+  amount    Float? // Amount at the time of action (for OFFER/COUNTER/REVIVE)
+  createdAt DateTime    @default(now())
+  actorId   String
+}
+
+enum OfferAction {
+  CREATED
+  COUNTERED
+  ACCEPTED
+  REJECTED
+  CANCELLED
+  REVIVED
+  EXPIRED
 }
 
 model LostRelic {
@@ -138,6 +163,7 @@ model Transaction {
 enum MessageType {
   TEXT
   OFFER
+  COUNTER_OFFER
   SYSTEM
 }
 
@@ -168,6 +194,7 @@ enum ItemStatus {
 
 enum OfferStatus {
   PENDING
+  COUNTER_OFFER_PENDING
   ACCEPTED
   REJECTED
   EXPIRED

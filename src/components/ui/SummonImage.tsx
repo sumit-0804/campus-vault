@@ -14,8 +14,9 @@ export default function SummonImage({
     onUploadComplete,
     label = "Summon Visual",
     className = "",
-    variant = "tile"
-}: SummonImageProps) {
+    variant = "tile",
+    multiple = false
+}: SummonImageProps & { multiple?: boolean }) {
     const [isDragging, setIsDragging] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -32,18 +33,17 @@ export default function SummonImage({
 
     const uploadFile = async (file: File) => {
         if (!file.type.startsWith("image/")) {
-            alert("Please upload an image file.");
+            alert(`File ${file.name} is not an image.`);
             return;
         }
 
-        setIsUploading(true);
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "campus-vault-unsigned");
-        formData.append("cloud_name", process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "");
+        const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "";
+        formData.append("cloud_name", cloudName);
 
         try {
-            const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
             const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
                 method: "POST",
                 body: formData,
@@ -55,32 +55,47 @@ export default function SummonImage({
                 onUploadComplete(data.secure_url);
             } else {
                 console.error("Upload failed", data);
-                alert("Upload failed. Please check your network or try again.");
+                alert(`Upload failed for ${file.name}`);
             }
         } catch (error) {
             console.error("Upload error", error);
             alert("Upload failed. Please try again.");
-        } finally {
-            setIsUploading(false);
         }
+    };
+
+    const processFiles = async (files: FileList | File[]) => {
+        setIsUploading(true);
+        const fileArray = Array.from(files);
+
+        // Process sequentially to keep order roughly or avoiding browser freeze (though fetch is async)
+        // Parallel is fine for a few images
+        await Promise.all(fileArray.map(uploadFile));
+
+        setIsUploading(false);
     };
 
     const handleDrop = async (e: React.DragEvent) => {
         e.preventDefault();
         setIsDragging(false);
 
-        const file = e.dataTransfer.files[0];
-        if (file) {
-            await uploadFile(file);
+        const files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+            if (!multiple && files.length > 1) {
+                // If not multiple, take the first one
+                await uploadFile(files[0]);
+                setIsUploading(false); // Manually set false here as processFiles isn't called
+            } else {
+                await processFiles(files);
+            }
         }
     };
 
     const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            await uploadFile(file);
+        const files = e.target.files;
+        if (files && files.length > 0) {
+            await processFiles(files);
         }
-        // Reset input so the same file can be selected again if needed
+        // Reset input
         if (fileInputRef.current) {
             fileInputRef.current.value = "";
         }
@@ -109,6 +124,7 @@ export default function SummonImage({
                 onChange={handleFileSelect}
                 accept="image/*"
                 className="hidden"
+                multiple={multiple}
             />
 
             {variant === "banner" ? (
@@ -122,7 +138,7 @@ export default function SummonImage({
                     {isUploading ? (
                         <div className="flex flex-col items-center justify-center py-4">
                             <Loader2 className="w-10 h-10 text-amber-500 animate-spin mb-4" />
-                            <p className="text-stone-400 font-medium">Summoning artifact...</p>
+                            <p className="text-stone-400 font-medium">Summoning artifact(s)...</p>
                         </div>
                     ) : (
                         <>
@@ -130,7 +146,7 @@ export default function SummonImage({
                                 <CloudUpload className={`w-8 h-8 ${isDragging ? "text-amber-500" : "text-stone-400 group-hover:text-amber-500"}`} />
                             </div>
                             <p className={`font-medium mb-1 text-lg transition-colors ${isDragging ? "text-amber-400" : "text-stone-300"}`}>
-                                {isDragging ? "Drop to Summon!" : "Click or drag images here"}
+                                {isDragging ? "Drop to Summon!" : multiple ? "Click or drag images here" : "Click or drag image here"}
                             </p>
                             <p className="text-stone-500 text-sm">Supports JPG, PNG, HEIC • Auto-compressed</p>
                         </>

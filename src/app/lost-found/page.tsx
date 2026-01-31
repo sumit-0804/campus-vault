@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getLostRelics } from "@/actions/lost-found";
 import { LostFoundList } from "@/components/lost-found/LostFoundList";
-import { BackToMapButton } from "@/components/lost-found/BackToMapButton";
+import { BackButton } from "@/components/ui/BackButton";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
@@ -19,7 +19,7 @@ export default async function LostFoundPage({
     return (
         <div className="container mx-auto py-8">
             <div className="mb-4">
-                <BackToMapButton fallbackRoute="/dashboard" />
+                <BackButton fallbackRoute="/dashboard" />
             </div>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                 <div>

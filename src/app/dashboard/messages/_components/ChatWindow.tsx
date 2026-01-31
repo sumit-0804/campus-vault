@@ -5,11 +5,16 @@ import { pusherClient } from "@/lib/pusher"
 import { cn } from "@/lib/utils"
 import { Message, Wizard, BloodPact } from "@/app/generated/prisma/client"
 import { sendMessage as sendMessageAction, createOffer, respondToOffer, cancelOffer } from "@/actions/chat"
+import { createCounterOffer } from "@/actions/marketplace"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Send, Skull } from "lucide-react"
 import { useRouter } from "next/navigation"
 import OfferModal from "./OfferModal"
 import OfferCard from "./OfferCard"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
 
 type ChatWindowProps = {
     chatId: string
@@ -35,6 +40,12 @@ export default function ChatWindow({
     const [newMessage, setNewMessage] = useState("")
     const [isSending, setIsSending] = useState(false)
     const [isSubmittingOffer, setIsSubmittingOffer] = useState(false)
+
+    // Counter Offer State
+    const [isCounterModalOpen, setIsCounterModalOpen] = useState(false)
+    const [selectedOfferIdForCounter, setSelectedOfferIdForCounter] = useState<string | null>(null)
+    const [counterAmount, setCounterAmount] = useState("")
+
     const messagesContainerRef = useRef<HTMLDivElement>(null)
     const isInitialMount = useRef(true)
     const router = useRouter()
@@ -123,10 +134,10 @@ export default function ChatWindow({
         }
     }
 
-    const handleCreateOffer = async (amount: number) => {
+    const handleCreateOffer = async (amount: number, expiresIn: number) => {
         setIsSubmittingOffer(true)
         try {
-            const result = await createOffer(chatId, amount)
+            const result = await createOffer(chatId, amount, expiresIn)
             // Logic handled by server action and pusher
         } catch (error) {
             console.error("Failed to create offer", error)
@@ -137,7 +148,7 @@ export default function ChatWindow({
 
     const handleRespondToOffer = async (offerId: string, status: 'ACCEPTED' | 'REJECTED') => {
         try {
-            await respondToOffer(offerId, status)
+            await respondToOffer(offerId, status, chatId)
             router.refresh()
         } catch (error) {
             console.error("Failed to respond to offer", error)
@@ -146,12 +157,49 @@ export default function ChatWindow({
 
     const handleCancelOffer = async (offerId: string) => {
         try {
-            await cancelOffer(offerId)
+            await cancelOffer(offerId, chatId)
             router.refresh()
         } catch (error) {
             console.error("Failed to cancel offer", error)
         }
     }
+
+    // Counter Offer State
+    const [counterHours, setCounterHours] = useState(24)
+    const [counterMinutes, setCounterMinutes] = useState(0)
+
+    const handleSubmitCounterOffer = async () => {
+        if (!selectedOfferIdForCounter || !counterAmount) return;
+
+        const totalMinutes = (counterHours * 60) + counterMinutes;
+        if (totalMinutes <= 0 || totalMinutes > 1440) {
+            alert("Expiry must be between 1 minute and 24 hours");
+            return;
+        }
+
+        setIsSubmittingOffer(true);
+        try {
+            const result = await createCounterOffer(selectedOfferIdForCounter, parseFloat(counterAmount), chatId, totalMinutes);
+            if (result.success) {
+                setIsCounterModalOpen(false);
+                setCounterAmount("");
+                setCounterHours(24);
+                setCounterMinutes(0);
+                setSelectedOfferIdForCounter(null);
+                // Pusher will update the UI
+            } else {
+                alert("Failed to send counter offer: " + result.error);
+            }
+        } catch (error) {
+            console.error("Failed to counter offer", error)
+        } finally {
+            setIsSubmittingOffer(false)
+        }
+    }
+
+    const activeOffer = offers.find(o => ['PENDING', 'COUNTER_OFFER_PENDING'].includes(o.status));
+
+    const renderedOfferIds = new Set<string>();
 
     return (
         <div className="flex flex-col h-full bg-zinc-950">
@@ -173,7 +221,7 @@ export default function ChatWindow({
                         </div>
                     </div>
 
-                    {relicId && !isSeller && (
+                    {relicId && !isSeller && !activeOffer && (
                         <OfferModal
                             onSubmit={handleCreateOffer}
                             isSubmitting={isSubmittingOffer}
@@ -202,6 +250,14 @@ export default function ChatWindow({
                         // Render Offer Card
                         if (msg.type === 'OFFER') {
                             const offerId = msg.content.split('OFFER_ID:')[1]
+
+                            // Prevent duplicate offer cards for the same offer ID
+                            if (renderedOfferIds.has(offerId)) return null;
+                            renderedOfferIds.add(offerId);
+
+                            // Skip rendering active offer in history
+                            if (activeOffer && offerId === activeOffer.id) return null;
+
                             const offer = offers.find(o => o.id === offerId)
 
                             if (offer) {
@@ -209,30 +265,26 @@ export default function ChatWindow({
                                     <div key={msg.id} className={cn("flex w-full", isMe ? "justify-end" : "justify-start")}>
                                         <OfferCard
                                             amount={offer.offerAmount}
+                                            counterAmount={offer.counterOfferAmount}
                                             status={offer.status}
+                                            expiresAt={offer.expiresAt ? new Date(offer.expiresAt) : undefined}
                                             isSender={isMe}
                                             isSeller={isSeller}
                                             createdAt={new Date(offer.createdAt)}
                                             onAccept={() => handleRespondToOffer(offer.id, 'ACCEPTED')}
                                             onReject={() => handleRespondToOffer(offer.id, 'REJECTED')}
                                             onCancel={() => handleCancelOffer(offer.id)}
+                                            onCounter={() => {
+                                                setSelectedOfferIdForCounter(offer.id);
+                                                setCounterAmount("");
+                                                setIsCounterModalOpen(true);
+                                            }}
                                         />
                                     </div>
                                 )
                             }
 
-                            // If offer data is not yet loaded, show loading state
-                            return (
-                                <div key={msg.id} className={cn("flex w-full", isMe ? "justify-end" : "justify-start")}>
-                                    <div className={cn(
-                                        "rounded-lg p-4 w-64 border bg-zinc-800/20 border-zinc-700/50 animate-pulse flex flex-col gap-3"
-                                    )}>
-                                        <div className="h-4 w-12 bg-zinc-700/50 rounded" />
-                                        <div className="h-8 w-32 bg-zinc-700/50 rounded" />
-                                        <div className="h-3 w-20 bg-zinc-700/50 rounded" />
-                                    </div>
-                                </div>
-                            )
+                            return null;
                         }
 
                         // Render System Message
@@ -280,8 +332,31 @@ export default function ChatWindow({
                 )}
             </div>
 
+            {/* Active Offer Sticky Area */}
+            {activeOffer && (
+                <div className="bg-zinc-900/80 backdrop-blur-xl border-t border-zinc-800 p-4 pb-0">
+                    <OfferCard
+                        amount={activeOffer.offerAmount}
+                        counterAmount={activeOffer.counterOfferAmount}
+                        status={activeOffer.status}
+                        expiresAt={activeOffer.expiresAt ? new Date(activeOffer.expiresAt) : undefined}
+                        isSender={activeOffer.buyerId === currentUserId}
+                        isSeller={isSeller}
+                        createdAt={new Date(activeOffer.createdAt)}
+                        onAccept={() => handleRespondToOffer(activeOffer.id, 'ACCEPTED')}
+                        onReject={() => handleRespondToOffer(activeOffer.id, 'REJECTED')}
+                        onCancel={() => handleCancelOffer(activeOffer.id)}
+                        onCounter={() => {
+                            setSelectedOfferIdForCounter(activeOffer.id);
+                            setCounterAmount("");
+                            setIsCounterModalOpen(true);
+                        }}
+                    />
+                </div>
+            )}
+
             {/* Input Area */}
-            <div className="border-t border-zinc-800 bg-zinc-900/80 backdrop-blur-xl p-4">
+            <div className="bg-zinc-900/80 backdrop-blur-xl p-4 pt-4 border-t-0">
                 <form onSubmit={sendMessage} className="flex gap-3 items-end">
                     <div className="flex-1 relative">
                         <textarea
@@ -311,6 +386,83 @@ export default function ChatWindow({
                     Press <kbd className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-400">Enter</kbd> to send • <kbd className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-400">Shift + Enter</kbd> for new line
                 </p>
             </div>
-        </div>
+            {/* Counter Offer Modal */}
+            <Dialog open={isCounterModalOpen} onOpenChange={setIsCounterModalOpen}>
+                <DialogContent className="bg-zinc-900 border-zinc-800 text-white">
+                    <DialogHeader>
+                        <DialogTitle>Make a Counter Offer</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                        <div className="space-y-2">
+                            <Label>Your Price ($)</Label>
+                            <Input
+                                type="number"
+                                min={0}
+                                value={counterAmount}
+                                onChange={(e) => setCounterAmount(e.target.value)}
+                                className="bg-zinc-800 border-zinc-700 text-white"
+                                placeholder="Enter amount..."
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Offer Expiry (Max 24h)</Label>
+                            <div className="flex gap-4">
+                                <div className="flex-1 space-y-1">
+                                    <Label htmlFor="counterHours" className="text-xs text-zinc-500">Hours</Label>
+                                    <Input
+                                        id="counterHours"
+                                        type="number"
+                                        min="0"
+                                        max="24"
+                                        value={counterHours}
+                                        onChange={(e) => {
+                                            let val = parseInt(e.target.value) || 0;
+                                            if (val > 24) val = 24;
+                                            setCounterHours(val);
+                                            // Reset minutes if hours is 24
+                                            if (val === 24) setCounterMinutes(0);
+                                        }}
+                                        className="bg-zinc-800 border-zinc-700 text-white"
+                                    />
+                                </div>
+                                <div className="flex-1 space-y-1">
+                                    <Label htmlFor="counterMinutes" className="text-xs text-zinc-500">Minutes</Label>
+                                    <Input
+                                        id="counterMinutes"
+                                        type="number"
+                                        min="0"
+                                        max="59"
+                                        step="5"
+                                        value={counterMinutes}
+                                        onChange={(e) => {
+                                            let val = parseInt(e.target.value) || 0;
+                                            if (val > 59) val = 59;
+                                            // If hours is 24, force minutes to 0
+                                            if (counterHours === 24) val = 0;
+                                            setCounterMinutes(val);
+                                        }}
+                                        className="bg-zinc-800 border-zinc-700 text-white"
+                                        disabled={counterHours === 24}
+                                    />
+                                </div>
+                            </div>
+                            <div className="text-xs text-zinc-500">
+                                Total: {counterHours * 60 + counterMinutes} minutes
+                            </div>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="ghost" onClick={() => setIsCounterModalOpen(false)}>Cancel</Button>
+                        <Button
+                            onClick={handleSubmitCounterOffer}
+                            disabled={!counterAmount || isSubmittingOffer || (counterHours === 0 && counterMinutes === 0)}
+                            className="bg-red-600 hover:bg-red-700 text-white"
+                        >
+                            {isSubmittingOffer ? "Sending..." : "Send Counter Offer"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        </div >
     )
 }

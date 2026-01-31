@@ -11,6 +11,7 @@
 export type * from './models/Wizard'
 export type * from './models/CursedObject'
 export type * from './models/BloodPact'
+export type * from './models/OfferHistory'
 export type * from './models/LostRelic'
 export type * from './models/ChatRoom'
 export type * from './models/Message'
