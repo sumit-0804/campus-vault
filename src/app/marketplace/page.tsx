@@ -1,22 +1,41 @@
 import prisma from "@/lib/db";
 import ItemCard from "@/components/marketplace/ItemCard";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Plus, Search, Filter } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
 import { BackButton } from "@/components/ui/BackButton";
+import SearchInput from "@/components/marketplace/SearchInput";
+import { CategoryFilter } from "@/components/marketplace/CategoryFilter";
+import { Prisma } from "@/app/generated/prisma/client";
 
-// Mock data until we have real data
-// We will try to fetch from DB first, if empty show empty state
-async function getItems() {
+// Mapping for category filters
+const CATEGORY_MAP: Record<string, string> = {
+    "Potions": "Electronics",
+    "Scrolls": "Books",
+    "Artifacts": "Misc"
+};
+
+async function getItems(search?: string, category?: string) {
     try {
+        const whereClause: Prisma.CursedObjectWhereInput = {
+            status: {
+                in: ['ACTIVE', 'RESERVED', 'SOLD']
+            }
+        };
+
+        if (search) {
+            whereClause.OR = [
+                { title: { contains: search, mode: 'insensitive' } },
+                { description: { contains: search, mode: 'insensitive' } }
+            ];
+        }
+
+        if (category && CATEGORY_MAP[category]) {
+            whereClause.category = CATEGORY_MAP[category];
+        }
+
         const items = await prisma.cursedObject.findMany({
-            where: {
-                status: {
-                    in: ['ACTIVE', 'RESERVED', 'SOLD']
-                }
-            },
+            where: whereClause,
             orderBy: {
                 createdAt: 'desc'
             }
@@ -28,8 +47,17 @@ async function getItems() {
     }
 }
 
-export default async function MarketplacePage() {
-    const items = await getItems();
+export default async function MarketplacePage({
+    searchParams,
+}: {
+    searchParams?: {
+        search?: string;
+        category?: string;
+    };
+}) {
+    const search = searchParams?.search;
+    const category = searchParams?.category;
+    const items = await getItems(search, category);
 
     return (
         <div className="p-6 sm:p-8 w-full space-y-8">
@@ -54,27 +82,29 @@ export default async function MarketplacePage() {
             </div>
 
             {/* Filters & Search */}
-            <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative flex-grow">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                    <Input
-                        placeholder="Search for dark relics..."
-                        className="pl-9 bg-zinc-900 border-zinc-700 focus:border-purple-500 text-white placeholder:text-zinc-600"
-                    />
-                </div>
-                <Button variant="outline" className="border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white">
-                    <Filter className="w-4 h-4 mr-2" /> Filter
-                </Button>
+            <div className="flex flex-col gap-4">
+                <SearchInput />
+                <CategoryFilter />
             </div>
 
             {/* Grid */}
             {items.length === 0 ? (
                 <div className="text-center py-20 border border-dashed border-zinc-800 rounded-2xl bg-zinc-900/20">
                     <h3 className="text-xl font-bold text-zinc-500 mb-2">The Bazaar is Empty</h3>
-                    <p className="text-zinc-600 mb-6">Be the first to summon a cursed object.</p>
-                    <Link href="/marketplace/create">
-                        <Button variant="secondary">Create Listing</Button>
-                    </Link>
+                    <p className="text-zinc-600 mb-6">
+                        {search || category
+                            ? "No cursed objects match your criteria."
+                            : "Be the first to summon a cursed object."}
+                    </p>
+                    {(search || category) ? (
+                        <Link href="/marketplace">
+                            <Button variant="secondary">Clear Filters</Button>
+                        </Link>
+                    ) : (
+                        <Link href="/marketplace/create">
+                            <Button variant="secondary">Create Listing</Button>
+                        </Link>
+                    )}
                 </div>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

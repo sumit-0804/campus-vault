@@ -797,3 +797,34 @@ export async function checkAndExpireOffers(chatId: string) {
     }
 }
 
+
+/**
+ * Get the active offer for a chat room
+ */
+export async function getActiveOfferByChatId(chatId: string) {
+    const session = await getServerSession(authOptions)
+    if (!session?.user?.id) throw new Error("Unauthorized")
+
+    try {
+        const chat = await prisma.chatRoom.findUnique({
+            where: { id: chatId },
+            select: { relicId: true }
+        })
+
+        if (!chat?.relicId) return null
+
+        const offer = await prisma.bloodPact.findFirst({
+            where: {
+                itemId: chat.relicId,
+                status: { in: ['PENDING', 'COUNTER_OFFER_PENDING', 'AWAITING_COMPLETION', 'DELIVERED', 'COMPLETED'] }
+            },
+            orderBy: { createdAt: 'desc' },
+            include: { buyer: true }
+        })
+
+        return offer
+    } catch (error) {
+        console.error("Error fetching active offer:", error)
+        throw error
+    }
+}

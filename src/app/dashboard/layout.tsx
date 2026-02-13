@@ -5,8 +5,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav"
 import { DailyLoginManager } from "@/components/features/karma/DailyLoginManager"
-import { NotificationListener } from "@/components/features/notifications/NotificationListener"
-
+import { usePusherNotifications } from "@/hooks/usePusherNotifications"
 import { useSession } from "next-auth/react"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -36,7 +35,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <SidebarInset>
                 <DashboardHeader />
                 <DailyLoginManager />
-                <NotificationListener />
+                <NotificationWrapper />
                 <div className="flex flex-1 flex-col gap-4 p-4 pt-0 mb-16 md:mb-0">
                     {children}
                 </div>
@@ -44,4 +43,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </SidebarInset>
         </SidebarProvider>
     )
+}
+
+function NotificationWrapper() {
+    usePusherNotifications()
+    return null
 }

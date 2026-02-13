@@ -5,12 +5,15 @@ import { pusherClient } from "@/lib/pusher"
 import { cn } from "@/lib/utils"
 import { Message, Wizard, BloodPact } from "@/app/generated/prisma/client"
 import { sendMessage as sendMessageAction } from "@/actions/chat"
+import { getActiveOfferByChatId } from "@/actions/offers"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Send, Skull } from "lucide-react"
 import { useRouter } from "next/navigation"
 import OfferCard from "./OfferCard"
 import OfferModal from "./OfferModal"
 import CounterOfferModal from "./CounterOfferModal"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { queryKeys } from "@/lib/query-keys"
 
 type ChatWindowProps = {
     chatId: string
@@ -34,13 +37,20 @@ export default function ChatWindow({
     isItemAvailable
 }: ChatWindowProps) {
     const [messages, setMessages] = useState<Message[]>(initialMessages)
-    const [activeOffer, setActiveOffer] = useState<(BloodPact & { buyer?: Wizard }) | null>(initialActiveOffer || null)
     const [newMessage, setNewMessage] = useState("")
     const [isSending, setIsSending] = useState(false)
-
     const messagesContainerRef = useRef<HTMLDivElement>(null)
     const isInitialMount = useRef(true)
     const router = useRouter()
+    const queryClient = useQueryClient()
+
+    // Query for Active Offer
+    const { data: activeOffer } = useQuery({
+        queryKey: queryKeys.offers.byChat(chatId),
+        queryFn: async () => getActiveOfferByChatId(chatId),
+        initialData: initialActiveOffer,
+        staleTime: Infinity, // Invalidated by mutations/events
+    })
 
     // Scroll to bottom
     const scrollToBottom = (smooth = false) => {
@@ -63,9 +73,9 @@ export default function ChatWindow({
                 return [...current, message]
             })
 
-            // Refresh to get updated offer state when system messages arrive
+            // Invalidate offer query on system messages (usually means offer status changed)
             if (message.type === 'SYSTEM') {
-                router.refresh()
+                queryClient.invalidateQueries({ queryKey: queryKeys.offers.byChat(chatId) })
             }
         }
 
@@ -75,7 +85,7 @@ export default function ChatWindow({
             channel.unbind('new-message', messageHandler)
             pusherClient.unsubscribe(`private-chat-${chatId}`)
         }
-    }, [chatId, router])
+    }, [chatId, queryClient])
 
     // Auto-scroll on new messages
     useEffect(() => {
@@ -87,42 +97,62 @@ export default function ChatWindow({
         }
     }, [messages.length])
 
-    // Update active offer when prop changes (from router.refresh())
-    useEffect(() => {
-        setActiveOffer(initialActiveOffer || null)
-    }, [initialActiveOffer])
+    const { mutate: sendMessage } = useMutation({
+        mutationFn: async (content: string) => {
+            return sendMessageAction(chatId, content)
+        },
+        onMutate: async (content) => {
+            setIsSending(true)
+            setNewMessage("")
 
-    const sendMessage = async (e: React.FormEvent) => {
+            // Optimistic message
+            const optimisticMessage: Message = {
+                id: `temp-${Date.now()}`,
+                chatRoomId: chatId,
+                senderId: currentUserId,
+                content: content,
+                type: 'TEXT',
+                isRead: false,
+                createdAt: new Date(),
+            }
+            setMessages((prev) => [...prev, optimisticMessage])
+            return { optimisticMessage }
+        },
+        onError: (err, content, context) => {
+            setMessages((prev) => prev.filter(m => m.id !== context?.optimisticMessage.id))
+            setNewMessage(content)
+            setIsSending(false)
+        },
+        onSuccess: (result, content, context) => {
+            // We could replace the optimistic message with the real one here, 
+            // but Pusher usually handles the "real" message arrival.
+            // Just remove the optimistic one when we get a confirmation via Pusher or here?
+            // Actually, if we get the real message from Pusher, we might have duplicates if we don't dedupe.
+            // The messageHandler already checks `some(m => m.id === message.id)`.
+            // But optimistic ID is `temp-...`, real ID is UUID.
+            // So we should remove optimistic message when the real one arrives OR when action succeeds?
+            // Simple approach: Remove optimistic message here. If Pusher hasn't arrived yet, there might be a flicker.
+            // Better: keep optimistic until Pusher message arrives?
+            // For now, let's remove optimistic message here and assume fast Pusher or rely on Query?
+            // Actually, the original code removed it in `try/finally`.
+            setMessages((prev) => prev.filter(m => m.id !== context?.optimisticMessage.id))
+            setIsSending(false)
+        },
+        onSettled: () => {
+            setIsSending(false)
+        }
+    })
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         if (!newMessage.trim() || isSending) return
+        sendMessage(newMessage)
+    }
 
-        const messageContent = newMessage
-        setNewMessage("") // Clear input immediately
-        setIsSending(true)
-
-        // Optimistic update
-        const optimisticMessage: Message = {
-            id: `temp-${Date.now()}`,
-            chatRoomId: chatId,
-            senderId: currentUserId,
-            content: messageContent,
-            type: 'TEXT',
-            isRead: false,
-            createdAt: new Date(),
-        }
-
-        setMessages((prev) => [...prev, optimisticMessage])
-
-        try {
-            await sendMessageAction(chatId, messageContent)
-            // Remove optimistic message, Pusher will add the real one
-            setMessages((prev) => prev.filter(m => m.id !== optimisticMessage.id))
-        } catch (error) {
-            // Remove optimistic message on error
-            setMessages((prev) => prev.filter(m => m.id !== optimisticMessage.id))
-            setNewMessage(messageContent) // Restore message
-        } finally {
-            setIsSending(false)
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault()
+            handleSubmit(e)
         }
     }
 
@@ -188,7 +218,6 @@ export default function ChatWindow({
                             )
                         }
 
-
                         // Render Text Message
                         return (
                             <div
@@ -241,19 +270,14 @@ export default function ChatWindow({
                 </div>
             ) : (
                 <div className="bg-zinc-900/80 backdrop-blur-xl p-4 pt-4 border-t-0">
-                    <form onSubmit={sendMessage} className="flex gap-3 items-end">
+                    <form onSubmit={handleSubmit} className="flex gap-3 items-end">
                         <div className="flex-1 relative">
                             <textarea
                                 className="w-full bg-zinc-800/50 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 resize-none transition-all min-h-[52px] max-h-[120px]"
                                 placeholder="Type your message..."
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' && !e.shiftKey) {
-                                        e.preventDefault()
-                                        sendMessage(e)
-                                    }
-                                }}
+                                onKeyDown={handleKeyDown}
                                 rows={1}
                                 disabled={isSending}
                             />

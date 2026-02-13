@@ -7,7 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Handshake } from "lucide-react"
 import { createOffer } from "@/actions/offers"
-import { useRouter } from "next/navigation"
+
+import { useQueryClient } from "@tanstack/react-query"
+import { queryKeys } from "@/lib/query-keys"
 
 type OfferModalProps = {
     chatId: string
@@ -19,7 +21,8 @@ export default function OfferModal({ chatId }: OfferModalProps) {
     const [minutes, setMinutes] = useState(1)
     const [isOpen, setIsOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const router = useRouter()
+
+    const queryClient = useQueryClient()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -39,7 +42,7 @@ export default function OfferModal({ chatId }: OfferModalProps) {
             setAmount("")
             setHours(0)
             setMinutes(1)
-            router.refresh()
+            queryClient.invalidateQueries({ queryKey: queryKeys.offers.byChat(chatId) })
         } catch (error) {
             console.error("Failed to create offer", error)
             alert("Failed to create offer. Please try again.")

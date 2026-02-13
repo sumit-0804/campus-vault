@@ -7,71 +7,85 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { getNotifications, getUnreadNotificationCount, markNotificationRead } from "@/actions/notifications"
 import { Notification } from "@/app/generated/prisma/client"
 import { getNotificationInfo } from "@/lib/notification-utils"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { pusherClient } from "@/lib/pusher"
 import { useSession } from "next-auth/react"
 import { format } from "date-fns"
 import { cn } from "@/lib/utils"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { queryKeys } from "@/lib/query-keys"
 
 export function NotificationBell() {
     const [open, setOpen] = useState(false)
-    const [unreadCount, setUnreadCount] = useState(0)
-    const [notifications, setNotifications] = useState<Notification[]>([])
     const { data: session } = useSession()
     const router = useRouter()
+    const queryClient = useQueryClient()
 
-    useEffect(() => {
-        // Initial fetch
-        const fetchData = async () => {
-            if (session?.user?.id) {
-                const count = await getUnreadNotificationCount()
-                setUnreadCount(count)
+    // Query for unread count
+    const { data: unreadCount = 0 } = useQuery({
+        queryKey: queryKeys.notifications.unreadCount,
+        queryFn: async () => {
+            if (!session?.user?.id) return 0
+            return getUnreadNotificationCount()
+        },
+        enabled: !!session?.user?.id,
+        staleTime: Infinity, // Rely on Pusher invalidation
+    })
 
-                // Fetch top 3 notifications
-                const result = await getNotifications(1, 3)
-                if (result.success) {
-                    setNotifications(result.notifications)
-                }
-            }
-        }
-        fetchData()
+    // Query for notifications list
+    const { data: notificationsData } = useQuery({
+        queryKey: queryKeys.notifications.list(1, 5),
+        queryFn: async () => {
+            if (!session?.user?.id) return { notifications: [] }
+            return getNotifications(1, 5)
+        },
+        enabled: !!session?.user?.id && open,
+    })
 
-        // Real-time updates
-        if (session?.user?.id) {
-            const channelName = `private-user-${session.user.id}`
-            const channel = pusherClient.subscribe(channelName)
+    const notifications = notificationsData?.notifications || []
 
-            channel.bind("new-notification", async () => {
-                const count = await getUnreadNotificationCount()
-                setUnreadCount(count)
+    // Mutation for marking as read
+    const { mutate: markRead } = useMutation({
+        mutationFn: markNotificationRead,
+        onMutate: async (id) => {
+            await queryClient.cancelQueries({ queryKey: queryKeys.notifications.all })
 
-                // Refresh top 3
-                const result = await getNotifications(1, 3)
-                if (result.success) {
-                    setNotifications(result.notifications)
+            // Optimistic update for count
+            const previousCount = queryClient.getQueryData<number>(queryKeys.notifications.unreadCount)
+            queryClient.setQueryData(queryKeys.notifications.unreadCount, (old: number = 0) => Math.max(0, old - 1))
+
+            // Optimistic update for list
+            const previousList = queryClient.getQueryData(queryKeys.notifications.list(1, 5))
+            queryClient.setQueryData(queryKeys.notifications.list(1, 5), (old: any) => {
+                if (!old) return old
+                return {
+                    ...old,
+                    notifications: old.notifications.map((n: Notification) =>
+                        n.id === id ? { ...n, isSeen: true } : n
+                    )
                 }
             })
 
-            return () => {
-                pusherClient.unsubscribe(channelName)
-            }
+            return { previousCount, previousList }
+        },
+        onError: (err, newTodo, context) => {
+            queryClient.setQueryData(queryKeys.notifications.unreadCount, context?.previousCount)
+            queryClient.setQueryData(queryKeys.notifications.list(1, 5), context?.previousList)
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all })
         }
-    }, [session?.user?.id])
+    })
 
     const handleNotificationClick = async (notification: Notification) => {
         const info = getNotificationInfo(notification.type, notification.referenceId)
 
         if (!notification.isSeen) {
-            await markNotificationRead(notification.id)
-            setUnreadCount(prev => Math.max(0, prev - 1))
-            setNotifications(prev => prev.map(n =>
-                n.id === notification.id ? { ...n, isSeen: true } : n
-            ))
+            markRead(notification.id)
         }
 
         setOpen(false)

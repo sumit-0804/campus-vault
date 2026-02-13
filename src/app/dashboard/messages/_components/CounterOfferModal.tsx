@@ -6,20 +6,24 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createCounterOffer } from "@/actions/offers"
-import { useRouter } from "next/navigation"
+
+import { useQueryClient } from "@tanstack/react-query"
+import { queryKeys } from "@/lib/query-keys"
 
 type CounterOfferModalProps = {
     offerId: string
     currentAmount: number
+    chatId: string
 }
 
-export default function CounterOfferModal({ offerId, currentAmount }: CounterOfferModalProps) {
+export default function CounterOfferModal({ offerId, currentAmount, chatId }: CounterOfferModalProps) {
     const [amount, setAmount] = useState("")
     const [hours, setHours] = useState(24)
     const [minutes, setMinutes] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const router = useRouter()
+
+    const queryClient = useQueryClient()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -39,7 +43,7 @@ export default function CounterOfferModal({ offerId, currentAmount }: CounterOff
             setAmount("")
             setHours(24)
             setMinutes(0)
-            router.refresh()
+            queryClient.invalidateQueries({ queryKey: queryKeys.offers.byChat(chatId) })
         } catch (error) {
             console.error("Failed to create counter offer", error)
             alert("Failed to create counter offer. Please try again.")

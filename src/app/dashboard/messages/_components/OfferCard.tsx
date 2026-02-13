@@ -7,7 +7,9 @@ import { cn } from "@/lib/utils"
 import { BloodPact, Wizard } from "@/app/generated/prisma/client"
 import { respondToOffer, cancelOffer, confirmDelivery, markAsDelivered, rejectDelivery } from "@/actions/offers"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+
+import { useQueryClient } from "@tanstack/react-query"
+import { queryKeys } from "@/lib/query-keys"
 import CounterOfferModal from "./CounterOfferModal"
 
 type OfferCardProps = {
@@ -18,7 +20,10 @@ type OfferCardProps = {
 
 export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
     const [isProcessing, setIsProcessing] = useState(false)
-    const router = useRouter()
+
+    const queryClient = useQueryClient()
+
+    const invalidate = () => queryClient.invalidateQueries({ queryKey: queryKeys.offers.byChat(chatId) })
 
     const isPending = offer.status === "PENDING"
     const isCounterPending = offer.status === "COUNTER_OFFER_PENDING"
@@ -41,7 +46,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
         setIsProcessing(true)
         try {
             await respondToOffer(offer.id, 'ACCEPT')
-            router.refresh()
+            invalidate()
         } catch (error) {
             console.error("Failed to accept offer", error)
         } finally {
@@ -53,7 +58,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
         setIsProcessing(true)
         try {
             await respondToOffer(offer.id, 'REJECT')
-            router.refresh()
+            invalidate()
         } catch (error) {
             console.error("Failed to reject offer", error)
         } finally {
@@ -65,7 +70,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
         setIsProcessing(true)
         try {
             await cancelOffer(offer.id)
-            router.refresh()
+            invalidate()
         } catch (error) {
             console.error("Failed to cancel offer", error)
         } finally {
@@ -77,7 +82,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
         setIsProcessing(true)
         try {
             await markAsDelivered(offer.id)
-            router.refresh()
+            invalidate()
         } catch (error) {
             console.error("Failed to mark as delivered", error)
         } finally {
@@ -89,7 +94,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
         setIsProcessing(true)
         try {
             await confirmDelivery(offer.id)
-            router.refresh()
+            invalidate()
         } catch (error) {
             console.error("Failed to confirm delivery", error)
         } finally {
@@ -101,7 +106,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
         setIsProcessing(true)
         try {
             await rejectDelivery(offer.id)
-            router.refresh()
+            invalidate()
         } catch (error) {
             console.error("Failed to reject delivery", error)
         } finally {
@@ -173,7 +178,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                             Reject
                         </Button>
                     </div>
-                    <CounterOfferModal offerId={offer.id} currentAmount={displayAmount} />
+                    <CounterOfferModal offerId={offer.id} currentAmount={displayAmount} chatId={chatId} />
                 </div>
             )}
 
@@ -201,7 +206,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                             Reject
                         </Button>
                     </div>
-                    <CounterOfferModal offerId={offer.id} currentAmount={displayAmount} />
+                    <CounterOfferModal offerId={offer.id} currentAmount={displayAmount} chatId={chatId} />
                 </div>
             )}
 
