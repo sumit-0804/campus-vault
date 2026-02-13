@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Camera, Mail } from "lucide-react";
+import { UserBadge } from "@/components/features/karma/UserBadge";
 
 export default async function ProfilePage() {
     const session = await getServerSession(authOptions);
@@ -51,6 +52,8 @@ export default async function ProfilePage() {
                             <span className="px-3 py-1 rounded-full bg-purple-900/50 text-purple-200 border border-purple-500/30 font-medium text-xs uppercase tracking-wider">
                                 {user.role}
                             </span>
+                            <UserBadge karma={user.karmaScore} />
+
                             <span className="flex items-center gap-2">
                                 <Mail className="w-3 h-3" />
                                 {user.email}

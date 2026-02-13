@@ -60,7 +60,9 @@ export const ModelName = {
   Message: 'Message',
   Notification: 'Notification',
   Transaction: 'Transaction',
-  Rating: 'Rating'
+  Rating: 'Rating',
+  KarmaLog: 'KarmaLog',
+  Report: 'Report'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -109,6 +111,8 @@ export const CursedObjectScalarFieldEnum = {
   condition: 'condition',
   status: 'status',
   category: 'category',
+  tags: 'tags',
+  piiDetected: 'piiDetected',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -159,6 +163,8 @@ export const LostRelicScalarFieldEnum = {
   claimerVerifiedAt: 'claimerVerifiedAt',
   droppedOffAt: 'droppedOffAt',
   deliveredAt: 'deliveredAt',
+  tags: 'tags',
+  piiDetected: 'piiDetected',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -226,6 +232,32 @@ export const RatingScalarFieldEnum = {
 } as const
 
 export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
+
+
+export const KarmaLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  reason: 'reason',
+  createdAt: 'createdAt'
+} as const
+
+export type KarmaLogScalarFieldEnum = (typeof KarmaLogScalarFieldEnum)[keyof typeof KarmaLogScalarFieldEnum]
+
+
+export const ReportScalarFieldEnum = {
+  id: 'id',
+  reporterId: 'reporterId',
+  targetType: 'targetType',
+  targetId: 'targetId',
+  reason: 'reason',
+  status: 'status',
+  adminNote: 'adminNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
 
 
 export const SortOrder = {

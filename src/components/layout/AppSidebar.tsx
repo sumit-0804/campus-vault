@@ -29,7 +29,17 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
 import { signOut } from "next-auth/react"
+import { useQuery } from "@tanstack/react-query"
+import { queryKeys } from "@/lib/query-keys"
+import { getUnreadNotificationCount } from "@/actions/notifications"
+import { useSession } from "next-auth/react"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 // Menu items.
 const items = {
@@ -53,6 +63,14 @@ const items = {
 
 export function AppSidebar() {
     const pathname = usePathname();
+    const { data: session } = useSession();
+    const isProfileIncomplete = session?.user && !session.user.phoneNumber;
+
+    const { data: unreadCount = 0 } = useQuery({
+        queryKey: queryKeys.notifications.unreadCount,
+        queryFn: () => getUnreadNotificationCount(),
+        refetchInterval: 30000, // Poll every 30s
+    })
 
     return (
         <Sidebar collapsible="icon" className="border-r border-white/10 bg-zinc-900/80 backdrop-blur-xl shadow-2xl shadow-black/50">
@@ -79,21 +97,47 @@ export function AppSidebar() {
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {items.marketplace.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton
-                                        asChild
-                                        tooltip={item.title}
-                                        isActive={pathname === item.url}
-                                        className="text-zinc-400 hover:text-white hover:bg-white/10 data-[active=true]:text-white data-[active=true]:bg-white/15 transition-all duration-200"
-                                    >
-                                        <Link href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
+                            {items.marketplace.map((item) => {
+                                const isDisabled = isProfileIncomplete;
+                                const content = (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton
+                                            asChild
+                                            tooltip={item.title}
+                                            isActive={pathname === item.url}
+                                            disabled={isDisabled}
+                                            className={cn(
+                                                "text-zinc-400 hover:text-white hover:bg-white/10 data-[active=true]:text-white data-[active=true]:bg-white/15 transition-all duration-200",
+                                                isDisabled && "opacity-50 cursor-not-allowed hover:bg-transparent hover:text-zinc-400"
+                                            )}
+                                        >
+                                            {isDisabled ? (
+                                                <div className="flex items-center gap-2 px-2 py-1.5 w-full">
+                                                    <item.icon />
+                                                    <span>{item.title}</span>
+                                                </div>
+                                            ) : (
+                                                <Link href={item.url}>
+                                                    <item.icon />
+                                                    <span>{item.title}</span>
+                                                </Link>
+                                            )}
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                );
+
+                                if (isDisabled) {
+                                    return (
+                                        <Tooltip key={item.title} delayDuration={0}>
+                                            <TooltipTrigger asChild>{content}</TooltipTrigger>
+                                            <TooltipContent side="right">
+                                                Update mobile number to continue
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    );
+                                }
+                                return content;
+                            })}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
@@ -105,21 +149,47 @@ export function AppSidebar() {
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {items.lostFound.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton
-                                        asChild
-                                        tooltip={item.title}
-                                        isActive={pathname === item.url}
-                                        className="text-zinc-400 hover:text-white hover:bg-white/10 data-[active=true]:text-white data-[active=true]:bg-white/15 transition-all duration-200"
-                                    >
-                                        <Link href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
+                            {items.lostFound.map((item) => {
+                                const isDisabled = isProfileIncomplete;
+                                const content = (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton
+                                            asChild
+                                            tooltip={item.title}
+                                            isActive={pathname === item.url}
+                                            disabled={isDisabled}
+                                            className={cn(
+                                                "text-zinc-400 hover:text-white hover:bg-white/10 data-[active=true]:text-white data-[active=true]:bg-white/15 transition-all duration-200",
+                                                isDisabled && "opacity-50 cursor-not-allowed hover:bg-transparent hover:text-zinc-400"
+                                            )}
+                                        >
+                                            {isDisabled ? (
+                                                <div className="flex items-center gap-2 px-2 py-1.5 w-full">
+                                                    <item.icon />
+                                                    <span>{item.title}</span>
+                                                </div>
+                                            ) : (
+                                                <Link href={item.url}>
+                                                    <item.icon />
+                                                    <span>{item.title}</span>
+                                                </Link>
+                                            )}
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                );
+
+                                if (isDisabled) {
+                                    return (
+                                        <Tooltip key={item.title} delayDuration={0}>
+                                            <TooltipTrigger asChild>{content}</TooltipTrigger>
+                                            <TooltipContent side="right">
+                                                Update mobile number to continue
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    );
+                                }
+                                return content;
+                            })}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
@@ -131,21 +201,54 @@ export function AppSidebar() {
                     </SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {items.account.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton
-                                        asChild
-                                        tooltip={item.title}
-                                        isActive={pathname === item.url}
-                                        className="text-zinc-400 hover:text-white hover:bg-white/10 data-[active=true]:text-white data-[active=true]:bg-white/15 transition-all duration-200"
-                                    >
-                                        <Link href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
+                            {items.account.map((item) => {
+                                const isDisabled = isProfileIncomplete && item.title !== "Profile";
+
+                                const content = (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton
+                                            asChild
+                                            tooltip={item.title}
+                                            isActive={pathname === item.url}
+                                            disabled={isDisabled}
+                                            className={cn(
+                                                "text-zinc-400 hover:text-white hover:bg-white/10 data-[active=true]:text-white data-[active=true]:bg-white/15 transition-all duration-200",
+                                                isDisabled && "opacity-50 cursor-not-allowed hover:bg-transparent hover:text-zinc-400"
+                                            )}
+                                        >
+                                            {isDisabled ? (
+                                                <div className="flex items-center gap-2 px-2 py-1.5 w-full">
+                                                    <item.icon />
+                                                    <span>{item.title}</span>
+                                                </div>
+                                            ) : (
+                                                <Link href={item.url} className="relative">
+                                                    <item.icon />
+                                                    <span>{item.title}</span>
+                                                    {item.title === "Notifications" && unreadCount > 0 && (
+                                                        <span className="absolute right-0 top-1/2 -translate-y-1/2 min-w-5 h-5 flex items-center justify-center text-[10px] font-bold text-white bg-red-600 rounded-full px-1 shadow-lg shadow-red-600/30 animate-pulse">
+                                                            {unreadCount > 99 ? "99+" : unreadCount}
+                                                        </span>
+                                                    )}
+                                                </Link>
+                                            )}
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                );
+
+                                if (isDisabled) {
+                                    return (
+                                        <Tooltip key={item.title} delayDuration={0}>
+                                            <TooltipTrigger asChild>{content}</TooltipTrigger>
+                                            <TooltipContent side="right">
+                                                Update mobile number to continue
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    );
+                                }
+
+                                return content;
+                            })}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>

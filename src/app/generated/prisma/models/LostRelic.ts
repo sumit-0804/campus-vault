@@ -38,6 +38,7 @@ export type LostRelicMinAggregateOutputType = {
   claimerVerifiedAt: Date | null
   droppedOffAt: Date | null
   deliveredAt: Date | null
+  piiDetected: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +57,7 @@ export type LostRelicMaxAggregateOutputType = {
   claimerVerifiedAt: Date | null
   droppedOffAt: Date | null
   deliveredAt: Date | null
+  piiDetected: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -75,6 +77,8 @@ export type LostRelicCountAggregateOutputType = {
   claimerVerifiedAt: number
   droppedOffAt: number
   deliveredAt: number
+  tags: number
+  piiDetected: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -95,6 +99,7 @@ export type LostRelicMinAggregateInputType = {
   claimerVerifiedAt?: true
   droppedOffAt?: true
   deliveredAt?: true
+  piiDetected?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -113,6 +118,7 @@ export type LostRelicMaxAggregateInputType = {
   claimerVerifiedAt?: true
   droppedOffAt?: true
   deliveredAt?: true
+  piiDetected?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -132,6 +138,8 @@ export type LostRelicCountAggregateInputType = {
   claimerVerifiedAt?: true
   droppedOffAt?: true
   deliveredAt?: true
+  tags?: true
+  piiDetected?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -224,6 +232,8 @@ export type LostRelicGroupByOutputType = {
   claimerVerifiedAt: Date | null
   droppedOffAt: Date | null
   deliveredAt: Date | null
+  tags: string[]
+  piiDetected: boolean
   createdAt: Date
   updatedAt: Date
   _count: LostRelicCountAggregateOutputType | null
@@ -264,6 +274,8 @@ export type LostRelicWhereInput = {
   claimerVerifiedAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
   droppedOffAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
   deliveredAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
+  tags?: Prisma.StringNullableListFilter<"LostRelic">
+  piiDetected?: Prisma.BoolFilter<"LostRelic"> | boolean
   createdAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   reporter?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
@@ -286,6 +298,8 @@ export type LostRelicOrderByWithRelationInput = {
   claimerVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   droppedOffAt?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveredAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   reporter?: Prisma.WizardOrderByWithRelationInput
@@ -311,6 +325,8 @@ export type LostRelicWhereUniqueInput = Prisma.AtLeast<{
   claimerVerifiedAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
   droppedOffAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
   deliveredAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
+  tags?: Prisma.StringNullableListFilter<"LostRelic">
+  piiDetected?: Prisma.BoolFilter<"LostRelic"> | boolean
   createdAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   reporter?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
@@ -333,6 +349,8 @@ export type LostRelicOrderByWithAggregationInput = {
   claimerVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   droppedOffAt?: Prisma.SortOrderInput | Prisma.SortOrder
   deliveredAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.LostRelicCountOrderByAggregateInput
@@ -358,6 +376,8 @@ export type LostRelicScalarWhereWithAggregatesInput = {
   claimerVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"LostRelic"> | Date | string | null
   droppedOffAt?: Prisma.DateTimeNullableWithAggregatesFilter<"LostRelic"> | Date | string | null
   deliveredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"LostRelic"> | Date | string | null
+  tags?: Prisma.StringNullableListFilter<"LostRelic">
+  piiDetected?: Prisma.BoolWithAggregatesFilter<"LostRelic"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"LostRelic"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"LostRelic"> | Date | string
 }
@@ -375,6 +395,8 @@ export type LostRelicCreateInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   reporter: Prisma.WizardCreateNestedOneWithoutLostRelicsInput
@@ -397,6 +419,8 @@ export type LostRelicUncheckedCreateInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutLostRelicInput
@@ -415,6 +439,8 @@ export type LostRelicUpdateInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reporter?: Prisma.WizardUpdateOneRequiredWithoutLostRelicsNestedInput
@@ -437,6 +463,8 @@ export type LostRelicUncheckedUpdateInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutLostRelicNestedInput
@@ -457,6 +485,8 @@ export type LostRelicCreateManyInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -474,6 +504,8 @@ export type LostRelicUpdateManyMutationInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -493,6 +525,8 @@ export type LostRelicUncheckedUpdateManyInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -522,6 +556,8 @@ export type LostRelicCountOrderByAggregateInput = {
   claimerVerifiedAt?: Prisma.SortOrder
   droppedOffAt?: Prisma.SortOrder
   deliveredAt?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -540,6 +576,7 @@ export type LostRelicMaxOrderByAggregateInput = {
   claimerVerifiedAt?: Prisma.SortOrder
   droppedOffAt?: Prisma.SortOrder
   deliveredAt?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -558,6 +595,7 @@ export type LostRelicMinOrderByAggregateInput = {
   claimerVerifiedAt?: Prisma.SortOrder
   droppedOffAt?: Prisma.SortOrder
   deliveredAt?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -655,6 +693,10 @@ export type LostRelicCreateimagesInput = {
   set: string[]
 }
 
+export type LostRelicCreatetagsInput = {
+  set: string[]
+}
+
 export type LostRelicUpdateimagesInput = {
   set?: string[]
   push?: string | string[]
@@ -666,6 +708,11 @@ export type EnumRelicTypeFieldUpdateOperationsInput = {
 
 export type EnumRelicStatusFieldUpdateOperationsInput = {
   set?: $Enums.RelicStatus
+}
+
+export type LostRelicUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type LostRelicCreateNestedOneWithoutChatRoomsInput = {
@@ -697,6 +744,8 @@ export type LostRelicCreateWithoutReporterInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   claimer?: Prisma.WizardCreateNestedOneWithoutClaimedRelicsInput
@@ -717,6 +766,8 @@ export type LostRelicUncheckedCreateWithoutReporterInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutLostRelicInput
@@ -745,6 +796,8 @@ export type LostRelicCreateWithoutClaimerInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   reporter: Prisma.WizardCreateNestedOneWithoutLostRelicsInput
@@ -765,6 +818,8 @@ export type LostRelicUncheckedCreateWithoutClaimerInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutLostRelicInput
@@ -814,6 +869,8 @@ export type LostRelicScalarWhereInput = {
   claimerVerifiedAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
   droppedOffAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
   deliveredAt?: Prisma.DateTimeNullableFilter<"LostRelic"> | Date | string | null
+  tags?: Prisma.StringNullableListFilter<"LostRelic">
+  piiDetected?: Prisma.BoolFilter<"LostRelic"> | boolean
   createdAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LostRelic"> | Date | string
 }
@@ -847,6 +904,8 @@ export type LostRelicCreateWithoutChatRoomsInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   reporter: Prisma.WizardCreateNestedOneWithoutLostRelicsInput
@@ -868,6 +927,8 @@ export type LostRelicUncheckedCreateWithoutChatRoomsInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -901,6 +962,8 @@ export type LostRelicUpdateWithoutChatRoomsInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reporter?: Prisma.WizardUpdateOneRequiredWithoutLostRelicsNestedInput
@@ -922,6 +985,8 @@ export type LostRelicUncheckedUpdateWithoutChatRoomsInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -940,6 +1005,8 @@ export type LostRelicCreateManyReporterInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -958,6 +1025,8 @@ export type LostRelicCreateManyClaimerInput = {
   claimerVerifiedAt?: Date | string | null
   droppedOffAt?: Date | string | null
   deliveredAt?: Date | string | null
+  tags?: Prisma.LostRelicCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -975,6 +1044,8 @@ export type LostRelicUpdateWithoutReporterInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   claimer?: Prisma.WizardUpdateOneWithoutClaimedRelicsNestedInput
@@ -995,6 +1066,8 @@ export type LostRelicUncheckedUpdateWithoutReporterInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutLostRelicNestedInput
@@ -1014,6 +1087,8 @@ export type LostRelicUncheckedUpdateManyWithoutReporterInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1031,6 +1106,8 @@ export type LostRelicUpdateWithoutClaimerInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reporter?: Prisma.WizardUpdateOneRequiredWithoutLostRelicsNestedInput
@@ -1051,6 +1128,8 @@ export type LostRelicUncheckedUpdateWithoutClaimerInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutLostRelicNestedInput
@@ -1070,6 +1149,8 @@ export type LostRelicUncheckedUpdateManyWithoutClaimerInput = {
   claimerVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   droppedOffAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deliveredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.LostRelicUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1120,6 +1201,8 @@ export type LostRelicSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   claimerVerifiedAt?: boolean
   droppedOffAt?: boolean
   deliveredAt?: boolean
+  tags?: boolean
+  piiDetected?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   reporter?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -1143,6 +1226,8 @@ export type LostRelicSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   claimerVerifiedAt?: boolean
   droppedOffAt?: boolean
   deliveredAt?: boolean
+  tags?: boolean
+  piiDetected?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   reporter?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -1164,6 +1249,8 @@ export type LostRelicSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   claimerVerifiedAt?: boolean
   droppedOffAt?: boolean
   deliveredAt?: boolean
+  tags?: boolean
+  piiDetected?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   reporter?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -1185,11 +1272,13 @@ export type LostRelicSelectScalar = {
   claimerVerifiedAt?: boolean
   droppedOffAt?: boolean
   deliveredAt?: boolean
+  tags?: boolean
+  piiDetected?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LostRelicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reporterId" | "title" | "description" | "images" | "location" | "type" | "status" | "secretRiddle" | "hiddenTruth" | "claimerId" | "claimerVerifiedAt" | "droppedOffAt" | "deliveredAt" | "createdAt" | "updatedAt", ExtArgs["result"]["lostRelic"]>
+export type LostRelicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reporterId" | "title" | "description" | "images" | "location" | "type" | "status" | "secretRiddle" | "hiddenTruth" | "claimerId" | "claimerVerifiedAt" | "droppedOffAt" | "deliveredAt" | "tags" | "piiDetected" | "createdAt" | "updatedAt", ExtArgs["result"]["lostRelic"]>
 export type LostRelicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reporter?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
   claimer?: boolean | Prisma.LostRelic$claimerArgs<ExtArgs>
@@ -1227,6 +1316,8 @@ export type $LostRelicPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     claimerVerifiedAt: Date | null
     droppedOffAt: Date | null
     deliveredAt: Date | null
+    tags: string[]
+    piiDetected: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["lostRelic"]>
@@ -1669,6 +1760,8 @@ export interface LostRelicFieldRefs {
   readonly claimerVerifiedAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
   readonly droppedOffAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
   readonly deliveredAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
+  readonly tags: Prisma.FieldRef<"LostRelic", 'String[]'>
+  readonly piiDetected: Prisma.FieldRef<"LostRelic", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"LostRelic", 'DateTime'>
 }

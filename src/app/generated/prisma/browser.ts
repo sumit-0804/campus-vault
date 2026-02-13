@@ -67,3 +67,13 @@ export type Transaction = Prisma.TransactionModel
  * 
  */
 export type Rating = Prisma.RatingModel
+/**
+ * Model KarmaLog
+ * 
+ */
+export type KarmaLog = Prisma.KarmaLogModel
+/**
+ * Model Report
+ * 
+ */
+export type Report = Prisma.ReportModel

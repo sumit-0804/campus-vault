@@ -48,10 +48,14 @@ export type NotificationType = (typeof NotificationType)[keyof typeof Notificati
 
 
 export const KarmaRank = {
-  MUGGLE: 'MUGGLE',
-  WIZARD: 'WIZARD',
-  AUROR: 'AUROR',
-  DARK_KNIGHT: 'DARK_KNIGHT'
+  E_RANK: 'E_RANK',
+  D_RANK: 'D_RANK',
+  C_RANK: 'C_RANK',
+  B_RANK: 'B_RANK',
+  A_RANK: 'A_RANK',
+  S_RANK: 'S_RANK',
+  NATIONAL_LEVEL: 'NATIONAL_LEVEL',
+  SHADOW_MONARCH: 'SHADOW_MONARCH'
 } as const
 
 export type KarmaRank = (typeof KarmaRank)[keyof typeof KarmaRank]
@@ -107,3 +111,12 @@ export const RelicStatus = {
 } as const
 
 export type RelicStatus = (typeof RelicStatus)[keyof typeof RelicStatus]
+
+
+export const ReportStatus = {
+  PENDING: 'PENDING',
+  ACTIONED: 'ACTIONED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowLeft, ShieldCheck, MapPin, Calendar } from "lucide-react";
+import { ReportButton } from "@/components/ui/ReportButton";
 import { BackButton } from "@/components/ui/BackButton";
 import { RelicDetailActions } from "@/components/lost-found/RelicDetailActions";
 import { HandoffTimeline } from "@/components/lost-found/HandoffTimeline";
@@ -40,7 +41,7 @@ export async function RelicDetailView({ relicId, backRoute = "/lost-found", back
             <div className="p-4 md:p-8 lg:p-10 h-[75%] max-w-7xl mx-auto">
                 <RelicRealtimeListener relicId={relic.id} />
                 {/* Header Nav */}
-                <div className="mb-6 md:mb-10">
+                <div className="mb-6 md:mb-10 flex items-center justify-between">
                     <BackButton
                         fallbackRoute={backRoute}
                         className="inline-flex items-center gap-2 text-zinc-400 hover:text-amber-500 transition-all duration-300 group hover:bg-transparent pl-0"
@@ -48,6 +49,15 @@ export async function RelicDetailView({ relicId, backRoute = "/lost-found", back
                         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                         <span className="font-medium">{backLabel}</span>
                     </BackButton>
+                    {!isReporter && session?.user?.id && (
+                        <ReportButton
+                            targetType="ITEM"
+                            targetId={relic.id}
+                            targetLabel="this listing"
+                            variant="ghost"
+                            size="sm"
+                        />
+                    )}
                 </div>
 
                 {/* Main Grid: Image + Details */}
@@ -130,9 +140,19 @@ export async function RelicDetailView({ relicId, backRoute = "/lost-found", back
                                         </Avatar>
                                         <div>
                                             <h4 className="font-bold text-white">{relic.reporter.fullName}</h4>
-                                            {/* Hide email for public users if strictly needed, but design showed it. Keeping for now until requested otherwise. */}
                                             <p className="text-xs text-zinc-400">{relic.reporter.email}</p>
                                         </div>
+                                        {!isReporter && session?.user?.id && (
+                                            <ReportButton
+                                                targetType="USER"
+                                                targetId={relic.reporterId}
+                                                targetLabel="this user"
+                                                variant="ghost"
+                                                size="icon"
+                                                iconOnly
+                                                className="ml-auto text-zinc-500 hover:text-red-400"
+                                            />
+                                        )}
                                     </div>
                                 </div>
 

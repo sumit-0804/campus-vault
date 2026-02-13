@@ -393,7 +393,9 @@ export const ModelName = {
   Message: 'Message',
   Notification: 'Notification',
   Transaction: 'Transaction',
-  Rating: 'Rating'
+  Rating: 'Rating',
+  KarmaLog: 'KarmaLog',
+  Report: 'Report'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -409,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "wizard" | "cursedObject" | "bloodPact" | "offerHistory" | "lostRelic" | "chatRoom" | "message" | "notification" | "transaction" | "rating"
+    modelProps: "wizard" | "cursedObject" | "bloodPact" | "offerHistory" | "lostRelic" | "chatRoom" | "message" | "notification" | "transaction" | "rating" | "karmaLog" | "report"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1153,6 +1155,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    KarmaLog: {
+      payload: Prisma.$KarmaLogPayload<ExtArgs>
+      fields: Prisma.KarmaLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.KarmaLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.KarmaLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload>
+        }
+        findFirst: {
+          args: Prisma.KarmaLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.KarmaLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload>
+        }
+        findMany: {
+          args: Prisma.KarmaLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload>[]
+        }
+        create: {
+          args: Prisma.KarmaLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload>
+        }
+        createMany: {
+          args: Prisma.KarmaLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.KarmaLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload>[]
+        }
+        delete: {
+          args: Prisma.KarmaLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload>
+        }
+        update: {
+          args: Prisma.KarmaLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.KarmaLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.KarmaLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.KarmaLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.KarmaLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$KarmaLogPayload>
+        }
+        aggregate: {
+          args: Prisma.KarmaLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateKarmaLog>
+        }
+        groupBy: {
+          args: Prisma.KarmaLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.KarmaLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.KarmaLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.KarmaLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    Report: {
+      payload: Prisma.$ReportPayload<ExtArgs>
+      fields: Prisma.ReportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
+        }
+        findFirst: {
+          args: Prisma.ReportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
+        }
+        findMany: {
+          args: Prisma.ReportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>[]
+        }
+        create: {
+          args: Prisma.ReportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
+        }
+        createMany: {
+          args: Prisma.ReportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>[]
+        }
+        delete: {
+          args: Prisma.ReportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
+        }
+        update: {
+          args: Prisma.ReportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReportPayload>
+        }
+        aggregate: {
+          args: Prisma.ReportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReport>
+        }
+        groupBy: {
+          args: Prisma.ReportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReportCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1222,6 +1372,8 @@ export const CursedObjectScalarFieldEnum = {
   condition: 'condition',
   status: 'status',
   category: 'category',
+  tags: 'tags',
+  piiDetected: 'piiDetected',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1272,6 +1424,8 @@ export const LostRelicScalarFieldEnum = {
   claimerVerifiedAt: 'claimerVerifiedAt',
   droppedOffAt: 'droppedOffAt',
   deliveredAt: 'deliveredAt',
+  tags: 'tags',
+  piiDetected: 'piiDetected',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1339,6 +1493,32 @@ export const RatingScalarFieldEnum = {
 } as const
 
 export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
+
+
+export const KarmaLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  reason: 'reason',
+  createdAt: 'createdAt'
+} as const
+
+export type KarmaLogScalarFieldEnum = (typeof KarmaLogScalarFieldEnum)[keyof typeof KarmaLogScalarFieldEnum]
+
+
+export const ReportScalarFieldEnum = {
+  id: 'id',
+  reporterId: 'reporterId',
+  targetType: 'targetType',
+  targetId: 'targetId',
+  reason: 'reason',
+  status: 'status',
+  adminNote: 'adminNote',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1559,6 +1739,20 @@ export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
 export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
     
 
+
+/**
+ * Reference to a field of type 'ReportStatus'
+ */
+export type EnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportStatus[]'
+ */
+export type ListEnumReportStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -1664,6 +1858,8 @@ export type GlobalOmitConfig = {
   notification?: Prisma.NotificationOmit
   transaction?: Prisma.TransactionOmit
   rating?: Prisma.RatingOmit
+  karmaLog?: Prisma.KarmaLogOmit
+  report?: Prisma.ReportOmit
 }
 
 /* Types for Logging */

@@ -16,7 +16,7 @@ model Wizard {
   linkedinUrl     String?
   instagramUrl    String?
   karmaScore      Int            @default(0)
-  karmaRank       KarmaRank      @default(MUGGLE)
+  karmaRank       KarmaRank      @default(E_RANK)
   role            UserRole       @default(USER)
   isBanished      Boolean        @default(false)
   lastLoginDate   DateTime?
@@ -34,6 +34,8 @@ model Wizard {
   ratingsGiven    Rating[]       @relation("RatingsGiven")
   ratingsReceived Rating[]       @relation("RatingsReceived")
   offerActions    OfferHistory[]
+  karmaLogs       KarmaLog[]
+  reports         Report[]       @relation("ReportsSubmitted")
 }
 
 model CursedObject {
@@ -47,6 +49,8 @@ model CursedObject {
   condition   String
   status      ItemStatus @default(ACTIVE)
   category    String
+  tags        String[]
+  piiDetected Boolean    @default(false)
 
   offers       BloodPact[]
   chatRooms    ChatRoom[]
@@ -114,6 +118,8 @@ model LostRelic {
   claimerVerifiedAt DateTime?
   droppedOffAt      DateTime?
   deliveredAt       DateTime?
+  tags              String[]
+  piiDetected       Boolean     @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -202,10 +208,14 @@ enum NotificationType {
 }
 
 enum KarmaRank {
-  MUGGLE
-  WIZARD
-  AUROR
-  DARK_KNIGHT
+  E_RANK
+  D_RANK
+  C_RANK
+  B_RANK
+  A_RANK
+  S_RANK
+  NATIONAL_LEVEL
+  SHADOW_MONARCH
 }
 
 enum UserRole {
@@ -243,4 +253,32 @@ enum RelicStatus {
   DROPPED_OFF
   DELIVERED
   SOLVED
+}
+
+model KarmaLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      Wizard   @relation(fields: [userId], references: [id])
+  amount    Int
+  reason    String
+  createdAt DateTime @default(now())
+}
+
+model Report {
+  id         String       @id @default(cuid())
+  reporterId String
+  reporter   Wizard       @relation("ReportsSubmitted", fields: [reporterId], references: [id])
+  targetType String // "USER" | "ITEM"
+  targetId   String
+  reason     String
+  status     ReportStatus @default(PENDING)
+  adminNote  String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+enum ReportStatus {
+  PENDING
+  ACTIONED
+  REJECTED
 }

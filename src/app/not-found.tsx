@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight, AlertTriangle } from "lucide-react";
+import { Jumpscare } from "@/components/ui/Jumpscare";
 
 export default function NotFound() {
   return (
     <div className="relative min-h-screen bg-[#030303] overflow-hidden flex items-center justify-center px-6">
-      
+
       {/* Ambient failure glow */}
       <div className="absolute inset-0">
         <div className="absolute bottom-[-250px] left-[-200px] w-[600px] h-[600px] bg-red-900/20 blur-[200px]" />
@@ -46,7 +47,7 @@ export default function NotFound() {
 
         {/* Copy */}
         <p className="text-[12px] leading-relaxed tracking-wide text-zinc-400 max-w-md mx-auto mb-10">
-          The path you attempted to access does not exist within this vault.  
+          The path you attempted to access does not exist within this vault.
           Either it has been sealed, relocated, or you lack the required clearance.
         </p>
 

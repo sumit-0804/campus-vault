@@ -9,6 +9,7 @@ import { usePusherNotifications } from "@/hooks/usePusherNotifications"
 import { useSession } from "next-auth/react"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect } from "react"
+import { toast } from "sonner"
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { data: session, status } = useSession()
@@ -22,6 +23,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         if (session?.user && !session.user.phoneNumber) {
             // Avoid infinite loop
             if (pathname !== "/dashboard/profile") {
+                toast.error("Please update your mobile number to continue", {
+                    id: "profile-nudge", // Prevent multiple toasts
+                })
                 router.push("/dashboard/profile")
             }
         }

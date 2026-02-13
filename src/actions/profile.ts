@@ -8,7 +8,7 @@ import { z } from "zod";
 
 const profileSchema = z.object({
     fullName: z.string().min(2, "Name must be at least 2 characters"),
-    phoneNumber: z.string().optional(),
+    phoneNumber: z.string().regex(/^\d{10}$/, "Mobile number must be exactly 10 digits").optional().or(z.literal("")),
     linkedinUrl: z.string().url("Invalid LinkedIn URL").optional().or(z.literal("")),
     instagramUrl: z.string().url("Invalid Instagram URL").optional().or(z.literal("")),
 });

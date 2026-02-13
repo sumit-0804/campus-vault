@@ -300,6 +300,8 @@ export type WizardWhereInput = {
   ratingsGiven?: Prisma.RatingListRelationFilter
   ratingsReceived?: Prisma.RatingListRelationFilter
   offerActions?: Prisma.OfferHistoryListRelationFilter
+  karmaLogs?: Prisma.KarmaLogListRelationFilter
+  reports?: Prisma.ReportListRelationFilter
 }
 
 export type WizardOrderByWithRelationInput = {
@@ -329,6 +331,8 @@ export type WizardOrderByWithRelationInput = {
   ratingsGiven?: Prisma.RatingOrderByRelationAggregateInput
   ratingsReceived?: Prisma.RatingOrderByRelationAggregateInput
   offerActions?: Prisma.OfferHistoryOrderByRelationAggregateInput
+  karmaLogs?: Prisma.KarmaLogOrderByRelationAggregateInput
+  reports?: Prisma.ReportOrderByRelationAggregateInput
 }
 
 export type WizardWhereUniqueInput = Prisma.AtLeast<{
@@ -361,6 +365,8 @@ export type WizardWhereUniqueInput = Prisma.AtLeast<{
   ratingsGiven?: Prisma.RatingListRelationFilter
   ratingsReceived?: Prisma.RatingListRelationFilter
   offerActions?: Prisma.OfferHistoryListRelationFilter
+  karmaLogs?: Prisma.KarmaLogListRelationFilter
+  reports?: Prisma.ReportListRelationFilter
 }, "id" | "email">
 
 export type WizardOrderByWithAggregationInput = {
@@ -432,6 +438,8 @@ export type WizardCreateInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateInput = {
@@ -461,6 +469,8 @@ export type WizardUncheckedCreateInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUpdateInput = {
@@ -490,6 +500,8 @@ export type WizardUpdateInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateInput = {
@@ -519,6 +531,8 @@ export type WizardUncheckedUpdateInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardCreateManyInput = {
@@ -881,6 +895,34 @@ export type WizardUpdateOneRequiredWithoutRatingsReceivedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutRatingsReceivedInput, Prisma.WizardUpdateWithoutRatingsReceivedInput>, Prisma.WizardUncheckedUpdateWithoutRatingsReceivedInput>
 }
 
+export type WizardCreateNestedOneWithoutKarmaLogsInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutKarmaLogsInput, Prisma.WizardUncheckedCreateWithoutKarmaLogsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutKarmaLogsInput
+  connect?: Prisma.WizardWhereUniqueInput
+}
+
+export type WizardUpdateOneRequiredWithoutKarmaLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutKarmaLogsInput, Prisma.WizardUncheckedCreateWithoutKarmaLogsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutKarmaLogsInput
+  upsert?: Prisma.WizardUpsertWithoutKarmaLogsInput
+  connect?: Prisma.WizardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutKarmaLogsInput, Prisma.WizardUpdateWithoutKarmaLogsInput>, Prisma.WizardUncheckedUpdateWithoutKarmaLogsInput>
+}
+
+export type WizardCreateNestedOneWithoutReportsInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutReportsInput, Prisma.WizardUncheckedCreateWithoutReportsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutReportsInput
+  connect?: Prisma.WizardWhereUniqueInput
+}
+
+export type WizardUpdateOneRequiredWithoutReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.WizardCreateWithoutReportsInput, Prisma.WizardUncheckedCreateWithoutReportsInput>
+  connectOrCreate?: Prisma.WizardCreateOrConnectWithoutReportsInput
+  upsert?: Prisma.WizardUpsertWithoutReportsInput
+  connect?: Prisma.WizardWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.WizardUpdateToOneWithWhereWithoutReportsInput, Prisma.WizardUpdateWithoutReportsInput>, Prisma.WizardUncheckedUpdateWithoutReportsInput>
+}
+
 export type WizardCreateWithoutCursedObjectsInput = {
   id: string
   fullName: string
@@ -907,6 +949,8 @@ export type WizardCreateWithoutCursedObjectsInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutCursedObjectsInput = {
@@ -935,6 +979,8 @@ export type WizardUncheckedCreateWithoutCursedObjectsInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutCursedObjectsInput = {
@@ -979,6 +1025,8 @@ export type WizardUpdateWithoutCursedObjectsInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutCursedObjectsInput = {
@@ -1007,6 +1055,8 @@ export type WizardUncheckedUpdateWithoutCursedObjectsInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardCreateWithoutBloodPactsInput = {
@@ -1035,6 +1085,8 @@ export type WizardCreateWithoutBloodPactsInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutBloodPactsInput = {
@@ -1063,6 +1115,8 @@ export type WizardUncheckedCreateWithoutBloodPactsInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutBloodPactsInput = {
@@ -1107,6 +1161,8 @@ export type WizardUpdateWithoutBloodPactsInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutBloodPactsInput = {
@@ -1135,6 +1191,8 @@ export type WizardUncheckedUpdateWithoutBloodPactsInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardCreateWithoutOfferActionsInput = {
@@ -1163,6 +1221,8 @@ export type WizardCreateWithoutOfferActionsInput = {
   sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutOfferActionsInput = {
@@ -1191,6 +1251,8 @@ export type WizardUncheckedCreateWithoutOfferActionsInput = {
   sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutOfferActionsInput = {
@@ -1235,6 +1297,8 @@ export type WizardUpdateWithoutOfferActionsInput = {
   sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutOfferActionsInput = {
@@ -1263,6 +1327,8 @@ export type WizardUncheckedUpdateWithoutOfferActionsInput = {
   sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardCreateWithoutLostRelicsInput = {
@@ -1291,6 +1357,8 @@ export type WizardCreateWithoutLostRelicsInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutLostRelicsInput = {
@@ -1319,6 +1387,8 @@ export type WizardUncheckedCreateWithoutLostRelicsInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutLostRelicsInput = {
@@ -1352,6 +1422,8 @@ export type WizardCreateWithoutClaimedRelicsInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutClaimedRelicsInput = {
@@ -1380,6 +1452,8 @@ export type WizardUncheckedCreateWithoutClaimedRelicsInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutClaimedRelicsInput = {
@@ -1424,6 +1498,8 @@ export type WizardUpdateWithoutLostRelicsInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutLostRelicsInput = {
@@ -1452,6 +1528,8 @@ export type WizardUncheckedUpdateWithoutLostRelicsInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUpsertWithoutClaimedRelicsInput = {
@@ -1491,6 +1569,8 @@ export type WizardUpdateWithoutClaimedRelicsInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutClaimedRelicsInput = {
@@ -1519,6 +1599,8 @@ export type WizardUncheckedUpdateWithoutClaimedRelicsInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardCreateWithoutChatRoomsInput = {
@@ -1547,6 +1629,8 @@ export type WizardCreateWithoutChatRoomsInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutChatRoomsInput = {
@@ -1575,6 +1659,8 @@ export type WizardUncheckedCreateWithoutChatRoomsInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutChatRoomsInput = {
@@ -1644,6 +1730,8 @@ export type WizardCreateWithoutMessagesInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutMessagesInput = {
@@ -1672,6 +1760,8 @@ export type WizardUncheckedCreateWithoutMessagesInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutMessagesInput = {
@@ -1716,6 +1806,8 @@ export type WizardUpdateWithoutMessagesInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutMessagesInput = {
@@ -1744,6 +1836,8 @@ export type WizardUncheckedUpdateWithoutMessagesInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardCreateWithoutNotificationsInput = {
@@ -1772,6 +1866,8 @@ export type WizardCreateWithoutNotificationsInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutNotificationsInput = {
@@ -1800,6 +1896,8 @@ export type WizardUncheckedCreateWithoutNotificationsInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutNotificationsInput = {
@@ -1844,6 +1942,8 @@ export type WizardUpdateWithoutNotificationsInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutNotificationsInput = {
@@ -1872,6 +1972,8 @@ export type WizardUncheckedUpdateWithoutNotificationsInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardCreateWithoutPurchasesInput = {
@@ -1900,6 +2002,8 @@ export type WizardCreateWithoutPurchasesInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutPurchasesInput = {
@@ -1928,6 +2032,8 @@ export type WizardUncheckedCreateWithoutPurchasesInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutPurchasesInput = {
@@ -1961,6 +2067,8 @@ export type WizardCreateWithoutSalesInput = {
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutSalesInput = {
@@ -1989,6 +2097,8 @@ export type WizardUncheckedCreateWithoutSalesInput = {
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutSalesInput = {
@@ -2033,6 +2143,8 @@ export type WizardUpdateWithoutPurchasesInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutPurchasesInput = {
@@ -2061,6 +2173,8 @@ export type WizardUncheckedUpdateWithoutPurchasesInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUpsertWithoutSalesInput = {
@@ -2100,6 +2214,8 @@ export type WizardUpdateWithoutSalesInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutSalesInput = {
@@ -2128,6 +2244,8 @@ export type WizardUncheckedUpdateWithoutSalesInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardCreateWithoutRatingsGivenInput = {
@@ -2156,6 +2274,8 @@ export type WizardCreateWithoutRatingsGivenInput = {
   sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
   ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutRatingsGivenInput = {
@@ -2184,6 +2304,8 @@ export type WizardUncheckedCreateWithoutRatingsGivenInput = {
   sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
   ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutRatingsGivenInput = {
@@ -2217,6 +2339,8 @@ export type WizardCreateWithoutRatingsReceivedInput = {
   sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
   ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
   offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
 }
 
 export type WizardUncheckedCreateWithoutRatingsReceivedInput = {
@@ -2245,6 +2369,8 @@ export type WizardUncheckedCreateWithoutRatingsReceivedInput = {
   sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
   ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
   offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
 }
 
 export type WizardCreateOrConnectWithoutRatingsReceivedInput = {
@@ -2289,6 +2415,8 @@ export type WizardUpdateWithoutRatingsGivenInput = {
   sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutRatingsGivenInput = {
@@ -2317,6 +2445,8 @@ export type WizardUncheckedUpdateWithoutRatingsGivenInput = {
   sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUpsertWithoutRatingsReceivedInput = {
@@ -2356,6 +2486,8 @@ export type WizardUpdateWithoutRatingsReceivedInput = {
   sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutRatingsReceivedInput = {
@@ -2384,6 +2516,280 @@ export type WizardUncheckedUpdateWithoutRatingsReceivedInput = {
   sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+}
+
+export type WizardCreateWithoutKarmaLogsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  lastLoginDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  claimedRelics?: Prisma.LostRelicCreateNestedManyWithoutClaimerInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
+  offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  reports?: Prisma.ReportCreateNestedManyWithoutReporterInput
+}
+
+export type WizardUncheckedCreateWithoutKarmaLogsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  lastLoginDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  claimedRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutClaimerInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
+  offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutReporterInput
+}
+
+export type WizardCreateOrConnectWithoutKarmaLogsInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutKarmaLogsInput, Prisma.WizardUncheckedCreateWithoutKarmaLogsInput>
+}
+
+export type WizardUpsertWithoutKarmaLogsInput = {
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutKarmaLogsInput, Prisma.WizardUncheckedUpdateWithoutKarmaLogsInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutKarmaLogsInput, Prisma.WizardUncheckedCreateWithoutKarmaLogsInput>
+  where?: Prisma.WizardWhereInput
+}
+
+export type WizardUpdateToOneWithWhereWithoutKarmaLogsInput = {
+  where?: Prisma.WizardWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutKarmaLogsInput, Prisma.WizardUncheckedUpdateWithoutKarmaLogsInput>
+}
+
+export type WizardUpdateWithoutKarmaLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  claimedRelics?: Prisma.LostRelicUpdateManyWithoutClaimerNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
+  offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutKarmaLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  claimedRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutClaimerNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
+  offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
+}
+
+export type WizardCreateWithoutReportsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  lastLoginDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicCreateNestedManyWithoutReporterInput
+  claimedRelics?: Prisma.LostRelicCreateNestedManyWithoutClaimerInput
+  chatRooms?: Prisma.ChatRoomCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionCreateNestedManyWithoutSellerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutSellerInput
+  offerActions?: Prisma.OfferHistoryCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogCreateNestedManyWithoutUserInput
+}
+
+export type WizardUncheckedCreateWithoutReportsInput = {
+  id: string
+  fullName: string
+  email: string
+  avatarUrl?: string | null
+  phoneNumber?: string | null
+  linkedinUrl?: string | null
+  instagramUrl?: string | null
+  karmaScore?: number
+  karmaRank?: $Enums.KarmaRank
+  role?: $Enums.UserRole
+  isBanished?: boolean
+  lastLoginDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt: Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedCreateNestedManyWithoutSellerInput
+  bloodPacts?: Prisma.BloodPactUncheckedCreateNestedManyWithoutBuyerInput
+  lostRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutReporterInput
+  claimedRelics?: Prisma.LostRelicUncheckedCreateNestedManyWithoutClaimerInput
+  chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutParticipantsInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  purchases?: Prisma.TransactionUncheckedCreateNestedManyWithoutBuyerInput
+  sales?: Prisma.TransactionUncheckedCreateNestedManyWithoutSellerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutRaterInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutSellerInput
+  offerActions?: Prisma.OfferHistoryUncheckedCreateNestedManyWithoutActorInput
+  karmaLogs?: Prisma.KarmaLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type WizardCreateOrConnectWithoutReportsInput = {
+  where: Prisma.WizardWhereUniqueInput
+  create: Prisma.XOR<Prisma.WizardCreateWithoutReportsInput, Prisma.WizardUncheckedCreateWithoutReportsInput>
+}
+
+export type WizardUpsertWithoutReportsInput = {
+  update: Prisma.XOR<Prisma.WizardUpdateWithoutReportsInput, Prisma.WizardUncheckedUpdateWithoutReportsInput>
+  create: Prisma.XOR<Prisma.WizardCreateWithoutReportsInput, Prisma.WizardUncheckedCreateWithoutReportsInput>
+  where?: Prisma.WizardWhereInput
+}
+
+export type WizardUpdateToOneWithWhereWithoutReportsInput = {
+  where?: Prisma.WizardWhereInput
+  data: Prisma.XOR<Prisma.WizardUpdateWithoutReportsInput, Prisma.WizardUncheckedUpdateWithoutReportsInput>
+}
+
+export type WizardUpdateWithoutReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUpdateManyWithoutReporterNestedInput
+  claimedRelics?: Prisma.LostRelicUpdateManyWithoutClaimerNestedInput
+  chatRooms?: Prisma.ChatRoomUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUpdateManyWithoutSellerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
+  offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+}
+
+export type WizardUncheckedUpdateWithoutReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  linkedinUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  karmaScore?: Prisma.IntFieldUpdateOperationsInput | number
+  karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cursedObjects?: Prisma.CursedObjectUncheckedUpdateManyWithoutSellerNestedInput
+  bloodPacts?: Prisma.BloodPactUncheckedUpdateManyWithoutBuyerNestedInput
+  lostRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutReporterNestedInput
+  claimedRelics?: Prisma.LostRelicUncheckedUpdateManyWithoutClaimerNestedInput
+  chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutParticipantsNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  purchases?: Prisma.TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+  sales?: Prisma.TransactionUncheckedUpdateManyWithoutSellerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
+  offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type WizardUpdateWithoutChatRoomsInput = {
@@ -2412,6 +2818,8 @@ export type WizardUpdateWithoutChatRoomsInput = {
   ratingsGiven?: Prisma.RatingUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateWithoutChatRoomsInput = {
@@ -2440,6 +2848,8 @@ export type WizardUncheckedUpdateWithoutChatRoomsInput = {
   ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutRaterNestedInput
   ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutSellerNestedInput
   offerActions?: Prisma.OfferHistoryUncheckedUpdateManyWithoutActorNestedInput
+  karmaLogs?: Prisma.KarmaLogUncheckedUpdateManyWithoutUserNestedInput
+  reports?: Prisma.ReportUncheckedUpdateManyWithoutReporterNestedInput
 }
 
 export type WizardUncheckedUpdateManyWithoutChatRoomsInput = {
@@ -2477,6 +2887,8 @@ export type WizardCountOutputType = {
   ratingsGiven: number
   ratingsReceived: number
   offerActions: number
+  karmaLogs: number
+  reports: number
 }
 
 export type WizardCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2492,6 +2904,8 @@ export type WizardCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   ratingsGiven?: boolean | WizardCountOutputTypeCountRatingsGivenArgs
   ratingsReceived?: boolean | WizardCountOutputTypeCountRatingsReceivedArgs
   offerActions?: boolean | WizardCountOutputTypeCountOfferActionsArgs
+  karmaLogs?: boolean | WizardCountOutputTypeCountKarmaLogsArgs
+  reports?: boolean | WizardCountOutputTypeCountReportsArgs
 }
 
 /**
@@ -2588,6 +3002,20 @@ export type WizardCountOutputTypeCountOfferActionsArgs<ExtArgs extends runtime.T
   where?: Prisma.OfferHistoryWhereInput
 }
 
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountKarmaLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.KarmaLogWhereInput
+}
+
+/**
+ * WizardCountOutputType without action
+ */
+export type WizardCountOutputTypeCountReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ReportWhereInput
+}
+
 
 export type WizardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2616,6 +3044,8 @@ export type WizardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   ratingsGiven?: boolean | Prisma.Wizard$ratingsGivenArgs<ExtArgs>
   ratingsReceived?: boolean | Prisma.Wizard$ratingsReceivedArgs<ExtArgs>
   offerActions?: boolean | Prisma.Wizard$offerActionsArgs<ExtArgs>
+  karmaLogs?: boolean | Prisma.Wizard$karmaLogsArgs<ExtArgs>
+  reports?: boolean | Prisma.Wizard$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.WizardCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["wizard"]>
 
@@ -2684,6 +3114,8 @@ export type WizardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   ratingsGiven?: boolean | Prisma.Wizard$ratingsGivenArgs<ExtArgs>
   ratingsReceived?: boolean | Prisma.Wizard$ratingsReceivedArgs<ExtArgs>
   offerActions?: boolean | Prisma.Wizard$offerActionsArgs<ExtArgs>
+  karmaLogs?: boolean | Prisma.Wizard$karmaLogsArgs<ExtArgs>
+  reports?: boolean | Prisma.Wizard$reportsArgs<ExtArgs>
   _count?: boolean | Prisma.WizardCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type WizardIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2704,6 +3136,8 @@ export type $WizardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     ratingsGiven: Prisma.$RatingPayload<ExtArgs>[]
     ratingsReceived: Prisma.$RatingPayload<ExtArgs>[]
     offerActions: Prisma.$OfferHistoryPayload<ExtArgs>[]
+    karmaLogs: Prisma.$KarmaLogPayload<ExtArgs>[]
+    reports: Prisma.$ReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3126,6 +3560,8 @@ export interface Prisma__WizardClient<T, Null = never, ExtArgs extends runtime.T
   ratingsGiven<T extends Prisma.Wizard$ratingsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$ratingsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ratingsReceived<T extends Prisma.Wizard$ratingsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$ratingsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   offerActions<T extends Prisma.Wizard$offerActionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$offerActionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OfferHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  karmaLogs<T extends Prisma.Wizard$karmaLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$karmaLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$KarmaLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reports<T extends Prisma.Wizard$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Wizard$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3842,6 +4278,54 @@ export type Wizard$offerActionsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.OfferHistoryScalarFieldEnum | Prisma.OfferHistoryScalarFieldEnum[]
+}
+
+/**
+ * Wizard.karmaLogs
+ */
+export type Wizard$karmaLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the KarmaLog
+   */
+  select?: Prisma.KarmaLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the KarmaLog
+   */
+  omit?: Prisma.KarmaLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KarmaLogInclude<ExtArgs> | null
+  where?: Prisma.KarmaLogWhereInput
+  orderBy?: Prisma.KarmaLogOrderByWithRelationInput | Prisma.KarmaLogOrderByWithRelationInput[]
+  cursor?: Prisma.KarmaLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.KarmaLogScalarFieldEnum | Prisma.KarmaLogScalarFieldEnum[]
+}
+
+/**
+ * Wizard.reports
+ */
+export type Wizard$reportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Report
+   */
+  select?: Prisma.ReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Report
+   */
+  omit?: Prisma.ReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ReportInclude<ExtArgs> | null
+  where?: Prisma.ReportWhereInput
+  orderBy?: Prisma.ReportOrderByWithRelationInput | Prisma.ReportOrderByWithRelationInput[]
+  cursor?: Prisma.ReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ReportScalarFieldEnum | Prisma.ReportScalarFieldEnum[]
 }
 
 /**

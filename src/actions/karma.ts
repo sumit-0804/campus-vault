@@ -10,10 +10,14 @@ import { KARMA_VALUES, KARMA_THRESHOLDS } from "@/lib/karma-constants"
  * Calculate the appropriate karma rank based on score
  */
 function calculateRank(karmaScore: number): KarmaRank {
-    if (karmaScore >= KARMA_THRESHOLDS.DARK_KNIGHT) return "DARK_KNIGHT"
-    if (karmaScore >= KARMA_THRESHOLDS.AUROR) return "AUROR"
-    if (karmaScore >= KARMA_THRESHOLDS.WIZARD) return "WIZARD"
-    return "MUGGLE"
+    if (karmaScore >= KARMA_THRESHOLDS.SHADOW_MONARCH) return "SHADOW_MONARCH"
+    if (karmaScore >= KARMA_THRESHOLDS.NATIONAL_LEVEL) return "NATIONAL_LEVEL"
+    if (karmaScore >= KARMA_THRESHOLDS.S_RANK) return "S_RANK"
+    if (karmaScore >= KARMA_THRESHOLDS.A_RANK) return "A_RANK"
+    if (karmaScore >= KARMA_THRESHOLDS.B_RANK) return "B_RANK"
+    if (karmaScore >= KARMA_THRESHOLDS.C_RANK) return "C_RANK"
+    if (karmaScore >= KARMA_THRESHOLDS.D_RANK) return "D_RANK"
+    return "E_RANK"
 }
 
 /**
@@ -52,6 +56,15 @@ export async function harvestSouls(
                 userId,
                 type: "KARMA_EARNED",
                 referenceId: reason,
+            }
+        })
+
+        // Create KarmaLog entry for audit trail
+        await prisma.karmaLog.create({
+            data: {
+                userId,
+                amount,
+                reason,
             }
         })
 

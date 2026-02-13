@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import db from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { pusherServer } from "@/lib/pusher";
+import bcrypt from "bcryptjs";
 
 // --- Schemas ---
 
@@ -64,6 +65,11 @@ export async function createLostRelic(prevState: any, formData: FormData) {
     const { type, title, description, location, images, secretRiddle, hiddenTruth } = validatedFields.data;
 
     try {
+        // Hash the secret answer with bcrypt before storing
+        const hashedTruth = (type === "FOUND" && hiddenTruth)
+            ? await bcrypt.hash(hiddenTruth.trim().toLowerCase(), 10)
+            : null;
+
         const relic = await db.lostRelic.create({
             data: {
                 reporterId: session.user.id,
@@ -73,7 +79,7 @@ export async function createLostRelic(prevState: any, formData: FormData) {
                 type: type as "LOST" | "FOUND",
                 images,
                 secretRiddle: type === "FOUND" ? secretRiddle : null,
-                hiddenTruth: type === "FOUND" ? hiddenTruth : null,
+                hiddenTruth: hashedTruth,
                 status: "OPEN",
             },
         });
@@ -110,6 +116,32 @@ export async function createLostRelic(prevState: any, formData: FormData) {
             ));
         }
         // -----------------------------
+
+        // --- AI AUTO-TAGGING & PII DETECTION (fire-and-forget) ---
+        if (images.length > 0) {
+            (async () => {
+                try {
+                    const { autoTagImage, detectPII } = await import("@/actions/ai");
+                    const [tags, piiResult] = await Promise.all([
+                        autoTagImage(images[0]),
+                        detectPII(images[0]),
+                    ]);
+
+                    if (tags.length > 0 || piiResult.hasPII) {
+                        await db.lostRelic.update({
+                            where: { id: relic.id },
+                            data: {
+                                ...(tags.length > 0 ? { tags } : {}),
+                                ...(piiResult.hasPII ? { piiDetected: true } : {}),
+                            },
+                        });
+                    }
+                } catch (err) {
+                    console.error("AI processing error (non-blocking):", err);
+                }
+            })();
+        }
+        // ---------------------------------------------------------
 
         revalidatePath("/dashboard/lost-found");
         return { success: true };
@@ -265,8 +297,8 @@ export async function verifyRelicClaim(relicId: string, answer: string) {
         if (relic.status !== "OPEN") return { error: "Item is no longer available" };
         if (!relic.hiddenTruth) return { error: "No verification set for this item" };
 
-        // Case-insensitive comparison
-        const isMatch = relic.hiddenTruth.trim().toLowerCase() === answer.trim().toLowerCase();
+        // Bcrypt comparison (answer is normalized to lowercase before comparing)
+        const isMatch = await bcrypt.compare(answer.trim().toLowerCase(), relic.hiddenTruth);
 
         if (isMatch) {
             // Update relic with claimer info and status

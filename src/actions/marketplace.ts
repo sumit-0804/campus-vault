@@ -124,12 +124,40 @@ export async function createCursedObject(data: z.infer<typeof formSchema>) {
             },
         });
 
-        // Award Karma (Phase 1) - +10 for selling (listing?)
-        // todos.md says: "+10 for selling". 
-        // Assuming "selling" means successfully completing a sale, or listing?
-        // "Add triggers: +1 for login, +10 for selling"
-        // Usually selling means sold. Let's stick to listing for now or maybe wait till sale.
-        // I'll leave karma for now as per plan.
+        // --- AI AUTO-TAGGING & PII DETECTION (fire-and-forget) ---
+        if (images.length > 0) {
+            // We need the item ID, so let's use the return value
+            const item = await prisma.cursedObject.findFirst({
+                where: { sellerId: session.user.id },
+                orderBy: { createdAt: "desc" },
+                select: { id: true },
+            });
+
+            if (item) {
+                (async () => {
+                    try {
+                        const { autoTagImage, detectPII } = await import("@/actions/ai");
+                        const [tags, piiResult] = await Promise.all([
+                            autoTagImage(images[0]),
+                            detectPII(images[0]),
+                        ]);
+
+                        if (tags.length > 0 || piiResult.hasPII) {
+                            await prisma.cursedObject.update({
+                                where: { id: item.id },
+                                data: {
+                                    ...(tags.length > 0 ? { tags } : {}),
+                                    ...(piiResult.hasPII ? { piiDetected: true } : {}),
+                                },
+                            });
+                        }
+                    } catch (err) {
+                        console.error("AI processing error (non-blocking):", err);
+                    }
+                })();
+            }
+        }
+        // ---------------------------------------------------------
 
         revalidatePath("/marketplace");
         return { success: true };

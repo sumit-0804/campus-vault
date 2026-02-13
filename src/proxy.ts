@@ -12,7 +12,7 @@ export default async function proxy(req: NextRequest) {
     }
 
     // 2. Define protected routes base paths
-    const protectedRoutes = ["/dashboard", "/marketplace/create", "/lost-found/report"];
+    const protectedRoutes = ["/dashboard", "/marketplace/create", "/lost-found/report", "/admin"];
 
     // Check if the current path starts with any of the protected routes
     const isProtectedRoute = protectedRoutes.some((path) =>

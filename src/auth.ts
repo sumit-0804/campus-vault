@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
           email: profile.email,
           avatarUrl: profile.image,
           role: "USER",
-          karmaRank: "MUGGLE",
+          karmaRank: "E_RANK",
           karmaScore: 0,
         }
       }

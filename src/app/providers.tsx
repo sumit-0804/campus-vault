@@ -2,13 +2,16 @@
 
 import { SessionProvider } from "next-auth/react";
 import QueryProvider from "@/providers/query-provider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export default function Providers({
     children,
 }: { children: React.ReactNode }) {
     return (
-        <QueryProvider>
-            <SessionProvider>{children}</SessionProvider>
-        </QueryProvider>
+        <SessionProvider>
+            <QueryProvider>
+                <TooltipProvider>{children}</TooltipProvider>
+            </QueryProvider>
+        </SessionProvider>
     )
 }

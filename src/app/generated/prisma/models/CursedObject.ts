@@ -43,6 +43,7 @@ export type CursedObjectMinAggregateOutputType = {
   condition: string | null
   status: $Enums.ItemStatus | null
   category: string | null
+  piiDetected: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +57,7 @@ export type CursedObjectMaxAggregateOutputType = {
   condition: string | null
   status: $Enums.ItemStatus | null
   category: string | null
+  piiDetected: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -70,6 +72,8 @@ export type CursedObjectCountAggregateOutputType = {
   condition: number
   status: number
   category: number
+  tags: number
+  piiDetected: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -93,6 +97,7 @@ export type CursedObjectMinAggregateInputType = {
   condition?: true
   status?: true
   category?: true
+  piiDetected?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +111,7 @@ export type CursedObjectMaxAggregateInputType = {
   condition?: true
   status?: true
   category?: true
+  piiDetected?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -120,6 +126,8 @@ export type CursedObjectCountAggregateInputType = {
   condition?: true
   status?: true
   category?: true
+  tags?: true
+  piiDetected?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -221,6 +229,8 @@ export type CursedObjectGroupByOutputType = {
   condition: string
   status: $Enums.ItemStatus
   category: string
+  tags: string[]
+  piiDetected: boolean
   createdAt: Date
   updatedAt: Date
   _count: CursedObjectCountAggregateOutputType | null
@@ -258,6 +268,8 @@ export type CursedObjectWhereInput = {
   condition?: Prisma.StringFilter<"CursedObject"> | string
   status?: Prisma.EnumItemStatusFilter<"CursedObject"> | $Enums.ItemStatus
   category?: Prisma.StringFilter<"CursedObject"> | string
+  tags?: Prisma.StringNullableListFilter<"CursedObject">
+  piiDetected?: Prisma.BoolFilter<"CursedObject"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CursedObject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CursedObject"> | Date | string
   seller?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
@@ -276,6 +288,8 @@ export type CursedObjectOrderByWithRelationInput = {
   condition?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   seller?: Prisma.WizardOrderByWithRelationInput
@@ -297,6 +311,8 @@ export type CursedObjectWhereUniqueInput = Prisma.AtLeast<{
   condition?: Prisma.StringFilter<"CursedObject"> | string
   status?: Prisma.EnumItemStatusFilter<"CursedObject"> | $Enums.ItemStatus
   category?: Prisma.StringFilter<"CursedObject"> | string
+  tags?: Prisma.StringNullableListFilter<"CursedObject">
+  piiDetected?: Prisma.BoolFilter<"CursedObject"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CursedObject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CursedObject"> | Date | string
   seller?: Prisma.XOR<Prisma.WizardScalarRelationFilter, Prisma.WizardWhereInput>
@@ -315,6 +331,8 @@ export type CursedObjectOrderByWithAggregationInput = {
   condition?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CursedObjectCountOrderByAggregateInput
@@ -337,6 +355,8 @@ export type CursedObjectScalarWhereWithAggregatesInput = {
   condition?: Prisma.StringWithAggregatesFilter<"CursedObject"> | string
   status?: Prisma.EnumItemStatusWithAggregatesFilter<"CursedObject"> | $Enums.ItemStatus
   category?: Prisma.StringWithAggregatesFilter<"CursedObject"> | string
+  tags?: Prisma.StringNullableListFilter<"CursedObject">
+  piiDetected?: Prisma.BoolWithAggregatesFilter<"CursedObject"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CursedObject"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CursedObject"> | Date | string
 }
@@ -350,6 +370,8 @@ export type CursedObjectCreateInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   seller: Prisma.WizardCreateNestedOneWithoutCursedObjectsInput
@@ -368,6 +390,8 @@ export type CursedObjectUncheckedCreateInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   offers?: Prisma.BloodPactUncheckedCreateNestedManyWithoutItemInput
@@ -384,6 +408,8 @@ export type CursedObjectUpdateInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.WizardUpdateOneRequiredWithoutCursedObjectsNestedInput
@@ -402,6 +428,8 @@ export type CursedObjectUncheckedUpdateInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   offers?: Prisma.BloodPactUncheckedUpdateManyWithoutItemNestedInput
@@ -419,6 +447,8 @@ export type CursedObjectCreateManyInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -432,6 +462,8 @@ export type CursedObjectUpdateManyMutationInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -446,6 +478,8 @@ export type CursedObjectUncheckedUpdateManyInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -478,6 +512,8 @@ export type CursedObjectCountOrderByAggregateInput = {
   condition?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  tags?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -495,6 +531,7 @@ export type CursedObjectMaxOrderByAggregateInput = {
   condition?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -508,6 +545,7 @@ export type CursedObjectMinOrderByAggregateInput = {
   condition?: Prisma.SortOrder
   status?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  piiDetected?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -572,6 +610,10 @@ export type CursedObjectCreateimagesInput = {
   set: string[]
 }
 
+export type CursedObjectCreatetagsInput = {
+  set: string[]
+}
+
 export type CursedObjectUpdateimagesInput = {
   set?: string[]
   push?: string | string[]
@@ -587,6 +629,11 @@ export type FloatFieldUpdateOperationsInput = {
 
 export type EnumItemStatusFieldUpdateOperationsInput = {
   set?: $Enums.ItemStatus
+}
+
+export type CursedObjectUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type CursedObjectCreateNestedOneWithoutOffersInput = {
@@ -642,6 +689,8 @@ export type CursedObjectCreateWithoutSellerInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   offers?: Prisma.BloodPactCreateNestedManyWithoutItemInput
@@ -658,6 +707,8 @@ export type CursedObjectUncheckedCreateWithoutSellerInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   offers?: Prisma.BloodPactUncheckedCreateNestedManyWithoutItemInput
@@ -704,6 +755,8 @@ export type CursedObjectScalarWhereInput = {
   condition?: Prisma.StringFilter<"CursedObject"> | string
   status?: Prisma.EnumItemStatusFilter<"CursedObject"> | $Enums.ItemStatus
   category?: Prisma.StringFilter<"CursedObject"> | string
+  tags?: Prisma.StringNullableListFilter<"CursedObject">
+  piiDetected?: Prisma.BoolFilter<"CursedObject"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CursedObject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CursedObject"> | Date | string
 }
@@ -717,6 +770,8 @@ export type CursedObjectCreateWithoutOffersInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   seller: Prisma.WizardCreateNestedOneWithoutCursedObjectsInput
@@ -734,6 +789,8 @@ export type CursedObjectUncheckedCreateWithoutOffersInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   chatRooms?: Prisma.ChatRoomUncheckedCreateNestedManyWithoutRelicInput
@@ -765,6 +822,8 @@ export type CursedObjectUpdateWithoutOffersInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.WizardUpdateOneRequiredWithoutCursedObjectsNestedInput
@@ -782,6 +841,8 @@ export type CursedObjectUncheckedUpdateWithoutOffersInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   chatRooms?: Prisma.ChatRoomUncheckedUpdateManyWithoutRelicNestedInput
@@ -797,6 +858,8 @@ export type CursedObjectCreateWithoutChatRoomsInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   seller: Prisma.WizardCreateNestedOneWithoutCursedObjectsInput
@@ -814,6 +877,8 @@ export type CursedObjectUncheckedCreateWithoutChatRoomsInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   offers?: Prisma.BloodPactUncheckedCreateNestedManyWithoutItemInput
@@ -845,6 +910,8 @@ export type CursedObjectUpdateWithoutChatRoomsInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.WizardUpdateOneRequiredWithoutCursedObjectsNestedInput
@@ -862,6 +929,8 @@ export type CursedObjectUncheckedUpdateWithoutChatRoomsInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   offers?: Prisma.BloodPactUncheckedUpdateManyWithoutItemNestedInput
@@ -877,6 +946,8 @@ export type CursedObjectCreateWithoutTransactionsInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   seller: Prisma.WizardCreateNestedOneWithoutCursedObjectsInput
@@ -894,6 +965,8 @@ export type CursedObjectUncheckedCreateWithoutTransactionsInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   offers?: Prisma.BloodPactUncheckedCreateNestedManyWithoutItemInput
@@ -925,6 +998,8 @@ export type CursedObjectUpdateWithoutTransactionsInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   seller?: Prisma.WizardUpdateOneRequiredWithoutCursedObjectsNestedInput
@@ -942,6 +1017,8 @@ export type CursedObjectUncheckedUpdateWithoutTransactionsInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   offers?: Prisma.BloodPactUncheckedUpdateManyWithoutItemNestedInput
@@ -957,6 +1034,8 @@ export type CursedObjectCreateManySellerInput = {
   condition: string
   status?: $Enums.ItemStatus
   category: string
+  tags?: Prisma.CursedObjectCreatetagsInput | string[]
+  piiDetected?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -970,6 +1049,8 @@ export type CursedObjectUpdateWithoutSellerInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   offers?: Prisma.BloodPactUpdateManyWithoutItemNestedInput
@@ -986,6 +1067,8 @@ export type CursedObjectUncheckedUpdateWithoutSellerInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   offers?: Prisma.BloodPactUncheckedUpdateManyWithoutItemNestedInput
@@ -1002,6 +1085,8 @@ export type CursedObjectUncheckedUpdateManyWithoutSellerInput = {
   condition?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumItemStatusFieldUpdateOperationsInput | $Enums.ItemStatus
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  tags?: Prisma.CursedObjectUpdatetagsInput | string[]
+  piiDetected?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1065,6 +1150,8 @@ export type CursedObjectSelect<ExtArgs extends runtime.Types.Extensions.Internal
   condition?: boolean
   status?: boolean
   category?: boolean
+  tags?: boolean
+  piiDetected?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   seller?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -1084,6 +1171,8 @@ export type CursedObjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   condition?: boolean
   status?: boolean
   category?: boolean
+  tags?: boolean
+  piiDetected?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   seller?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -1099,6 +1188,8 @@ export type CursedObjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   condition?: boolean
   status?: boolean
   category?: boolean
+  tags?: boolean
+  piiDetected?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   seller?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
@@ -1114,11 +1205,13 @@ export type CursedObjectSelectScalar = {
   condition?: boolean
   status?: boolean
   category?: boolean
+  tags?: boolean
+  piiDetected?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CursedObjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sellerId" | "title" | "description" | "images" | "price" | "condition" | "status" | "category" | "createdAt" | "updatedAt", ExtArgs["result"]["cursedObject"]>
+export type CursedObjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sellerId" | "title" | "description" | "images" | "price" | "condition" | "status" | "category" | "tags" | "piiDetected" | "createdAt" | "updatedAt", ExtArgs["result"]["cursedObject"]>
 export type CursedObjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   seller?: boolean | Prisma.WizardDefaultArgs<ExtArgs>
   offers?: boolean | Prisma.CursedObject$offersArgs<ExtArgs>
@@ -1151,6 +1244,8 @@ export type $CursedObjectPayload<ExtArgs extends runtime.Types.Extensions.Intern
     condition: string
     status: $Enums.ItemStatus
     category: string
+    tags: string[]
+    piiDetected: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["cursedObject"]>
@@ -1589,6 +1684,8 @@ export interface CursedObjectFieldRefs {
   readonly condition: Prisma.FieldRef<"CursedObject", 'String'>
   readonly status: Prisma.FieldRef<"CursedObject", 'ItemStatus'>
   readonly category: Prisma.FieldRef<"CursedObject", 'String'>
+  readonly tags: Prisma.FieldRef<"CursedObject", 'String[]'>
+  readonly piiDetected: Prisma.FieldRef<"CursedObject", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"CursedObject", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CursedObject", 'DateTime'>
 }

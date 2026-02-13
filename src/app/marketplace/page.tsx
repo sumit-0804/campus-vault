@@ -60,10 +60,7 @@ export default async function MarketplacePage({
     const items = await getItems(search, category);
 
     return (
-        <div className="p-6 sm:p-8 w-full space-y-8">
-            <div className="mb-4">
-                <BackButton fallbackRoute="/browse">Back to Browse</BackButton>
-            </div>
+        <div className="p-6 sm:p-8 w-full space-y-8 max-w-7xl mx-auto">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
