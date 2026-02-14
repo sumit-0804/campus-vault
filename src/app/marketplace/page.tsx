@@ -6,6 +6,7 @@ import Link from "next/link";
 import { BackButton } from "@/components/ui/BackButton";
 import SearchInput from "@/components/marketplace/SearchInput";
 import { CategoryFilter } from "@/components/marketplace/CategoryFilter";
+import { MarketplaceStoreInitializer } from "@/components/marketplace/MarketplaceStoreInitializer";
 import { Prisma } from "@/app/generated/prisma/client";
 
 // Mapping for category filters
@@ -80,6 +81,7 @@ export default async function MarketplacePage({
 
             {/* Filters & Search */}
             <div className="flex flex-col gap-4">
+                <MarketplaceStoreInitializer />
                 <SearchInput />
                 <CategoryFilter />
             </div>

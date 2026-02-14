@@ -7,8 +7,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { getNotifications, getUnreadNotificationCount, markNotificationRead } from "@/actions/notifications"
+import { useNotificationStore } from "@/stores/useNotificationStore"
 import { Notification } from "@/app/generated/prisma/client"
 import { getNotificationInfo } from "@/lib/notification-utils"
 import Link from "next/link"
@@ -26,7 +27,7 @@ export function NotificationBell() {
     const queryClient = useQueryClient()
 
     // Query for unread count
-    const { data: unreadCount = 0 } = useQuery({
+    const { data: serverUnreadCount = 0 } = useQuery({
         queryKey: queryKeys.notifications.unreadCount,
         queryFn: async () => {
             if (!session?.user?.id) return 0
@@ -35,6 +36,14 @@ export function NotificationBell() {
         enabled: !!session?.user?.id,
         staleTime: Infinity, // Rely on Pusher invalidation
     })
+
+    const { unreadCount, setUnreadCount, decrementUnread } = useNotificationStore()
+
+    // Sync server state to store
+    useEffect(() => {
+        setUnreadCount(serverUnreadCount)
+    }, [serverUnreadCount, setUnreadCount])
+
 
     // Query for notifications list
     const { data: notificationsData } = useQuery({
@@ -55,8 +64,7 @@ export function NotificationBell() {
             await queryClient.cancelQueries({ queryKey: queryKeys.notifications.all })
 
             // Optimistic update for count
-            const previousCount = queryClient.getQueryData<number>(queryKeys.notifications.unreadCount)
-            queryClient.setQueryData(queryKeys.notifications.unreadCount, (old: number = 0) => Math.max(0, old - 1))
+            decrementUnread()
 
             // Optimistic update for list
             const previousList = queryClient.getQueryData(queryKeys.notifications.list(1, 5))
@@ -70,10 +78,9 @@ export function NotificationBell() {
                 }
             })
 
-            return { previousCount, previousList }
+            return { previousList }
         },
         onError: (err, newTodo, context) => {
-            queryClient.setQueryData(queryKeys.notifications.unreadCount, context?.previousCount)
             queryClient.setQueryData(queryKeys.notifications.list(1, 5), context?.previousList)
         },
         onSettled: () => {

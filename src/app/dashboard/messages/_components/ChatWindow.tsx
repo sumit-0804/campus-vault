@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation"
 import OfferCard from "./OfferCard"
 import OfferModal from "./OfferModal"
 import CounterOfferModal from "./CounterOfferModal"
+import { useChatStore } from "@/stores/useChatStore"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "@/lib/query-keys"
 
@@ -37,7 +38,8 @@ export default function ChatWindow({
     isItemAvailable
 }: ChatWindowProps) {
     const [messages, setMessages] = useState<Message[]>(initialMessages)
-    const [newMessage, setNewMessage] = useState("")
+    const { draftMessages, setDraft, clearDraft } = useChatStore()
+    const newMessage = draftMessages[chatId] || ""
     const [isSending, setIsSending] = useState(false)
     const messagesContainerRef = useRef<HTMLDivElement>(null)
     const isInitialMount = useRef(true)
@@ -103,7 +105,7 @@ export default function ChatWindow({
         },
         onMutate: async (content) => {
             setIsSending(true)
-            setNewMessage("")
+            clearDraft(chatId)
 
             // Optimistic message
             const optimisticMessage: Message = {
@@ -120,7 +122,7 @@ export default function ChatWindow({
         },
         onError: (err, content, context) => {
             setMessages((prev) => prev.filter(m => m.id !== context?.optimisticMessage.id))
-            setNewMessage(content)
+            setDraft(chatId, content)
             setIsSending(false)
         },
         onSuccess: (result, content, context) => {
@@ -281,7 +283,7 @@ export default function ChatWindow({
                                 className="w-full bg-zinc-800/50 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500/50 resize-none transition-all min-h-[52px] max-h-[120px]"
                                 placeholder="Type your message..."
                                 value={newMessage}
-                                onChange={(e) => setNewMessage(e.target.value)}
+                                onChange={(e) => setDraft(chatId, e.target.value)}
                                 onKeyDown={handleKeyDown}
                                 rows={1}
                                 disabled={isSending}

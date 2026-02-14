@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Notification } from "@/app/generated/prisma/client";
 import { NotificationCard } from "./NotificationCard";
 import { markAllNotificationsRead, markNotificationRead } from "@/actions/notifications";
 import { CheckCheck, Ghost, Skull } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/query-keys";
+import { useNotificationStore } from "@/stores/useNotificationStore";
 
 interface NotificationListProps {
     initialNotifications: Notification[];
@@ -15,8 +16,13 @@ interface NotificationListProps {
 
 export function NotificationList({ initialNotifications, initialUnreadCount }: NotificationListProps) {
     const [notifications, setNotifications] = useState(initialNotifications);
-    const [unreadCount, setUnreadCount] = useState(initialUnreadCount);
+    const { unreadCount, setUnreadCount, decrementUnread } = useNotificationStore();
     const queryClient = useQueryClient();
+
+    // Sync initial server state
+    useEffect(() => {
+        setUnreadCount(initialUnreadCount);
+    }, [initialUnreadCount, setUnreadCount]);
 
     const markAllReadMutation = useMutation({
         mutationFn: () => markAllNotificationsRead(),
@@ -34,7 +40,7 @@ export function NotificationList({ initialNotifications, initialUnreadCount }: N
         setNotifications((prev) =>
             prev.map((n) => (n.id === id ? { ...n, isSeen: true } : n))
         );
-        setUnreadCount((prev) => Math.max(0, prev - 1));
+        decrementUnread();
         queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all });
     };
 

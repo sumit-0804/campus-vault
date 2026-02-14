@@ -2,30 +2,21 @@
 
 import { Button } from "@/components/ui/button"
 import { Filter } from "lucide-react"
-import { useSearchParams, usePathname, useRouter } from "next/navigation"
+import { useMarketplaceStore } from "@/stores/useMarketplaceStore"
 
 type Category = "Potions" | "Scrolls" | "Artifacts"
 
 const CATEGORIES: Category[] = ["Potions", "Scrolls", "Artifacts"]
 
 export function CategoryFilter() {
-    const searchParams = useSearchParams()
-    const pathname = usePathname()
-    const { replace } = useRouter()
-    const currentCategory = searchParams?.get("category")
+    const { category: currentCategory, setCategory } = useMarketplaceStore()
 
     const handleCategory = (category: Category | null) => {
-        const params = new URLSearchParams(searchParams?.toString())
-        if (category) {
-            if (currentCategory === category) {
-                params.delete("category") // Toggle off
-            } else {
-                params.set("category", category)
-            }
+        if (currentCategory === category) {
+            setCategory(null) // Toggle off
         } else {
-            params.delete("category")
+            setCategory(category)
         }
-        replace(`${pathname}?${params.toString()}`)
     }
 
     return (

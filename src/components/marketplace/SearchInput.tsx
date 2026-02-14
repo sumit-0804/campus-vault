@@ -2,23 +2,10 @@
 
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
-import { useSearchParams, usePathname, useRouter } from "next/navigation"
-import { useDebouncedCallback } from "use-debounce"
+import { useMarketplaceStore } from "@/stores/useMarketplaceStore"
 
 export default function SearchInput() {
-    const searchParams = useSearchParams()
-    const pathname = usePathname()
-    const { replace } = useRouter()
-
-    const handleSearch = useDebouncedCallback((term: string) => {
-        const params = new URLSearchParams(searchParams?.toString())
-        if (term) {
-            params.set("search", term)
-        } else {
-            params.delete("search")
-        }
-        replace(`${pathname}?${params.toString()}`)
-    }, 300)
+    const { searchQuery, setSearchQuery } = useMarketplaceStore()
 
     return (
         <div className="relative flex-grow">
@@ -26,8 +13,8 @@ export default function SearchInput() {
             <Input
                 placeholder="Search for dark relics..."
                 className="pl-9 bg-zinc-900 border-zinc-700 focus:border-purple-500 text-white placeholder:text-zinc-600"
-                onChange={(e) => handleSearch(e.target.value)}
-                defaultValue={searchParams?.get("search")?.toString()}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchQuery}
             />
         </div>
     )

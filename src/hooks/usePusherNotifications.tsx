@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { NotificationType } from '@/app/generated/prisma/enums'
 import { useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '@/lib/query-keys'
+import { useNotificationStore } from '@/stores/useNotificationStore'
 
 type NotificationEvent = {
     id: string
@@ -30,8 +31,8 @@ export function usePusherNotifications() {
         const channel = pusherClient.subscribe(channelName)
 
         const handleNewNotification = (data: NotificationEvent) => {
-            // 1. Invalidate Queries
-            // This will trigger refetches in NotificationBell for both count and list
+            // 1. Update Store & Invalidate Queries
+            useNotificationStore.getState().incrementUnread()
             queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all })
 
             // 2. Show Toast
