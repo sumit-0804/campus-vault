@@ -6,9 +6,8 @@ import { Check, X, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { BloodPact, Wizard } from "@/app/generated/prisma/client"
 import { respondToOffer, cancelOffer, confirmDelivery, markAsDelivered, rejectDelivery } from "@/actions/offers"
-import { useState } from "react"
 
-import { useQueryClient } from "@tanstack/react-query"
+import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { queryKeys } from "@/lib/query-keys"
 import CounterOfferModal from "./CounterOfferModal"
 
@@ -19,11 +18,47 @@ type OfferCardProps = {
 }
 
 export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
-    const [isProcessing, setIsProcessing] = useState(false)
-
     const queryClient = useQueryClient()
 
     const invalidate = () => queryClient.invalidateQueries({ queryKey: queryKeys.offers.byChat(chatId) })
+
+    const acceptMutation = useMutation({
+        mutationFn: () => respondToOffer(offer.id, 'ACCEPT'),
+        onSuccess: invalidate,
+    })
+
+    const rejectMutation = useMutation({
+        mutationFn: () => respondToOffer(offer.id, 'REJECT'),
+        onSuccess: invalidate,
+    })
+
+    const cancelMutation = useMutation({
+        mutationFn: () => cancelOffer(offer.id),
+        onSuccess: invalidate,
+    })
+
+    const deliverMutation = useMutation({
+        mutationFn: () => markAsDelivered(offer.id),
+        onSuccess: invalidate,
+    })
+
+    const confirmMutation = useMutation({
+        mutationFn: () => confirmDelivery(offer.id),
+        onSuccess: invalidate,
+    })
+
+    const rejectDeliveryMutation = useMutation({
+        mutationFn: () => rejectDelivery(offer.id),
+        onSuccess: invalidate,
+    })
+
+    const isProcessing =
+        acceptMutation.isPending ||
+        rejectMutation.isPending ||
+        cancelMutation.isPending ||
+        deliverMutation.isPending ||
+        confirmMutation.isPending ||
+        rejectDeliveryMutation.isPending
 
     const isPending = offer.status === "PENDING"
     const isCounterPending = offer.status === "COUNTER_OFFER_PENDING"
@@ -41,78 +76,6 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
     // Check if expired
     const isExpired = offer.expiresAt && new Date() > offer.expiresAt
     const showExpiry = (isPending || isCounterPending) && offer.expiresAt && !isExpired
-
-    const handleAccept = async () => {
-        setIsProcessing(true)
-        try {
-            await respondToOffer(offer.id, 'ACCEPT')
-            invalidate()
-        } catch (error) {
-            console.error("Failed to accept offer", error)
-        } finally {
-            setIsProcessing(false)
-        }
-    }
-
-    const handleReject = async () => {
-        setIsProcessing(true)
-        try {
-            await respondToOffer(offer.id, 'REJECT')
-            invalidate()
-        } catch (error) {
-            console.error("Failed to reject offer", error)
-        } finally {
-            setIsProcessing(false)
-        }
-    }
-
-    const handleCancel = async () => {
-        setIsProcessing(true)
-        try {
-            await cancelOffer(offer.id)
-            invalidate()
-        } catch (error) {
-            console.error("Failed to cancel offer", error)
-        } finally {
-            setIsProcessing(false)
-        }
-    }
-
-    const handleMarkAsDelivered = async () => {
-        setIsProcessing(true)
-        try {
-            await markAsDelivered(offer.id)
-            invalidate()
-        } catch (error) {
-            console.error("Failed to mark as delivered", error)
-        } finally {
-            setIsProcessing(false)
-        }
-    }
-
-    const handleConfirmDelivery = async () => {
-        setIsProcessing(true)
-        try {
-            await confirmDelivery(offer.id)
-            invalidate()
-        } catch (error) {
-            console.error("Failed to confirm delivery", error)
-        } finally {
-            setIsProcessing(false)
-        }
-    }
-
-    const handleRejectDelivery = async () => {
-        setIsProcessing(true)
-        try {
-            await rejectDelivery(offer.id)
-            invalidate()
-        } catch (error) {
-            console.error("Failed to reject delivery", error)
-        } finally {
-            setIsProcessing(false)
-        }
-    }
 
     return (
         <div className="border border-purple-500/30 rounded-xl p-4 bg-gradient-to-br from-purple-950/30 to-zinc-900/50 backdrop-blur-sm space-y-3 shadow-lg shadow-purple-900/10">
@@ -160,7 +123,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                     <div className="flex gap-2">
                         <Button
                             size="sm"
-                            onClick={handleAccept}
+                            onClick={() => acceptMutation.mutate()}
                             disabled={isProcessing}
                             className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                         >
@@ -170,7 +133,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                         <Button
                             size="sm"
                             variant="destructive"
-                            onClick={handleReject}
+                            onClick={() => rejectMutation.mutate()}
                             disabled={isProcessing}
                             className="flex-1"
                         >
@@ -188,7 +151,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                     <div className="flex gap-2">
                         <Button
                             size="sm"
-                            onClick={handleAccept}
+                            onClick={() => acceptMutation.mutate()}
                             disabled={isProcessing}
                             className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                         >
@@ -198,7 +161,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                         <Button
                             size="sm"
                             variant="destructive"
-                            onClick={handleReject}
+                            onClick={() => rejectMutation.mutate()}
                             disabled={isProcessing}
                             className="flex-1"
                         >
@@ -215,7 +178,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                 <Button
                     size="sm"
                     variant="outline"
-                    onClick={handleCancel}
+                    onClick={() => cancelMutation.mutate()}
                     disabled={isProcessing}
                     className="w-full border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-white"
                 >
@@ -228,7 +191,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
             {isSeller && isAwaitingCompletion && (
                 <Button
                     size="sm"
-                    onClick={handleMarkAsDelivered}
+                    onClick={() => deliverMutation.mutate()}
                     disabled={isProcessing}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                 >
@@ -255,7 +218,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                     <div className="flex gap-2">
                         <Button
                             size="sm"
-                            onClick={handleConfirmDelivery}
+                            onClick={() => confirmMutation.mutate()}
                             disabled={isProcessing}
                             className="flex-1 bg-green-600 hover:bg-green-700 text-white"
                         >
@@ -265,7 +228,7 @@ export default function OfferCard({ offer, isSeller, chatId }: OfferCardProps) {
                         <Button
                             size="sm"
                             variant="destructive"
-                            onClick={handleRejectDelivery}
+                            onClick={() => rejectDeliveryMutation.mutate()}
                             disabled={isProcessing}
                             className="flex-1"
                         >

@@ -9,14 +9,24 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
     console.log("Seeding Solo Leveling Ranks...");
 
-    // Clean up existing data
+    // Clean up existing data (order matters for foreign keys)
+    await prisma.report.deleteMany();
+    await prisma.karmaLog.deleteMany();
+    await prisma.rating.deleteMany();
+    await prisma.transaction.deleteMany();
+    await prisma.offerHistory.deleteMany();
+    await prisma.bloodPact.deleteMany();
+    await prisma.message.deleteMany();
+    await prisma.notification.deleteMany();
+    await prisma.chatRoom.deleteMany();
+    await prisma.lostRelic.deleteMany();
     await prisma.cursedObject.deleteMany();
     await prisma.wizard.deleteMany();
 
     const users = [
-        { fullName: "Sung Jin-Woo", email: "sung@leveling.com", karmaScore: 15000, karmaRank: "SHADOW_MONARCH" as KarmaRank },
-        { fullName: "Thomas Andre", email: "thomas@scavenger.com", karmaScore: 6000, karmaRank: "NATIONAL_LEVEL" as KarmaRank },
-        { fullName: "Cha Hae-In", email: "cha@hunter.com", karmaScore: 2500, karmaRank: "S_RANK" as KarmaRank },
+        { fullName: "Sung Jin-Woo", email: "202512092@dau.ac.in", karmaScore: 15000, karmaRank: "SHADOW_MONARCH" as KarmaRank },
+        { fullName: "Thomas Andre", email: "sumitg2004@gmail.com", karmaScore: 6000, karmaRank: "NATIONAL_LEVEL" as KarmaRank },
+        { fullName: "Cha Hae-In", email: "cara.ms98@gmail.com", karmaScore: 2500, karmaRank: "S_RANK" as KarmaRank },
         { fullName: "Choi Jong-In", email: "choi@guild.com", karmaScore: 1200, karmaRank: "A_RANK" as KarmaRank },
         { fullName: "Woo Jin-Chul", email: "woo@association.com", karmaScore: 800, karmaRank: "B_RANK" as KarmaRank },
         { fullName: "Song Chi-Yul", email: "song@academy.com", karmaScore: 400, karmaRank: "C_RANK" as KarmaRank },

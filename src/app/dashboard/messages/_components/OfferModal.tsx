@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Handshake } from "lucide-react"
 import { createOffer } from "@/actions/offers"
 
-import { useQueryClient } from "@tanstack/react-query"
+import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { queryKeys } from "@/lib/query-keys"
 
 type OfferModalProps = {
@@ -20,11 +20,26 @@ export default function OfferModal({ chatId }: OfferModalProps) {
     const [hours, setHours] = useState(0)
     const [minutes, setMinutes] = useState(1)
     const [isOpen, setIsOpen] = useState(false)
-    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const queryClient = useQueryClient()
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const { mutate: submitOffer, isPending: isSubmitting } = useMutation({
+        mutationFn: (params: { amount: number; totalMinutes: number }) =>
+            createOffer(chatId, params.amount, params.totalMinutes),
+        onSuccess: () => {
+            setIsOpen(false)
+            setAmount("")
+            setHours(0)
+            setMinutes(1)
+            queryClient.invalidateQueries({ queryKey: queryKeys.offers.byChat(chatId) })
+        },
+        onError: (error) => {
+            console.error("Failed to create offer", error)
+            alert("Failed to create offer. Please try again.")
+        },
+    })
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         const numAmount = parseFloat(amount)
         if (isNaN(numAmount) || numAmount <= 0) return
@@ -35,20 +50,7 @@ export default function OfferModal({ chatId }: OfferModalProps) {
             return
         }
 
-        setIsSubmitting(true)
-        try {
-            await createOffer(chatId, numAmount, totalMinutes)
-            setIsOpen(false)
-            setAmount("")
-            setHours(0)
-            setMinutes(1)
-            queryClient.invalidateQueries({ queryKey: queryKeys.offers.byChat(chatId) })
-        } catch (error) {
-            console.error("Failed to create offer", error)
-            alert("Failed to create offer. Please try again.")
-        } finally {
-            setIsSubmitting(false)
-        }
+        submitOffer({ amount: numAmount, totalMinutes })
     }
 
     return (

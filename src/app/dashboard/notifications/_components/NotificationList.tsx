@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { Notification } from "@/app/generated/prisma/client";
 import { NotificationCard } from "./NotificationCard";
-import { markAllNotificationsRead } from "@/actions/notifications";
+import { markAllNotificationsRead, markNotificationRead } from "@/actions/notifications";
 import { CheckCheck, Ghost, Skull } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@/lib/query-keys";
 
 interface NotificationListProps {
     initialNotifications: Notification[];
@@ -13,27 +14,28 @@ interface NotificationListProps {
 }
 
 export function NotificationList({ initialNotifications, initialUnreadCount }: NotificationListProps) {
-    const router = useRouter();
-    const [isPending, startTransition] = useTransition();
     const [notifications, setNotifications] = useState(initialNotifications);
     const [unreadCount, setUnreadCount] = useState(initialUnreadCount);
+    const queryClient = useQueryClient();
 
-    const handleMarkAllRead = () => {
-        startTransition(async () => {
-            await markAllNotificationsRead();
-            setNotifications((prev) =>
-                prev.map((n) => ({ ...n, isSeen: true }))
-            );
+    const markAllReadMutation = useMutation({
+        mutationFn: () => markAllNotificationsRead(),
+        onMutate: () => {
+            // Optimistic update
+            setNotifications((prev) => prev.map((n) => ({ ...n, isSeen: true })));
             setUnreadCount(0);
-            router.refresh();
-        });
-    };
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all });
+        },
+    });
 
     const handleNotificationRead = (id: string) => {
         setNotifications((prev) =>
             prev.map((n) => (n.id === id ? { ...n, isSeen: true } : n))
         );
         setUnreadCount((prev) => Math.max(0, prev - 1));
+        queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all });
     };
 
     if (notifications.length === 0) {
@@ -56,8 +58,8 @@ export function NotificationList({ initialNotifications, initialUnreadCount }: N
             {unreadCount > 0 && (
                 <div className="flex justify-end">
                     <button
-                        onClick={handleMarkAllRead}
-                        disabled={isPending}
+                        onClick={() => markAllReadMutation.mutate()}
+                        disabled={markAllReadMutation.isPending}
                         className="flex items-center gap-1.5 text-sm text-purple-400 hover:text-purple-300 transition-colors disabled:opacity-50"
                     >
                         <CheckCheck className="w-4 h-4" />

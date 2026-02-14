@@ -321,7 +321,7 @@ export async function respondToOffer(offerId: string, action: 'ACCEPT' | 'REJECT
             if (chat) {
                 await createSystemMessage(
                     chat.id,
-                    `Offer for ₹${offer.counterOfferAmount || offer.offerAmount} was accepted - awaiting buyer confirmation`,
+                    `Offer for ₹${offer.counterOfferAmount || offer.offerAmount} was accepted - awaiting delivery`,
                     session.user.id
                 )
                 revalidatePath(`/dashboard/messages/${chat.id}`)
@@ -493,7 +493,7 @@ export async function markAsDelivered(offerId: string) {
 
         if (!offer) throw new Error("Offer not found")
 
-        // Authorization: Only seller
+        // Authorization: Only seller can mark as delivered
         if (offer.item.sellerId !== session.user.id) throw new Error("Only seller can mark as delivered")
 
         // Must be in AWAITING_COMPLETION
@@ -556,11 +556,6 @@ export async function confirmDelivery(offerId: string) {
 
         // Authorization: Buyer only
         if (offer.buyerId !== session.user.id) {
-            // Allow system (auto-confirm) to bypass this check if we pass a special flag, 
-            // but effectively the session check above handles user calls.
-            // For auto-confirm (cron/system), we might need a different entry point or 
-            // ensure session is mocked/bypassed carefully. 
-            // For now, assuming this is user-triggered.
             throw new Error("Only the buyer can confirm delivery")
         }
 

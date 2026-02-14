@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createCounterOffer } from "@/actions/offers"
 
-import { useQueryClient } from "@tanstack/react-query"
+import { useQueryClient, useMutation } from "@tanstack/react-query"
 import { queryKeys } from "@/lib/query-keys"
 
 type CounterOfferModalProps = {
@@ -21,11 +21,26 @@ export default function CounterOfferModal({ offerId, currentAmount, chatId }: Co
     const [hours, setHours] = useState(24)
     const [minutes, setMinutes] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
-    const [isSubmitting, setIsSubmitting] = useState(false)
 
     const queryClient = useQueryClient()
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const { mutate: submitCounterOffer, isPending: isSubmitting } = useMutation({
+        mutationFn: (params: { amount: number; totalMinutes: number }) =>
+            createCounterOffer(offerId, params.amount, params.totalMinutes),
+        onSuccess: () => {
+            setIsOpen(false)
+            setAmount("")
+            setHours(24)
+            setMinutes(0)
+            queryClient.invalidateQueries({ queryKey: queryKeys.offers.byChat(chatId) })
+        },
+        onError: (error) => {
+            console.error("Failed to create counter offer", error)
+            alert("Failed to create counter offer. Please try again.")
+        },
+    })
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         const numAmount = parseFloat(amount)
         if (isNaN(numAmount) || numAmount <= 0) return
@@ -36,20 +51,7 @@ export default function CounterOfferModal({ offerId, currentAmount, chatId }: Co
             return
         }
 
-        setIsSubmitting(true)
-        try {
-            await createCounterOffer(offerId, numAmount, totalMinutes)
-            setIsOpen(false)
-            setAmount("")
-            setHours(24)
-            setMinutes(0)
-            queryClient.invalidateQueries({ queryKey: queryKeys.offers.byChat(chatId) })
-        } catch (error) {
-            console.error("Failed to create counter offer", error)
-            alert("Failed to create counter offer. Please try again.")
-        } finally {
-            setIsSubmitting(false)
-        }
+        submitCounterOffer({ amount: numAmount, totalMinutes })
     }
 
     return (

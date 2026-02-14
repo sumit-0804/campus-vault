@@ -175,9 +175,14 @@ export default function ChatWindow({
                                     Karma: {otherUser.karmaScore} • {otherUser.karmaRank}
                                 </p>
                                 {relicId && (
-                                    <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full border border-purple-500/30">
-                                        {isSeller ? "Buyer" : "Seller"}
-                                    </span>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className="text-xs px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full border border-green-500/30">
+                                            You: {isSeller ? "Seller" : "Buyer"}
+                                        </span>
+                                        <span className="text-xs px-2 py-0.5 bg-purple-500/20 text-purple-400 rounded-full border border-purple-500/30">
+                                            {otherUser.fullName.split(' ')[0]}: {isSeller ? "Buyer" : "Seller"}
+                                        </span>
+                                    </div>
                                 )}
                             </div>
                         </div>
