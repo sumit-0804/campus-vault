@@ -1,4 +1,5 @@
 import { KarmaRank } from "@/app/generated/prisma/enums";
+import { KARMA_BADGES } from "@/lib/karma-constants";
 import { Skull, Crown, Shield, Sparkles } from "lucide-react";
 
 interface KarmaScoreCardProps {
@@ -7,16 +8,24 @@ interface KarmaScoreCardProps {
 }
 
 // Map karma ranks to display names and icons
-const RANK_CONFIG = {
-    MUGGLE: { name: "Muggle", icon: Skull, color: "text-zinc-400" },
-    WIZARD: { name: "Wizard", icon: Shield, color: "text-purple-400" },
-    AUROR: { name: "Auror", icon: Sparkles, color: "text-blue-400" },
-    DARK_KNIGHT: { name: "Dark Knight", icon: Crown, color: "text-yellow-400" },
-} as const;
+// Map karma ranks to display names and icons
+// logic is now dynamic based on KARMA_BADGES
 
 export function KarmaScoreCard({ score, rank }: KarmaScoreCardProps) {
-    const config = RANK_CONFIG[rank];
-    const Icon = config.icon;
+    const sortedBadges = [...KARMA_BADGES].sort((a, b) => a.min - b.min);
+    const config = sortedBadges.find(b => score >= b.min && score <= b.max) || sortedBadges[0];
+    // fallback icon if badge icon is just a string (which it is in the constants file)
+    // The constants file has emojis as icons, not Lucide components. 
+    // We need to handle this. The previous code expected a Lucide component.
+    // Let's check the constants file again. It has strings like "🛡️".
+    // The previous code used Lucide icons.
+    // I should probably map the emojis or just use the emojis as text strings. 
+    // The component below renders <Icon ... />.
+    // I'll execute this thinking in the next step or just verify the constants file type again.
+    // Wait, let's look at lib/karma-constants.ts again.
+    // It has "icon: '🛡️'".
+    // The component expects `const Icon = config.icon; <Icon ... />`.
+    // So I need to change how the icon is rendered.
 
     return (
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-purple-800 to-indigo-900 p-6 sm:p-8">
@@ -50,9 +59,11 @@ export function KarmaScoreCard({ score, rank }: KarmaScoreCardProps) {
                     <div className="px-6 py-4 rounded-xl bg-black/30 backdrop-blur-sm border border-white/10 shadow-xl shadow-purple-900/20">
                         <p className="text-purple-300 text-xs font-medium uppercase tracking-wider text-center mb-2">Level</p>
                         <div className="flex items-center gap-2 justify-center">
-                            <Icon className={`w-5 h-5 ${config.color}`} />
+                            <span className="text-2xl" role="img" aria-label={config.label}>
+                                {config.icon}
+                            </span>
                             <p className="text-white font-bold text-lg">
-                                {config.name}
+                                {config.label}
                             </p>
                         </div>
                     </div>

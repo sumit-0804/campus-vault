@@ -6,6 +6,7 @@ import { Plus, ShoppingBag, ScrollText, Search, Zap } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import db from "@/lib/db";
+import { KARMA_BADGES } from "@/lib/karma-constants";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
@@ -43,31 +44,27 @@ export default async function Dashboard() {
     ]);
 
     const karmaScore = freshUser?.karmaScore ?? 0;
-    const karmaRank = freshUser?.karmaRank ?? "MUGGLE";
+    // We can't easily rely on freshUser.karmaRank because we want the nice label from KARMA_BADGES
+    // So let's re-calculate the rank/badge based on score which is safer anyway
+    const derivedBadge = KARMA_BADGES.find(b => karmaScore >= b.min && karmaScore <= b.max) || KARMA_BADGES[0];
+    const karmaRankLabel = derivedBadge.label;
 
     // Progress Logic
-    const KARMA_THRESHOLDS = {
-        MUGGLE: 0,
-        WIZARD: 100,
-        AUROR: 500,
-        DARK_KNIGHT: 1000
-    };
+    // Progress Logic
+    const sortedBadges = [...KARMA_BADGES].sort((a, b) => a.min - b.min);
+    const currentBadgeIndex = sortedBadges.findIndex(b => karmaScore >= b.min && karmaScore <= b.max);
+    const currentBadge = sortedBadges[currentBadgeIndex] || sortedBadges[0];
+    const nextBadge = sortedBadges[currentBadgeIndex + 1];
 
-    let nextThreshold = KARMA_THRESHOLDS.WIZARD;
-    let prevThreshold = KARMA_THRESHOLDS.MUGGLE;
+    let progressPercent = 100;
+    let nextThreshold = currentBadge.max + 1;
 
-    if (karmaScore >= KARMA_THRESHOLDS.DARK_KNIGHT) {
-        nextThreshold = KARMA_THRESHOLDS.DARK_KNIGHT * 2; // Arbitrary next goal for max rank
-        prevThreshold = KARMA_THRESHOLDS.DARK_KNIGHT;
-    } else if (karmaScore >= KARMA_THRESHOLDS.AUROR) {
-        nextThreshold = KARMA_THRESHOLDS.DARK_KNIGHT;
-        prevThreshold = KARMA_THRESHOLDS.AUROR;
-    } else if (karmaScore >= KARMA_THRESHOLDS.WIZARD) {
-        nextThreshold = KARMA_THRESHOLDS.AUROR;
-        prevThreshold = KARMA_THRESHOLDS.WIZARD;
+    if (nextBadge) {
+        const range = nextBadge.min - currentBadge.min;
+        const progress = karmaScore - currentBadge.min;
+        progressPercent = Math.min(100, Math.max(0, (progress / range) * 100));
+        nextThreshold = nextBadge.min;
     }
-
-    const progressPercent = Math.min(100, Math.max(0, ((karmaScore - prevThreshold) / (nextThreshold - prevThreshold)) * 100));
 
     return (
         <div className="flex flex-col gap-8 p-4 pt-6 max-w-7xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -95,7 +92,7 @@ export default async function Dashboard() {
                         <div className="flex items-center gap-3">
                             <span className="text-purple-200 font-medium">Karma Score</span>
                             <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold uppercase tracking-wider text-white">
-                                {karmaRank}
+                                {karmaRankLabel}
                             </span>
                         </div>
                         <div className="text-6xl sm:text-7xl font-black text-white tracking-tighter">

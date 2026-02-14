@@ -102,9 +102,45 @@ export async function MarketplaceItemDetailView({
                                 <Sparkles className="w-4 h-4 text-purple-500" />
                                 The Lore
                             </h3>
-                            <p className="text-zinc-300 leading-relaxed text-lg font-light">
+                            <p className="text-zinc-300 leading-relaxed text-lg font-light mb-6">
                                 {item.description}
                             </p>
+
+                            {/* AI Generated Tags */}
+                            {item.tags && item.tags.length > 0 && (
+                                <div className="space-y-3 mt-8 pt-6 border-t border-white/5">
+                                    <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
+                                        <Sparkles className="w-3 h-3 text-purple-400" />
+                                        Spectral Infusion (AI Tags)
+                                    </h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {item.tags.map((tag) => (
+                                            <Badge
+                                                key={tag}
+                                                variant="secondary"
+                                                className="bg-purple-500/10 text-purple-300 border-purple-500/20 hover:bg-purple-500/20 transition-all font-mono text-[11px] lowercase px-3 py-1"
+                                            >
+                                                #{tag}
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* PII Detection Warning */}
+                            {item.piiDetected && (
+                                <div className="mt-6 p-4 bg-red-950/20 border border-red-500/20 rounded-xl flex items-start gap-4 animate-pulse">
+                                    <div className="p-2 bg-red-500/20 rounded-lg">
+                                        <Skull className="w-5 h-5 text-red-400" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h4 className="text-sm font-bold text-red-400 uppercase tracking-wider">Mortal Breach Detected</h4>
+                                        <p className="text-xs text-red-500/80 leading-relaxed">
+                                            Our spectral sensors have detected potential PII (Personally Identifiable Information) in this listing's imagery. Exercise caution.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

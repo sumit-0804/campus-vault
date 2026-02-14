@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowLeft, ShieldCheck, MapPin, Calendar } from "lucide-react";
+import { ArrowLeft, ShieldCheck, MapPin, Calendar, Sparkles, Skull } from "lucide-react";
 import { ReportButton } from "@/components/ui/ReportButton";
 import { BackButton } from "@/components/ui/BackButton";
 import { RelicDetailActions } from "@/components/lost-found/RelicDetailActions";
@@ -94,11 +94,49 @@ export async function RelicDetailView({ relicId, backRoute = "/lost-found", back
                             {/* Description & Location Row */}
                             <div className="grid md:grid-cols-2 gap-6">
                                 {/* Description */}
-                                <div className="space-y-2">
-                                    <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider">Description</h3>
-                                    <p className="text-zinc-300 leading-relaxed">
-                                        {relic.description}
-                                    </p>
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <h3 className="text-sm font-bold text-zinc-400 uppercase tracking-wider">Description</h3>
+                                        <p className="text-zinc-300 leading-relaxed">
+                                            {relic.description}
+                                        </p>
+                                    </div>
+
+                                    {/* AI Generated Tags */}
+                                    {relic.tags && relic.tags.length > 0 && (
+                                        <div className="space-y-3 pt-4 border-t border-zinc-800/50">
+                                            <h4 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] flex items-center gap-2">
+                                                <Sparkles className="w-3 h-3 text-purple-400" />
+                                                Spectral Insights (AI Tags)
+                                            </h4>
+                                            <div className="flex flex-wrap gap-2">
+                                                {relic.tags.map((tag) => (
+                                                    <Badge
+                                                        key={tag}
+                                                        variant="secondary"
+                                                        className="bg-purple-900/40 text-purple-300 border-purple-500/20 hover:bg-purple-900/60 transition-all font-mono text-[10px] lowercase px-2.5 py-0.5"
+                                                    >
+                                                        #{tag}
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* PII Detection Warning */}
+                                    {relic.piiDetected && (
+                                        <div className="p-4 bg-red-950/20 border border-red-500/20 rounded-xl flex items-start gap-4 animate-pulse">
+                                            <div className="p-2 bg-red-500/20 rounded-lg">
+                                                <Skull className="w-5 h-5 text-red-400" />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <h4 className="text-sm font-bold text-red-400 uppercase tracking-wider">Soul Exposure Alert</h4>
+                                                <p className="text-[11px] text-red-500/80 leading-tight">
+                                                    PII detected in image. Proceed with caution.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Location */}

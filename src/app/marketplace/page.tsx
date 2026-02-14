@@ -3,7 +3,7 @@ import ItemCard from "@/components/marketplace/ItemCard";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { BackButton } from "@/components/ui/BackButton";
+
 import SearchInput from "@/components/marketplace/SearchInput";
 import { CategoryFilter } from "@/components/marketplace/CategoryFilter";
 import { MarketplaceStoreInitializer } from "@/components/marketplace/MarketplaceStoreInitializer";
@@ -56,8 +56,8 @@ export default async function MarketplacePage({
         category?: string;
     };
 }) {
-    const search = searchParams?.search;
-    const category = searchParams?.category;
+    const search = await searchParams?.search;
+    const category = await searchParams?.category;
     const items = await getItems(search, category);
 
     return (
