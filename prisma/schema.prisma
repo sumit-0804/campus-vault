@@ -19,6 +19,7 @@ model Wizard {
   karmaRank       KarmaRank      @default(E_RANK)
   role            UserRole       @default(USER)
   isBanished      Boolean        @default(false)
+  banReason       String?
   lastLoginDate   DateTime?
   createdAt       DateTime       @default(now())
   updatedAt       DateTime
@@ -265,20 +266,36 @@ model KarmaLog {
 }
 
 model Report {
-  id         String       @id @default(cuid())
+  id         String           @id @default(cuid())
   reporterId String
-  reporter   Wizard       @relation("ReportsSubmitted", fields: [reporterId], references: [id])
-  targetType String // "USER" | "ITEM"
+  reporter   Wizard           @relation("ReportsSubmitted", fields: [reporterId], references: [id])
+  targetType ReportTargetType
   targetId   String
   reason     String
-  status     ReportStatus @default(PENDING)
+  category   ReportCategory?
+  evidence   String[]
+  status     ReportStatus     @default(PENDING)
   adminNote  String?
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
 }
 
 enum ReportStatus {
   PENDING
   ACTIONED
   REJECTED
+}
+
+enum ReportTargetType {
+  USER
+  ITEM
+  UNBAN_REQUEST
+}
+
+enum ReportCategory {
+  SPAM
+  HARASSMENT
+  SCAM
+  INAPPROPRIATE
+  OTHER
 }

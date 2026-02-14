@@ -120,3 +120,23 @@ export const ReportStatus = {
 } as const
 
 export type ReportStatus = (typeof ReportStatus)[keyof typeof ReportStatus]
+
+
+export const ReportTargetType = {
+  USER: 'USER',
+  ITEM: 'ITEM',
+  UNBAN_REQUEST: 'UNBAN_REQUEST'
+} as const
+
+export type ReportTargetType = (typeof ReportTargetType)[keyof typeof ReportTargetType]
+
+
+export const ReportCategory = {
+  SPAM: 'SPAM',
+  HARASSMENT: 'HARASSMENT',
+  SCAM: 'SCAM',
+  INAPPROPRIATE: 'INAPPROPRIATE',
+  OTHER: 'OTHER'
+} as const
+
+export type ReportCategory = (typeof ReportCategory)[keyof typeof ReportCategory]

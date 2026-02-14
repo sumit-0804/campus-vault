@@ -15,6 +15,7 @@ const adminNav = [
     { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
     { title: "Users", url: "/admin/users", icon: Users },
     { title: "Reports", url: "/admin/reports", icon: Flag },
+    { title: "Ban Appeals", url: "/admin/bans", icon: Shield },
     { title: "Karma Logs", url: "/admin/karma", icon: Sparkles },
 ];
 

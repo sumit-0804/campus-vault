@@ -93,6 +93,7 @@ export const WizardScalarFieldEnum = {
   karmaRank: 'karmaRank',
   role: 'role',
   isBanished: 'isBanished',
+  banReason: 'banReason',
   lastLoginDate: 'lastLoginDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -251,6 +252,8 @@ export const ReportScalarFieldEnum = {
   targetType: 'targetType',
   targetId: 'targetId',
   reason: 'reason',
+  category: 'category',
+  evidence: 'evidence',
   status: 'status',
   adminNote: 'adminNote',
   createdAt: 'createdAt',

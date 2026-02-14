@@ -11,6 +11,22 @@ export default async function proxy(req: NextRequest) {
         return NextResponse.redirect(new URL("/dashboard", req.url));
     }
 
+    // --- Ban Enforcement ---
+    if (token?.isBanished) {
+        // If banished, only allow access to /banished and auth routes/api
+        if (!req.nextUrl.pathname.startsWith("/banished") &&
+            !req.nextUrl.pathname.startsWith("/api/auth")) {
+            return NextResponse.redirect(new URL("/banished", req.url));
+        }
+        return NextResponse.next();
+    } else {
+        // If NOT banished, but trying to access /banished, redirect to dashboard
+        if (req.nextUrl.pathname.startsWith("/banished")) {
+            return NextResponse.redirect(new URL("/dashboard", req.url));
+        }
+    }
+    // -----------------------
+
     // 2. Define protected routes base paths
     const protectedRoutes = ["/dashboard", "/marketplace/create", "/lost-found/report", "/admin"];
 

@@ -72,7 +72,7 @@ export async function getAllUsers(page = 1, search = "", limit = 20) {
     return { users, total, totalPages: Math.ceil(total / limit) };
 }
 
-export async function toggleBanUser(userId: string) {
+export async function toggleBanUser(userId: string, reason?: string) {
     const admin = await requireAdmin();
     if (admin.id === userId) throw new Error("Cannot ban yourself");
 
@@ -84,7 +84,10 @@ export async function toggleBanUser(userId: string) {
 
     await prisma.wizard.update({
         where: { id: userId },
-        data: { isBanished: !user.isBanished },
+        data: {
+            isBanished: !user.isBanished,
+            banReason: !user.isBanished ? reason : null // Clear reason on unban
+        },
     });
 
     revalidatePath("/admin/users");
@@ -128,9 +131,11 @@ export async function actionReport(
 
 // User-facing: submit a report (no admin required)
 export async function createReport(
-    targetType: string,
+    targetType: "USER" | "ITEM",
     targetId: string,
-    reason: string
+    reason: string,
+    category?: "SPAM" | "HARASSMENT" | "SCAM" | "INAPPROPRIATE" | "OTHER",
+    evidence?: string[]
 ) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
@@ -141,10 +146,56 @@ export async function createReport(
             targetType,
             targetId,
             reason,
+            category,
+            evidence: evidence || [],
         },
     });
 
     return { success: true };
+}
+
+export async function getReportAnalytics() {
+    await requireAdmin();
+
+    const [topReportedUsers, topReportedItems] = await Promise.all([
+        prisma.report.groupBy({
+            by: ['targetId'],
+            where: { targetType: 'USER' },
+            _count: { targetId: true },
+            orderBy: { _count: { targetId: 'desc' } },
+            take: 5,
+        }),
+        prisma.report.groupBy({
+            by: ['targetId'],
+            where: { targetType: 'ITEM' },
+            _count: { targetId: true },
+            orderBy: { _count: { targetId: 'desc' } },
+            take: 5,
+        }),
+    ]);
+
+    // Enrich with names
+    const enrichedUsers = await Promise.all(
+        topReportedUsers.map(async (item) => {
+            const user = await prisma.wizard.findUnique({
+                where: { id: item.targetId },
+                select: { fullName: true, email: true, avatarUrl: true },
+            });
+            return { ...item, ...user };
+        })
+    );
+
+    const enrichedItems = await Promise.all(
+        topReportedItems.map(async (item) => {
+            const product = await prisma.cursedObject.findUnique({
+                where: { id: item.targetId },
+                select: { title: true, images: true },
+            });
+            return { ...item, ...product };
+        })
+    );
+
+    return { topReportedUsers: enrichedUsers, topReportedItems: enrichedItems };
 }
 
 // --- Karma Management ---

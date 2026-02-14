@@ -8,6 +8,8 @@ declare module "next-auth" {
             role: string;
             karmaRank: string;
             karmaScore: number;
+            isBanished: boolean;
+            banReason?: string | null;
             phoneNumber?: string | null;
             linkedinUrl?: string | null;
             instagramUrl?: string | null;
@@ -21,6 +23,8 @@ declare module "next-auth" {
         role: string;
         karmaRank: string;
         karmaScore: number;
+        isBanished: boolean;
+        banReason?: string | null;
     }
 }
 
@@ -31,6 +35,8 @@ declare module "next-auth/jwt" {
         role?: string;
         karmaRank?: string;
         karmaScore?: number;
+        isBanished?: boolean;
+        banReason?: string | null;
         phoneNumber?: string | null;
         linkedinUrl?: string | null;
         instagramUrl?: string | null;

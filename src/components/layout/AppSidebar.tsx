@@ -25,7 +25,8 @@ import {
     User,
     Sparkles,
     LogOut,
-    Shield
+    Shield,
+    Flag
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -56,6 +57,7 @@ const items = {
         { title: "Transactions", url: "/dashboard/transactions", icon: Receipt },
         { title: "Inbox", url: "/dashboard/messages", icon: MessageSquare },
         { title: "Notifications", url: "/dashboard/notifications", icon: Bell },
+        { title: "My Reports", url: "/dashboard/reports", icon: Flag }, // Imported Flag from lucide-react
         { title: "Profile", url: "/dashboard/profile", icon: User },
         { title: "Karma", url: "/dashboard/karma", icon: Sparkles },
     ]

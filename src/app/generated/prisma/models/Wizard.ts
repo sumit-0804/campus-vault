@@ -46,6 +46,7 @@ export type WizardMinAggregateOutputType = {
   karmaRank: $Enums.KarmaRank | null
   role: $Enums.UserRole | null
   isBanished: boolean | null
+  banReason: string | null
   lastLoginDate: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -63,6 +64,7 @@ export type WizardMaxAggregateOutputType = {
   karmaRank: $Enums.KarmaRank | null
   role: $Enums.UserRole | null
   isBanished: boolean | null
+  banReason: string | null
   lastLoginDate: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -80,6 +82,7 @@ export type WizardCountAggregateOutputType = {
   karmaRank: number
   role: number
   isBanished: number
+  banReason: number
   lastLoginDate: number
   createdAt: number
   updatedAt: number
@@ -107,6 +110,7 @@ export type WizardMinAggregateInputType = {
   karmaRank?: true
   role?: true
   isBanished?: true
+  banReason?: true
   lastLoginDate?: true
   createdAt?: true
   updatedAt?: true
@@ -124,6 +128,7 @@ export type WizardMaxAggregateInputType = {
   karmaRank?: true
   role?: true
   isBanished?: true
+  banReason?: true
   lastLoginDate?: true
   createdAt?: true
   updatedAt?: true
@@ -141,6 +146,7 @@ export type WizardCountAggregateInputType = {
   karmaRank?: true
   role?: true
   isBanished?: true
+  banReason?: true
   lastLoginDate?: true
   createdAt?: true
   updatedAt?: true
@@ -245,6 +251,7 @@ export type WizardGroupByOutputType = {
   karmaRank: $Enums.KarmaRank
   role: $Enums.UserRole
   isBanished: boolean
+  banReason: string | null
   lastLoginDate: Date | null
   createdAt: Date
   updatedAt: Date
@@ -285,6 +292,7 @@ export type WizardWhereInput = {
   karmaRank?: Prisma.EnumKarmaRankFilter<"Wizard"> | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFilter<"Wizard"> | $Enums.UserRole
   isBanished?: Prisma.BoolFilter<"Wizard"> | boolean
+  banReason?: Prisma.StringNullableFilter<"Wizard"> | string | null
   lastLoginDate?: Prisma.DateTimeNullableFilter<"Wizard"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
@@ -316,6 +324,7 @@ export type WizardOrderByWithRelationInput = {
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isBanished?: Prisma.SortOrder
+  banReason?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLoginDate?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -350,6 +359,7 @@ export type WizardWhereUniqueInput = Prisma.AtLeast<{
   karmaRank?: Prisma.EnumKarmaRankFilter<"Wizard"> | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFilter<"Wizard"> | $Enums.UserRole
   isBanished?: Prisma.BoolFilter<"Wizard"> | boolean
+  banReason?: Prisma.StringNullableFilter<"Wizard"> | string | null
   lastLoginDate?: Prisma.DateTimeNullableFilter<"Wizard"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
@@ -381,6 +391,7 @@ export type WizardOrderByWithAggregationInput = {
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isBanished?: Prisma.SortOrder
+  banReason?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLoginDate?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -406,6 +417,7 @@ export type WizardScalarWhereWithAggregatesInput = {
   karmaRank?: Prisma.EnumKarmaRankWithAggregatesFilter<"Wizard"> | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"Wizard"> | $Enums.UserRole
   isBanished?: Prisma.BoolWithAggregatesFilter<"Wizard"> | boolean
+  banReason?: Prisma.StringNullableWithAggregatesFilter<"Wizard"> | string | null
   lastLoginDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Wizard"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Wizard"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Wizard"> | Date | string
@@ -423,6 +435,7 @@ export type WizardCreateInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -454,6 +467,7 @@ export type WizardUncheckedCreateInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -485,6 +499,7 @@ export type WizardUpdateInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -516,6 +531,7 @@ export type WizardUncheckedUpdateInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -547,6 +563,7 @@ export type WizardCreateManyInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -564,6 +581,7 @@ export type WizardUpdateManyMutationInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -581,6 +599,7 @@ export type WizardUncheckedUpdateManyInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -598,6 +617,7 @@ export type WizardCountOrderByAggregateInput = {
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isBanished?: Prisma.SortOrder
+  banReason?: Prisma.SortOrder
   lastLoginDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -619,6 +639,7 @@ export type WizardMaxOrderByAggregateInput = {
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isBanished?: Prisma.SortOrder
+  banReason?: Prisma.SortOrder
   lastLoginDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -636,6 +657,7 @@ export type WizardMinOrderByAggregateInput = {
   karmaRank?: Prisma.SortOrder
   role?: Prisma.SortOrder
   isBanished?: Prisma.SortOrder
+  banReason?: Prisma.SortOrder
   lastLoginDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -935,6 +957,7 @@ export type WizardCreateWithoutCursedObjectsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -965,6 +988,7 @@ export type WizardUncheckedCreateWithoutCursedObjectsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1011,6 +1035,7 @@ export type WizardUpdateWithoutCursedObjectsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1041,6 +1066,7 @@ export type WizardUncheckedUpdateWithoutCursedObjectsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1071,6 +1097,7 @@ export type WizardCreateWithoutBloodPactsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1101,6 +1128,7 @@ export type WizardUncheckedCreateWithoutBloodPactsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1147,6 +1175,7 @@ export type WizardUpdateWithoutBloodPactsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1177,6 +1206,7 @@ export type WizardUncheckedUpdateWithoutBloodPactsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1207,6 +1237,7 @@ export type WizardCreateWithoutOfferActionsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1237,6 +1268,7 @@ export type WizardUncheckedCreateWithoutOfferActionsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1283,6 +1315,7 @@ export type WizardUpdateWithoutOfferActionsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1313,6 +1346,7 @@ export type WizardUncheckedUpdateWithoutOfferActionsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1343,6 +1377,7 @@ export type WizardCreateWithoutLostRelicsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1373,6 +1408,7 @@ export type WizardUncheckedCreateWithoutLostRelicsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1408,6 +1444,7 @@ export type WizardCreateWithoutClaimedRelicsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1438,6 +1475,7 @@ export type WizardUncheckedCreateWithoutClaimedRelicsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1484,6 +1522,7 @@ export type WizardUpdateWithoutLostRelicsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1514,6 +1553,7 @@ export type WizardUncheckedUpdateWithoutLostRelicsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1555,6 +1595,7 @@ export type WizardUpdateWithoutClaimedRelicsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1585,6 +1626,7 @@ export type WizardUncheckedUpdateWithoutClaimedRelicsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1615,6 +1657,7 @@ export type WizardCreateWithoutChatRoomsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1645,6 +1688,7 @@ export type WizardUncheckedCreateWithoutChatRoomsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1699,6 +1743,7 @@ export type WizardScalarWhereInput = {
   karmaRank?: Prisma.EnumKarmaRankFilter<"Wizard"> | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFilter<"Wizard"> | $Enums.UserRole
   isBanished?: Prisma.BoolFilter<"Wizard"> | boolean
+  banReason?: Prisma.StringNullableFilter<"Wizard"> | string | null
   lastLoginDate?: Prisma.DateTimeNullableFilter<"Wizard"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Wizard"> | Date | string
@@ -1716,6 +1761,7 @@ export type WizardCreateWithoutMessagesInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1746,6 +1792,7 @@ export type WizardUncheckedCreateWithoutMessagesInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1792,6 +1839,7 @@ export type WizardUpdateWithoutMessagesInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1822,6 +1870,7 @@ export type WizardUncheckedUpdateWithoutMessagesInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1852,6 +1901,7 @@ export type WizardCreateWithoutNotificationsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1882,6 +1932,7 @@ export type WizardUncheckedCreateWithoutNotificationsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -1928,6 +1979,7 @@ export type WizardUpdateWithoutNotificationsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1958,6 +2010,7 @@ export type WizardUncheckedUpdateWithoutNotificationsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1988,6 +2041,7 @@ export type WizardCreateWithoutPurchasesInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2018,6 +2072,7 @@ export type WizardUncheckedCreateWithoutPurchasesInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2053,6 +2108,7 @@ export type WizardCreateWithoutSalesInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2083,6 +2139,7 @@ export type WizardUncheckedCreateWithoutSalesInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2129,6 +2186,7 @@ export type WizardUpdateWithoutPurchasesInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2159,6 +2217,7 @@ export type WizardUncheckedUpdateWithoutPurchasesInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2200,6 +2259,7 @@ export type WizardUpdateWithoutSalesInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2230,6 +2290,7 @@ export type WizardUncheckedUpdateWithoutSalesInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2260,6 +2321,7 @@ export type WizardCreateWithoutRatingsGivenInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2290,6 +2352,7 @@ export type WizardUncheckedCreateWithoutRatingsGivenInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2325,6 +2388,7 @@ export type WizardCreateWithoutRatingsReceivedInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2355,6 +2419,7 @@ export type WizardUncheckedCreateWithoutRatingsReceivedInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2401,6 +2466,7 @@ export type WizardUpdateWithoutRatingsGivenInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2431,6 +2497,7 @@ export type WizardUncheckedUpdateWithoutRatingsGivenInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2472,6 +2539,7 @@ export type WizardUpdateWithoutRatingsReceivedInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2502,6 +2570,7 @@ export type WizardUncheckedUpdateWithoutRatingsReceivedInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2532,6 +2601,7 @@ export type WizardCreateWithoutKarmaLogsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2562,6 +2632,7 @@ export type WizardUncheckedCreateWithoutKarmaLogsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2608,6 +2679,7 @@ export type WizardUpdateWithoutKarmaLogsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2638,6 +2710,7 @@ export type WizardUncheckedUpdateWithoutKarmaLogsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2668,6 +2741,7 @@ export type WizardCreateWithoutReportsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2698,6 +2772,7 @@ export type WizardUncheckedCreateWithoutReportsInput = {
   karmaRank?: $Enums.KarmaRank
   role?: $Enums.UserRole
   isBanished?: boolean
+  banReason?: string | null
   lastLoginDate?: Date | string | null
   createdAt?: Date | string
   updatedAt: Date | string
@@ -2744,6 +2819,7 @@ export type WizardUpdateWithoutReportsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2774,6 +2850,7 @@ export type WizardUncheckedUpdateWithoutReportsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2804,6 +2881,7 @@ export type WizardUpdateWithoutChatRoomsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2834,6 +2912,7 @@ export type WizardUncheckedUpdateWithoutChatRoomsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2864,6 +2943,7 @@ export type WizardUncheckedUpdateManyWithoutChatRoomsInput = {
   karmaRank?: Prisma.EnumKarmaRankFieldUpdateOperationsInput | $Enums.KarmaRank
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   isBanished?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3029,6 +3109,7 @@ export type WizardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   karmaRank?: boolean
   role?: boolean
   isBanished?: boolean
+  banReason?: boolean
   lastLoginDate?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3061,6 +3142,7 @@ export type WizardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   karmaRank?: boolean
   role?: boolean
   isBanished?: boolean
+  banReason?: boolean
   lastLoginDate?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3078,6 +3160,7 @@ export type WizardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   karmaRank?: boolean
   role?: boolean
   isBanished?: boolean
+  banReason?: boolean
   lastLoginDate?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3095,12 +3178,13 @@ export type WizardSelectScalar = {
   karmaRank?: boolean
   role?: boolean
   isBanished?: boolean
+  banReason?: boolean
   lastLoginDate?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type WizardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "avatarUrl" | "phoneNumber" | "linkedinUrl" | "instagramUrl" | "karmaScore" | "karmaRank" | "role" | "isBanished" | "lastLoginDate" | "createdAt" | "updatedAt", ExtArgs["result"]["wizard"]>
+export type WizardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "email" | "avatarUrl" | "phoneNumber" | "linkedinUrl" | "instagramUrl" | "karmaScore" | "karmaRank" | "role" | "isBanished" | "banReason" | "lastLoginDate" | "createdAt" | "updatedAt", ExtArgs["result"]["wizard"]>
 export type WizardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cursedObjects?: boolean | Prisma.Wizard$cursedObjectsArgs<ExtArgs>
   bloodPacts?: boolean | Prisma.Wizard$bloodPactsArgs<ExtArgs>
@@ -3151,6 +3235,7 @@ export type $WizardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     karmaRank: $Enums.KarmaRank
     role: $Enums.UserRole
     isBanished: boolean
+    banReason: string | null
     lastLoginDate: Date | null
     createdAt: Date
     updatedAt: Date
@@ -3602,6 +3687,7 @@ export interface WizardFieldRefs {
   readonly karmaRank: Prisma.FieldRef<"Wizard", 'KarmaRank'>
   readonly role: Prisma.FieldRef<"Wizard", 'UserRole'>
   readonly isBanished: Prisma.FieldRef<"Wizard", 'Boolean'>
+  readonly banReason: Prisma.FieldRef<"Wizard", 'String'>
   readonly lastLoginDate: Prisma.FieldRef<"Wizard", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Wizard", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Wizard", 'DateTime'>

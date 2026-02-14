@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { getReports, actionReport } from "@/actions/admin";
+import { getReports, actionReport, getReportAnalytics } from "@/actions/admin";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Flag, CheckCircle, XCircle, Loader2, Clock } from "lucide-react";
 
@@ -22,6 +22,11 @@ export default function AdminReportsPage() {
         queryFn: () => getReports(statusFilter || undefined),
     });
 
+    const { data: analytics } = useQuery({
+        queryKey: ["admin", "reports", "analytics"],
+        queryFn: getReportAnalytics,
+    });
+
     const actionMutation = useMutation({
         mutationFn: ({ reportId, status, note }: { reportId: string; status: "ACTIONED" | "REJECTED"; note?: string }) =>
             actionReport(reportId, status, note),
@@ -33,6 +38,71 @@ export default function AdminReportsPage() {
     return (
         <div>
             <h2 className="text-2xl font-bold mb-6">Report Queue</h2>
+
+            {/* Analytics Section */}
+            {analytics && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    {/* Top Reported Users */}
+                    <div className="bg-zinc-900/50 border border-white/10 rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <Flag className="w-4 h-4" /> Top Reported Users
+                        </h3>
+                        <div className="space-y-3">
+                            {analytics.topReportedUsers.map((item) => (
+                                <div key={item.targetId} className="flex items-center justify-between p-2 hover:bg-white/5 rounded-lg transition-colors">
+                                    <div className="flex items-center gap-3">
+                                        {item.avatarUrl ? (
+                                            <img src={item.avatarUrl} alt={item.fullName} className="w-8 h-8 rounded-full" />
+                                        ) : (
+                                            <div className="w-8 h-8 rounded-full bg-zinc-800" />
+                                        )}
+                                        <div>
+                                            <p className="font-medium text-sm text-white">{item.fullName || "Unknown"}</p>
+                                            <p className="text-[10px] text-zinc-500">ID: {item.targetId.slice(0, 8)}...</p>
+                                        </div>
+                                    </div>
+                                    <span className="text-xs font-bold bg-red-500/10 text-red-500 px-2 py-1 rounded-full">
+                                        {item._count.targetId} Reports
+                                    </span>
+                                </div>
+                            ))}
+                            {analytics.topReportedUsers.length === 0 && (
+                                <p className="text-zinc-500 text-xs text-center py-4">No reported users yet.</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Top Reported Items */}
+                    <div className="bg-zinc-900/50 border border-white/10 rounded-xl p-5">
+                        <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <Flag className="w-4 h-4" /> Top Reported Items
+                        </h3>
+                        <div className="space-y-3">
+                            {analytics.topReportedItems.map((item) => (
+                                <div key={item.targetId} className="flex items-center justify-between p-2 hover:bg-white/5 rounded-lg transition-colors">
+                                    <div className="flex items-center gap-3">
+                                        {item.images?.[0] ? (
+                                            <img src={item.images[0]} alt={item.title} className="w-8 h-8 rounded object-cover" />
+                                        ) : (
+                                            <div className="w-8 h-8 rounded bg-zinc-800" />
+                                        )}
+                                        <div>
+                                            <p className="font-medium text-sm text-white">{item.title || "Unknown Item"}</p>
+                                            <p className="text-[10px] text-zinc-500">ID: {item.targetId.slice(0, 8)}...</p>
+                                        </div>
+                                    </div>
+                                    <span className="text-xs font-bold bg-red-500/10 text-red-500 px-2 py-1 rounded-full">
+                                        {item._count.targetId} Reports
+                                    </span>
+                                </div>
+                            ))}
+                            {analytics.topReportedItems.length === 0 && (
+                                <p className="text-zinc-500 text-xs text-center py-4">No reported items yet.</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Status Filters */}
             <div className="flex gap-2 mb-6">

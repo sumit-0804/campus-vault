@@ -1354,6 +1354,7 @@ export const WizardScalarFieldEnum = {
   karmaRank: 'karmaRank',
   role: 'role',
   isBanished: 'isBanished',
+  banReason: 'banReason',
   lastLoginDate: 'lastLoginDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1512,6 +1513,8 @@ export const ReportScalarFieldEnum = {
   targetType: 'targetType',
   targetId: 'targetId',
   reason: 'reason',
+  category: 'category',
+  evidence: 'evidence',
   status: 'status',
   adminNote: 'adminNote',
   createdAt: 'createdAt',
@@ -1737,6 +1740,34 @@ export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'NotificationType[]'
  */
 export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportTargetType'
+ */
+export type EnumReportTargetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportTargetType'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportTargetType[]'
+ */
+export type ListEnumReportTargetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportTargetType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportCategory'
+ */
+export type EnumReportCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'ReportCategory[]'
+ */
+export type ListEnumReportCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReportCategory[]'>
     
 
 

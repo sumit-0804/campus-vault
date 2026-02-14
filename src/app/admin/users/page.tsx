@@ -15,12 +15,36 @@ export default function AdminUsersPage() {
         queryFn: () => getAllUsers(page, search),
     });
 
+    const [selectedUser, setSelectedUser] = useState<string | null>(null);
+    const [banReason, setBanReason] = useState("");
+    const [isBanDialogOpen, setIsBanDialogOpen] = useState(false);
+
     const banMutation = useMutation({
-        mutationFn: (userId: string) => toggleBanUser(userId),
+        mutationFn: ({ userId, reason }: { userId: string, reason?: string }) => toggleBanUser(userId, reason),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
+            setIsBanDialogOpen(false);
+            setBanReason("");
+            setSelectedUser(null);
         },
     });
+
+    const handleBanClick = (userId: string, isBanished: boolean) => {
+        if (isBanished) {
+            // Unban directly
+            banMutation.mutate({ userId });
+        } else {
+            // Open dialog for banning
+            setSelectedUser(userId);
+            setIsBanDialogOpen(true);
+        }
+    };
+
+    const confirmBan = () => {
+        if (selectedUser) {
+            banMutation.mutate({ userId: selectedUser, reason: banReason });
+        }
+    };
 
     return (
         <div>
@@ -117,7 +141,7 @@ export default function AdminUsersPage() {
                                         </td>
                                         <td className="px-4 py-3 text-right">
                                             <button
-                                                onClick={() => banMutation.mutate(user.id)}
+                                                onClick={() => handleBanClick(user.id, user.isBanished)}
                                                 disabled={banMutation.isPending || user.role === "ADMIN"}
                                                 className={`text-xs px-3 py-1.5 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${user.isBanished
                                                     ? "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 border border-emerald-500/20"
@@ -158,6 +182,43 @@ export default function AdminUsersPage() {
                             {p}
                         </button>
                     ))}
+                </div>
+            )}
+
+            {/* Ban Modal */}
+            {isBanDialogOpen && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-zinc-900 border border-white/10 rounded-xl p-6 w-full max-w-sm">
+                        <h3 className="text-lg font-bold text-white mb-2">Ban User</h3>
+                        <p className="text-zinc-400 text-sm mb-4">
+                            Specify a reason for this ban. The user will see this message.
+                        </p>
+                        <textarea
+                            value={banReason}
+                            onChange={(e) => setBanReason(e.target.value)}
+                            placeholder="Reason for ban..."
+                            className="w-full bg-zinc-800 border border-white/10 rounded-lg p-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-red-500 mb-4 h-24 resize-none"
+                        />
+                        <div className="flex justify-end gap-2">
+                            <button
+                                onClick={() => {
+                                    setIsBanDialogOpen(false);
+                                    setBanReason("");
+                                    setSelectedUser(null);
+                                }}
+                                className="px-3 py-1.5 rounded-lg text-sm text-zinc-400 hover:text-white hover:bg-white/5"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmBan}
+                                disabled={banMutation.isPending}
+                                className="px-3 py-1.5 rounded-lg text-sm font-semibold bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+                            >
+                                {banMutation.isPending ? "Banning..." : "Confirm Ban"}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

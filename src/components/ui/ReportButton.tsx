@@ -57,26 +57,39 @@ export function ReportButton({
     iconOnly = false,
 }: ReportButtonProps) {
     const [open, setOpen] = useState(false);
-    const [selectedReason, setSelectedReason] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState<"SPAM" | "HARASSMENT" | "SCAM" | "INAPPROPRIATE" | "OTHER" | "">("");
     const [customReason, setCustomReason] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const reasons = REPORT_REASONS[targetType] || REPORT_REASONS.ITEM;
+    const categories: { value: "SPAM" | "HARASSMENT" | "SCAM" | "INAPPROPRIATE" | "OTHER", label: string }[] = [
+        { value: "SPAM", label: "Spam" },
+        { value: "HARASSMENT", label: "Harassment or Abusive Behavior" },
+        { value: "SCAM", label: "Scam or Fraud" },
+        { value: "INAPPROPRIATE", label: "Inappropriate Content" },
+        { value: "OTHER", label: "Other" },
+    ];
+
     const label = targetLabel || (targetType === "USER" ? "this user" : "this listing");
 
     const handleSubmit = async () => {
-        const reason = selectedReason === "Other" ? customReason.trim() : selectedReason;
-        if (!reason) {
-            toast.error("Please select or enter a reason");
+        if (!selectedCategory) {
+            toast.error("Please select a category");
             return;
         }
 
+        if (selectedCategory === "OTHER" && !customReason.trim()) {
+            toast.error("Please provide a description");
+            return;
+        }
+
+        const reason = selectedCategory === "OTHER" ? customReason : categories.find(c => c.value === selectedCategory)?.label || selectedCategory;
+
         setIsSubmitting(true);
         try {
-            await createReport(targetType, targetId, reason);
+            await createReport(targetType, targetId, reason, selectedCategory);
             toast.success("Report submitted. Our team will review it shortly.");
             setOpen(false);
-            setSelectedReason("");
+            setSelectedCategory("");
             setCustomReason("");
         } catch {
             toast.error("Failed to submit report. Please try again.");
@@ -106,27 +119,27 @@ export function ReportButton({
                 </DialogHeader>
 
                 <div className="space-y-2 py-4">
-                    {reasons.map((reason) => (
+                    {categories.map((cat) => (
                         <label
-                            key={reason}
-                            className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedReason === reason
-                                    ? "border-red-500/50 bg-red-500/10 text-white"
-                                    : "border-zinc-800 bg-zinc-900/50 text-zinc-300 hover:border-zinc-700"
+                            key={cat.value}
+                            className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedCategory === cat.value
+                                ? "border-red-500/50 bg-red-500/10 text-white"
+                                : "border-zinc-800 bg-zinc-900/50 text-zinc-300 hover:border-zinc-700"
                                 }`}
                         >
                             <input
                                 type="radio"
-                                name="report-reason"
-                                value={reason}
-                                checked={selectedReason === reason}
-                                onChange={() => setSelectedReason(reason)}
+                                name="report-category"
+                                value={cat.value}
+                                checked={selectedCategory === cat.value}
+                                onChange={() => setSelectedCategory(cat.value)}
                                 className="accent-red-500"
                             />
-                            <span className="text-sm">{reason}</span>
+                            <span className="text-sm">{cat.label}</span>
                         </label>
                     ))}
 
-                    {selectedReason === "Other" && (
+                    {selectedCategory === "OTHER" && (
                         <textarea
                             placeholder="Please describe the issue..."
                             value={customReason}
@@ -147,7 +160,7 @@ export function ReportButton({
                     </Button>
                     <Button
                         onClick={handleSubmit}
-                        disabled={isSubmitting || !selectedReason || (selectedReason === "Other" && !customReason.trim())}
+                        disabled={isSubmitting || !selectedCategory || (selectedCategory === "OTHER" && !customReason.trim())}
                         className="bg-red-600 hover:bg-red-700 text-white disabled:opacity-50"
                     >
                         {isSubmitting ? "Submitting..." : "Submit Report"}

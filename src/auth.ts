@@ -22,6 +22,7 @@ export const authOptions: NextAuthOptions = {
           role: "USER",
           karmaRank: "E_RANK",
           karmaScore: 0,
+          isBanished: false,
         }
       }
     }),
@@ -47,7 +48,7 @@ export const authOptions: NextAuthOptions = {
             id: profile.sub!,
             email: email,
             fullName: profile.name!,
-            avatarUrl: profile.image,
+            avatarUrl: `https://api.dicebear.com/9.x/adventurer/svg?seed=${encodeURIComponent(profile.name ?? email)}`,
             updatedAt: new Date(),
           },
         });
@@ -75,6 +76,8 @@ export const authOptions: NextAuthOptions = {
           token.role = dbUser.role;
           token.karmaRank = dbUser.karmaRank;
           token.karmaScore = dbUser.karmaScore;
+          token.isBanished = dbUser.isBanished;
+          token.banReason = dbUser.banReason;
           token.phoneNumber = dbUser.phoneNumber;
           token.linkedinUrl = dbUser.linkedinUrl;
           token.instagramUrl = dbUser.instagramUrl;
@@ -89,6 +92,8 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as string;
         session.user.karmaRank = token.karmaRank as string;
         session.user.karmaScore = token.karmaScore as number;
+        session.user.isBanished = token.isBanished as boolean;
+        session.user.banReason = token.banReason as string | null;
         session.user.phoneNumber = token.phoneNumber as string | null;
         session.user.linkedinUrl = token.linkedinUrl as string | null;
         session.user.instagramUrl = token.instagramUrl as string | null;
